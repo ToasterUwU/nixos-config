@@ -14,7 +14,7 @@
         programs = {
           niri.settings = {
             outputs = {
-              "HDMI-A-2" = {
+              "DP-2" = {
                 position = {
                   x = 0;
                   y = 0;
