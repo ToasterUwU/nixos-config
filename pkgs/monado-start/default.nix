@@ -41,21 +41,21 @@ stdenv.mkDerivation {
 
       function gpu_vr_mode() {
         # Enable manual override
-        echo "manual" | sudo tee /sys/class/drm/card1/device/power_dpm_force_performance_level >/dev/null
+        echo "manual" | sudo tee /sys/class/drm/card0/device/power_dpm_force_performance_level >/dev/null
 
         # Translate "VR" into profile number
-        vr_profile=$(cat /sys/class/drm/card1/device/pp_power_profile_mode | grep ' VR' | awk '{ print $1; }')
+        vr_profile=$(cat /sys/class/drm/card0/device/pp_power_profile_mode | grep ' VR' | awk '{ print $1; }')
 
         # Set profile to VR
-        echo $vr_profile | sudo tee /sys/class/drm/card1/device/pp_power_profile_mode >/dev/null
+        echo $vr_profile | sudo tee /sys/class/drm/card0/device/pp_power_profile_mode >/dev/null
       }
 
       function gpu_auto_mode() {
         # Disable manual override
-        echo "auto" | sudo tee /sys/class/drm/card1/device/power_dpm_force_performance_level >/dev/null
+        echo "auto" | sudo tee /sys/class/drm/card0/device/power_dpm_force_performance_level >/dev/null
 
         # Set profile to DEFAULT
-        echo 0 | sudo tee /sys/class/drm/card1/device/pp_power_profile_mode >/dev/null
+        echo 0 | sudo tee /sys/class/drm/card0/device/pp_power_profile_mode >/dev/null
       }
 
       function lighthouse_off() {
