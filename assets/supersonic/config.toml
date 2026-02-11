@@ -1,8 +1,8 @@
 [Application]
 WindowWidth = 1268
 WindowHeight = 1394
-LastCheckedVersion = 'v0.20.0'
-LastLaunchedVersion = 'v0.20.0'
+LastCheckedVersion = 'v0.20.1'
+LastLaunchedVersion = 'v0.20.1'
 EnableSystemTray = true
 CloseToSystemTray = true
 StartupPage = 'Favorites'
