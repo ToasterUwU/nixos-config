@@ -260,7 +260,7 @@
 
   system.autoUpgrade = {
     enable = true;
-    flake = "github:ToasterUwU/flake";
+    flake = "github:ToasterUwU/nixos-config";
     flags = [
       "--verbose"
       "-j 1"
