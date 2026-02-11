@@ -1010,10 +1010,10 @@
                 "Mod+Ctrl+C".action = center-visible-columns;
 
                 "Mod+Minus".action = set-column-width "-10%";
-                "Mod+Equal".action = set-column-width "+10%";
+                "Mod+Plus".action = set-column-width "+10%";
 
                 "Mod+Shift+Minus".action = set-window-height "-10%";
-                "Mod+Shift+Equal".action = set-window-height "+10%";
+                "Mod+Shift+Plus".action = set-window-height "+10%";
 
                 "Mod+V".action = toggle-window-floating;
                 "Mod+Shift+V".action = switch-focus-between-floating-and-tiling;
