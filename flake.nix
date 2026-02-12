@@ -23,6 +23,10 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     nixpkgs-xr.url = "github:nix-community/nixpkgs-xr";
+    wayvr-openxr-actions = {
+      url = "https://raw.githubusercontent.com/wlx-team/wayvr/refs/heads/main/wayvr/src/backend/openxr/openxr_actions.json5";
+      flake = false;
+    };
     nixpkgs-update.url = "github:ryantm/nixpkgs-update";
     buttplug-lite = {
       url = "github:runtime-shady-backroom/buttplug-lite";

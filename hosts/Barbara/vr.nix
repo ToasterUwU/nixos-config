@@ -5,8 +5,23 @@
   nix-gaming-edge,
   buttplug-lite,
   nixpkgs-xr,
+  wayvr-openxr-actions,
   ...
 }:
+let
+  patched_openxr_actions =
+    pkgs.runCommand "openxr-actions-patched.json5"
+      {
+        buildInputs = [ pkgs.patch ];
+        src = wayvr-openxr-actions;
+      }
+      ''
+        cp $src openxr_actions.json5
+        patch -s openxr_actions.json5 < ${../../assets/wayvr/openxr-actions-left-menu-show-hide.patch}
+        mkdir -p $out
+        cp openxr_actions.json5 $out/
+      '';
+in
 {
   nixpkgs.overlays = [
     nix-gaming-edge.overlays.mesa-git
@@ -163,6 +178,8 @@
       xdg.dataFile."LOVR/lovr-playspace/fade_stop.txt".text = ''
         0.2
       '';
+
+      xdg.configFile."wayvr/openxr_actions.json5".source = "${patched_openxr_actions}/openxr_actions.json5";
     };
   };
 }

@@ -1018,7 +1018,8 @@
         "nixpkgs-update": "nixpkgs-update",
         "nixpkgs-xr": "nixpkgs-xr",
         "steam-config-nix": "steam-config-nix",
-        "walker": "walker"
+        "walker": "walker",
+        "wayvr-openxr-actions": "wayvr-openxr-actions"
       }
     },
     "runtimeDeps": {
@@ -1232,6 +1233,18 @@
         "owner": "abenz1267",
         "repo": "walker",
         "type": "github"
+      }
+    },
+    "wayvr-openxr-actions": {
+      "flake": false,
+      "locked": {
+        "narHash": "sha256-l9xuqbwwcAGyQpUYhZQpuPurxK49Cl5X9aFwTjLRTcQ=",
+        "type": "file",
+        "url": "https://raw.githubusercontent.com/wlx-team/wayvr/refs/heads/main/wayvr/src/backend/openxr/openxr_actions.json5"
+      },
+      "original": {
+        "type": "file",
+        "url": "https://raw.githubusercontent.com/wlx-team/wayvr/refs/heads/main/wayvr/src/backend/openxr/openxr_actions.json5"
       }
     },
     "websocketpp-src": {
