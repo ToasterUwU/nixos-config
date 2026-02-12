@@ -43,14 +43,6 @@ in
         cmakeFlags = prev.monado.cmakeFlags ++ [
           (lib.cmakeBool "XRT_FEATURE_OPENXR_VISIBILITY_MASK" false)
         ];
-
-        patches = prev.monado.patches ++ [
-          (pkgs.fetchpatch {
-            name = "shutdown-on-SIGINT-or-SIGTERM";
-            url = "https://gitlab.freedesktop.org/openglfreak/monado/-/commit/eda2379de0281c8c950837c06cc2220e35bd9b1d.diff";
-            hash = "sha256-CYAdIuUXp5eOqcdQPRPp/TTYLZ/LW16CwLK0/f+S4sU=";
-          })
-        ];
       };
     })
   ];
@@ -133,7 +125,10 @@ in
   };
 
   systemd.user.services.monado = {
-    serviceConfig.LimitNOFILE = 8192;
+    serviceConfig = {
+      LimitNOFILE = 8192;
+      TimeoutStopSec = "5";
+    };
     environment = {
       STEAMVR_LH_ENABLE = "true";
       XRT_COMPOSITOR_COMPUTE = "1";
