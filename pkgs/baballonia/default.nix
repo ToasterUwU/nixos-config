@@ -83,9 +83,9 @@ pkgs.buildDotnetModule (finalAttrs: {
     opencvsharp
     udev
     unzip
-    xorg.libICE
-    xorg.libSM
-    xorg.libX11
+    libICE
+    libSM
+    libX11
   ];
 
   runtimeDeps =
@@ -171,6 +171,6 @@ pkgs.buildDotnetModule (finalAttrs: {
     platforms = lib.platforms.linux;
     homepage = "https://github.com/Project-Babble/Baballonia";
     description = "Free and open source eye and face tracking for social VR";
-    maintainers = with lib.maintainers; [ naraenda ];
+    maintainers = with lib.maintainers; [ naraenda toasteruwu ];
   };
 })
