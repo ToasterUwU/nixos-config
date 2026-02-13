@@ -44,6 +44,10 @@
       inputs.elephant.follows = "elephant";
     };
     direnv-instant.url = "github:Mic92/direnv-instant";
+    nixpkgs-patch-cinny-tauri-v2 = {
+      url = "https://github.com/NixOS/nixpkgs/pull/470975.diff";
+      flake = false;
+    };
   };
 
   outputs =

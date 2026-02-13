@@ -181,6 +181,7 @@
       vesktop
       mprisence
       signal-desktop
+      cinny-desktop
       tor-browser
       ungoogled-chromium
       supersonic

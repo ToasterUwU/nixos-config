@@ -14,7 +14,6 @@
           "flathub:app/camp.nook.nookdesktop/x86_64/stable"
           "flathub:app/org.freecadweb.FreeCAD/x86_64/stable"
           "flathub:app/com.super_productivity.SuperProductivity/x86_64/stable"
-          "flathub:app/in.cinny.Cinny/x86_64/stable"
         ];
       };
     };
