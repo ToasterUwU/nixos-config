@@ -128,6 +128,7 @@
             compatTool = "Proton CachyOS x86_64-v4";
             launchOptions = {
               wrappers = [ "./run_monkeyloader.sh" ];
+              args = [ "-Device" "SteamVR" ];
             };
           };
           unravel-two = {
