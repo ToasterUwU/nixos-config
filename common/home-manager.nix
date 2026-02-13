@@ -1,4 +1,10 @@
-{ pkgs, catppuccin, ... }:
+{
+  pkgs,
+  config,
+  catppuccin,
+  lib,
+  ...
+}:
 {
   age.secrets = {
     "aki-id_ed25519" = {
@@ -55,7 +61,9 @@
           Wants = [ "network-online.target" ];
         };
         Service = {
-          ExecStart = "${pkgs.sshfs}/bin/sshfs -f -o delay_connect,reconnect,ServerAliveInterval=10,ServerAliveCountMax=2,_netdev,user,transform_symlinks,IdentityFile=/home/aki/.ssh/id_ed25519,allow_other,default_permissions,uid=1000,gid=100,exec Aki@toasteruwu.com:/home /home/aki/NAS/home";
+          ExecStart = "${pkgs.sshfs}/bin/sshfs -f -o delay_connect,reconnect,ServerAliveInterval=10,ServerAliveCountMax=2,_netdev,user,transform_symlinks,IdentityFile=/home/aki/.ssh/id_ed25519,allow_other,default_permissions,uid=${lib.toString config.users.users.aki.uid},gid=${
+            lib.toString config.users.groups.${lib.toString config.users.users.aki.group}.gid
+          },exec Aki@toasteruwu.com:/home /home/aki/NAS/home";
           ExecStop = "${pkgs.fuse}/bin/fusermount -u /home/aki/NAS/home";
           Restart = "on-failure";
           ExecStartPre = "${pkgs.uutils-coreutils-noprefix}/bin/mkdir -p /home/aki/NAS/home";
@@ -71,7 +79,9 @@
           Wants = [ "network-online.target" ];
         };
         Service = {
-          ExecStart = "${pkgs.sshfs}/bin/sshfs -f -o delay_connect,reconnect,ServerAliveInterval=10,ServerAliveCountMax=2,_netdev,user,transform_symlinks,IdentityFile=/home/aki/.ssh/id_ed25519,allow_other,default_permissions,uid=1000,gid=100,exec Aki@toasteruwu.com:/data /home/aki/NAS/data";
+          ExecStart = "${pkgs.sshfs}/bin/sshfs -f -o delay_connect,reconnect,ServerAliveInterval=10,ServerAliveCountMax=2,_netdev,user,transform_symlinks,IdentityFile=/home/aki/.ssh/id_ed25519,allow_other,default_permissions,uid=${lib.toString config.users.users.aki.uid},gid=${
+            lib.toString config.users.groups.${lib.toString config.users.users.aki.group}.gid
+          },exec Aki@toasteruwu.com:/data /home/aki/NAS/data";
           ExecStop = "${pkgs.fuse}/bin/fusermount -u /home/aki/NAS/data";
           Restart = "on-failure";
           ExecStartPre = "${pkgs.uutils-coreutils-noprefix}/bin/mkdir -p /home/aki/NAS/data";
@@ -87,7 +97,9 @@
           Wants = [ "network-online.target" ];
         };
         Service = {
-          ExecStart = "${pkgs.sshfs}/bin/sshfs -f -o delay_connect,reconnect,ServerAliveInterval=10,ServerAliveCountMax=2,_netdev,user,transform_symlinks,IdentityFile=/home/aki/.ssh/id_ed25519,allow_other,default_permissions,uid=1000,gid=100,exec Aki@toasteruwu.com:/backups /home/aki/NAS/backups";
+          ExecStart = "${pkgs.sshfs}/bin/sshfs -f -o delay_connect,reconnect,ServerAliveInterval=10,ServerAliveCountMax=2,_netdev,user,transform_symlinks,IdentityFile=/home/aki/.ssh/id_ed25519,allow_other,default_permissions,uid=${lib.toString config.users.users.aki.uid},gid=${
+            lib.toString config.users.groups.${lib.toString config.users.users.aki.group}.gid
+          },exec Aki@toasteruwu.com:/backups /home/aki/NAS/backups";
           ExecStop = "${pkgs.fuse}/bin/fusermount -u /home/aki/NAS/backups";
           Restart = "on-failure";
           ExecStartPre = "${pkgs.uutils-coreutils-noprefix}/bin/mkdir -p /home/aki/NAS/backups";
@@ -103,7 +115,9 @@
           Wants = [ "network-online.target" ];
         };
         Service = {
-          ExecStart = "${pkgs.sshfs}/bin/sshfs -f -o delay_connect,reconnect,ServerAliveInterval=10,ServerAliveCountMax=2,_netdev,user,transform_symlinks,IdentityFile=/home/aki/.ssh/id_ed25519,allow_other,default_permissions,uid=1000,gid=100,exec Aki@toasteruwu.com:/web /home/aki/NAS/web";
+          ExecStart = "${pkgs.sshfs}/bin/sshfs -f -o delay_connect,reconnect,ServerAliveInterval=10,ServerAliveCountMax=2,_netdev,user,transform_symlinks,IdentityFile=/home/aki/.ssh/id_ed25519,allow_other,default_permissions,uid=${lib.toString config.users.users.aki.uid},gid=${
+            lib.toString config.users.groups.${lib.toString config.users.users.aki.group}.gid
+          },exec Aki@toasteruwu.com:/web /home/aki/NAS/web";
           ExecStop = "${pkgs.fuse}/bin/fusermount -u /home/aki/NAS/web";
           Restart = "on-failure";
           ExecStartPre = "${pkgs.uutils-coreutils-noprefix}/bin/mkdir -p /home/aki/NAS/web";
@@ -119,7 +133,9 @@
           Wants = [ "network-online.target" ];
         };
         Service = {
-          ExecStart = "${pkgs.sshfs}/bin/sshfs -f -o delay_connect,reconnect,ServerAliveInterval=10,ServerAliveCountMax=2,_netdev,user,transform_symlinks,IdentityFile=/home/aki/.ssh/id_ed25519,allow_other,default_permissions,uid=1000,gid=100,exec Aki@toasteruwu.com:/docker /home/aki/NAS/docker";
+          ExecStart = "${pkgs.sshfs}/bin/sshfs -f -o delay_connect,reconnect,ServerAliveInterval=10,ServerAliveCountMax=2,_netdev,user,transform_symlinks,IdentityFile=/home/aki/.ssh/id_ed25519,allow_other,default_permissions,uid=${lib.toString config.users.users.aki.uid},gid=${
+            lib.toString config.users.groups.${lib.toString config.users.users.aki.group}.gid
+          },exec Aki@toasteruwu.com:/docker /home/aki/NAS/docker";
           ExecStop = "${pkgs.fuse}/bin/fusermount -u /home/aki/NAS/docker";
           Restart = "on-failure";
           ExecStartPre = "${pkgs.uutils-coreutils-noprefix}/bin/mkdir -p /home/aki/NAS/docker";

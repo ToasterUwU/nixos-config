@@ -2,6 +2,7 @@
   pkgs,
   config,
   agenix,
+  lib,
   ...
 }:
 {
@@ -277,7 +278,7 @@
     requires = [ "network-online.target" ];
     environment = {
       "DESKTOP" = ":0";
-      "DBUS_SESSION_BUS_ADDRESS" = "unix:path=/run/user/1000/bus";
+      "DBUS_SESSION_BUS_ADDRESS" = "unix:path=/run/user/${lib.toString config.users.users.aki.uid}/bus";
     };
     serviceConfig = {
       User = "aki";

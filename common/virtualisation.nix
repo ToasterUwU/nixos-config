@@ -1,4 +1,9 @@
-{ pkgs, config, ... }:
+{
+  pkgs,
+  config,
+  lib,
+  ...
+}:
 {
   age.secrets = {
     "tdarr-apiKey" = {
@@ -60,8 +65,8 @@
             serverPort = "8266";
             inContainer = "true";
             TZ = "Europe/Berlin";
-            PUID = "1000";
-            PGID = "1000";
+            PUID = lib.toString config.users.users.aki.uid;
+            PGID = lib.toString config.users.groups.${lib.toString config.users.users.aki.group}.gid;
           };
           env_file = [ config.age.secrets."tdarr-apiKey".path ];
           restart = "unless-stopped";
