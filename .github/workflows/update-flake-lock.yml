@@ -17,6 +17,20 @@ jobs:
       - uses: DeterminateSystems/nix-installer-action@main
       - uses: DeterminateSystems/update-flake-lock@main
         id: update
-      - run: "gh pr merge --auto --merge --delete-branch ${{ steps.update.outputs.pull-request-number }}"
+
+      - name: Test NixOS build for Barbara
+        run: |
+          nix run nixpkgs#nixos-rebuild -- \
+            dry-build --flake .#Barbara
+
+      - name: Test NixOS build for Gertrude
+        if: success()
+        run: |
+          nix run nixpkgs#nixos-rebuild -- \
+            dry-build --flake .#Gertrude
+
+      - name: Auto-merge PR
+        if: success()
+        run: gh pr merge --auto "${{ steps.update.outputs.pull-request-number }}" --rebase
         env:
           GH_TOKEN: ${{ github.token }}
