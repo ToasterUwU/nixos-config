@@ -48,14 +48,14 @@ pkgs.buildDotnetModule (finalAttrs: {
   # * Opencvsharp should just work, I think...
   # * What about babble-trainer?
 
-  version = "0.0.0";
+  version = "1.1.0.9";
   pname = "baballonia";
 
   src = pkgs.fetchFromGitHub {
     owner = "Project-Babble";
     repo = "Baballonia";
-    rev = "v1.1.0.9rc15";
-    hash = "sha256-tI9b4oj0/l98ZdzqDNft369Ij/hGNokyKMxjCNHWAR4=";
+    rev = "v1.1.0.9HF5";
+    hash = "sha256-LOOg0paOpZsCVYBCO9w9ulykRlkpCeMtkR0u+HZCh4I=";
     fetchSubmodules = true;
   };
   projectFile = "src/Baballonia.Desktop/Baballonia.Desktop.csproj";
