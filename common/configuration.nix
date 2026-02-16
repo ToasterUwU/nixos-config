@@ -182,7 +182,7 @@
       vesktop
       mprisence
       signal-desktop
-      cinny-desktop
+      kdePackages.neochat
       tor-browser
       ungoogled-chromium
       supersonic

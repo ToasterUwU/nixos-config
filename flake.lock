@@ -754,18 +754,6 @@
         "type": "github"
       }
     },
-    "nixpkgs-patch-cinny-tauri-v2": {
-      "flake": false,
-      "locked": {
-        "narHash": "sha256-J9wuRsNogfF7dlc0Rv3WeZLfzHzCaGbKBv5FUAvJriI=",
-        "type": "file",
-        "url": "https://github.com/NixOS/nixpkgs/pull/470975.diff"
-      },
-      "original": {
-        "type": "file",
-        "url": "https://github.com/NixOS/nixpkgs/pull/470975.diff"
-      }
-    },
     "nixpkgs-patcher": {
       "locked": {
         "lastModified": 1769207991,
@@ -879,12 +867,12 @@
         "narHash": "sha256-6/VriPJZPqQfOyujd1AEjSYzgP/In4dtmQAbvhkkhyI=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "ade8a1892d8f76616100c4d0de56f642ac4b004f",
+        "rev": "d6c71932130818840fc8fe9509cf50be8c64634f",
         "type": "github"
       },
       "original": {
         "owner": "NixOS",
-        "ref": "nixos-unstable-small",
+        "ref": "nixos-unstable",
         "repo": "nixpkgs",
         "type": "github"
       }
@@ -1012,7 +1000,6 @@
         "nix-cachyos-kernel": "nix-cachyos-kernel",
         "nix-gaming-edge": "nix-gaming-edge",
         "nixpkgs": "nixpkgs_5",
-        "nixpkgs-patch-cinny-tauri-v2": "nixpkgs-patch-cinny-tauri-v2",
         "nixpkgs-patcher": "nixpkgs-patcher",
         "nixpkgs-update": "nixpkgs-update",
         "nixpkgs-xr": "nixpkgs-xr",
