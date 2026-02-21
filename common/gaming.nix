@@ -108,6 +108,8 @@
       programs.steam.config = {
         enable = true;
         closeSteam = true;
+        defaultCompatTool = "Proton CachyOS x86_64-v4";
+
         apps = {
           elite-dangerous = {
             id = 359320;
