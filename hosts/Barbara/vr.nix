@@ -99,11 +99,17 @@ in
     KERNEL=="hidraw*", SUBSYSTEM=="hidraw", ATTRS{idVendor}=="35bd", ATTRS{idProduct}=="0105", MODE="0660", TAG+="uaccess", GROUP="wheel"
     # Bigscreen Beyond Firmware Mode?
     KERNEL=="hidraw*", SUBSYSTEM=="hidraw", ATTRS{idVendor}=="35bd", ATTRS{idProduct}=="4004", MODE="0660", TAG+="uaccess", GROUP="wheel"
+
+    KERNEL=="ttyUSB[0-9]*",MODE="0666"
+    KERNEL=="ttyACM[0-9]*",MODE="0666"
   '';
 
   programs.steam = {
     extraCompatPackages = with pkgs; [ proton-ge-rtsp-bin ];
   };
+
+  nixpkgs.config.allowUnfree = true;
+  nixpkgs.config.segger-jlink.acceptLicense = true;
 
   environment.systemPackages =
     with pkgs;
@@ -115,6 +121,7 @@ in
       lighthouse-steamvr
       self.packages.x86_64-linux.baballonia
       monado-start
+      nrfconnect
     ]
     ++ [ buttplug-lite.packages.x86_64-linux.default ];
 
