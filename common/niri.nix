@@ -245,11 +245,11 @@
             themes = {
               "mocha" = {
                 style = ''
-                  @define-color window_bg_color #1e1e2e;
-                  @define-color accent_bg_color #f5c2e7;
+                  @define-color window_bg_color #1f1f28;
+                  @define-color accent_bg_color #54546d;
                   @define-color theme_fg_color #f5c2e7;
-                  @define-color error_bg_color #1e1e2e;
-                  @define-color error_fg_color #f38ba8;
+                  @define-color error_bg_color #f38ba8;
+                  @define-color error_fg_color #54546d;
                 '';
               };
             };
