@@ -89,43 +89,7 @@ in
     enable = true;
   };
 
-  boot.kernelPackages = pkgs.linuxPackages_6_18;
-
-  # Bigscreen Beyond Kernel patches from Linux Kernel Mailing List
-  boot.kernelPatches = [
-    {
-      name = "0001-Change-device-uvc_version-check-on-dwMaxVideoFrameSize";
-      patch = ../../assets/kernel/0001-Change-device-uvc_version-check-on-dwMaxVideoFrameSize.patch;
-    }
-    {
-      name = "0001-rename-VESA-block-parsing-functions-to-more-generic-name";
-      patch = ../../assets/kernel/0001-rename-VESA-block-parsing-functions-to-more-generic-name.patch;
-    }
-    {
-      name = "0002-prepare-for-VESA-vendor-specific-data-block-extension";
-      patch = ../../assets/kernel/0002-prepare-for-VESA-vendor-specific-data-block-extension.patch;
-    }
-    {
-      name = "0003-MSO-should-only-be-used-for-non-eDP-displays";
-      patch = ../../assets/kernel/0003-MSO-should-only-be-used-for-non-eDP-displays.patch;
-    }
-    {
-      name = "0004-parse-DSC-DPP-passthru-support-flag-for-mode-VII-timings";
-      patch = ../../assets/kernel/0004-parse-DSC-DPP-passthru-support-flag-for-mode-VII-timings.patch;
-    }
-    {
-      name = "0005-for-consistency-use-mask-everywhere-for-block-rev-parsing";
-      patch = ../../assets/kernel/0005-for-consistency-use-mask-everywhere-for-block-rev-parsing.patch;
-    }
-    {
-      name = "0006-parse-DRM-VESA-dsc-bpp-target";
-      patch = ../../assets/kernel/0006-parse-DRM-VESA-dsc-bpp-target.patch;
-    }
-    {
-      name = "0007-use-fixed-dsc-bits-per-pixel-from-edid";
-      patch = ../../assets/kernel/0007-use-fixed-dsc-bits-per-pixel-from-edid.patch;
-    }
-  ];
+  boot.kernelPackages = pkgs.cachyosKernels.linuxPackages-cachyos-latest-lto-zen4;
 
   # Udev rules for Bigscreen devices
   services.udev.extraRules = ''
