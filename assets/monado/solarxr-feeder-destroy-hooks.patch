@@ -1,0 +1,176 @@
+diff --git a/src/xrt/drivers/solarxr/feeder.c b/src/xrt/drivers/solarxr/feeder.c
+index 3c79eef8b46a66fce4ce6a7c73dd51eabea3053b..3eb4a38da2936d857b07ce277398cc449a9d8133 100644
+--- a/src/xrt/drivers/solarxr/feeder.c
++++ b/src/xrt/drivers/solarxr/feeder.c
+@@ -35,7 +35,9 @@ struct feeder_device
+ };
+ 
+ bool
+-feeder_add_device(struct feeder *const feeder, struct xrt_device *const xdev)
++feeder_add_device(struct feeder *const feeder,
++                  struct xrt_device *const xdev,
++                  struct xrt_device *const TEMPsolarxr_device)
+ {
+ 	if (xdev == NULL || !xdev->supported.orientation_tracking) {
+ 		return false;
+@@ -135,6 +137,9 @@ feeder_add_device(struct feeder *const feeder, struct xrt_device *const xdev)
+ 	solarxr_ipc_socket_send_raw(&feeder->socket, packet, packet_len);
+ 	U_LOG_IFL_D(feeder->socket.log_level, "    \"%s\" [id=%" PRIu32 " serial=\"%s\" role=TrackerRole::%s]",
+ 	            xdev->str, device->id, xdev->serial, role_name);
++
++	assert(xdev->TEMPsolarxr_feeder == NULL);
++	xdev->TEMPsolarxr_feeder = TEMPsolarxr_device;
+ 	result = true;
+ 
+ unlock:
+@@ -142,7 +147,7 @@ unlock:
+ 	return result;
+ }
+ 
+-static void
++static struct xrt_device *
+ feeder_device_unlink(struct feeder_device *const device,
+                      struct xrt_device *const xdev,
+                      const enum u_logging_level log_level)
+@@ -151,16 +156,23 @@ feeder_device_unlink(struct feeder_device *const device,
+ 		device->destroyed = true;
+ 		U_LOG_IFL_D(log_level, "device \"%.*s\" removed", (unsigned)ARRAY_SIZE(xdev->str), xdev->str);
+ 	}
++	struct xrt_device *const old_manager = xdev->TEMPsolarxr_feeder;
++	xdev->TEMPsolarxr_feeder = NULL;
++	return old_manager;
+ }
+ 
+ void
+-feeder_remove_device(struct feeder *const feeder, struct xrt_device *const xdev)
++feeder_remove_device(struct feeder *const feeder,
++                     struct xrt_device *const xdev,
++                     struct xrt_device *const TEMPsolarxr_device)
+ {
+ 	os_mutex_lock(&feeder->mutex);
+ 
+ 	struct feeder_device *device = NULL;
+ 	u_hashmap_int_find(feeder->devices, (uint64_t)(uintptr_t)xdev, (void **)&device);
+-	feeder_device_unlink(device, xdev, feeder->socket.log_level);
++	struct xrt_device *const old_manager = feeder_device_unlink(device, xdev, feeder->socket.log_level);
++	assert(old_manager == TEMPsolarxr_device);
++	(void)old_manager;
+ 
+ 	os_mutex_unlock(&feeder->mutex);
+ }
+diff --git a/src/xrt/drivers/solarxr/feeder.h b/src/xrt/drivers/solarxr/feeder.h
+index cb8de6d064dbf49c240f58c33d50106a1d9a2623..60cc024d8fd9a2a1213b91736434de9ee9d4f6c9 100644
+--- a/src/xrt/drivers/solarxr/feeder.h
++++ b/src/xrt/drivers/solarxr/feeder.h
+@@ -38,13 +38,14 @@ feeder_fini(struct feeder *feeder);
+  *
+  * @param feeder self
+  * @param device device to register
++ * @param TEMPsolarxr_device device managing the feeder
+  *
+  * @return true on success.
+  *
+  * @public @memberof feeder
+  */
+ bool
+-feeder_add_device(struct feeder *feeder, struct xrt_device *xdev); // thread safe
++feeder_add_device(struct feeder *feeder, struct xrt_device *xdev, struct xrt_device *TEMPsolarxr_device); // thread safe
+ 
+ /*!
+  * Unregister a previously added device
+@@ -53,11 +54,14 @@ feeder_add_device(struct feeder *feeder, struct xrt_device *xdev); // thread saf
+  *
+  * @param feeder self
+  * @param device device to unregister
++ * @param TEMPsolarxr_device device managing the feeder
+  *
+  * @public @memberof feeder
+  */
+ void
+-feeder_remove_device(struct feeder *feeder, struct xrt_device *xdev); // thread safe
++feeder_remove_device(struct feeder *feeder,
++                     struct xrt_device *xdev,
++                     struct xrt_device *TEMPsolarxr_device); // thread safe
+ 
+ /*!
+  * Unregister all observed devices
+diff --git a/src/xrt/drivers/solarxr/solarxr_device.c b/src/xrt/drivers/solarxr/solarxr_device.c
+index 4a65a7494cae78fbae1775d08ae665f8fffad525..ad3816645f630a73bc4ac65807c106dc7b769bd4 100644
+--- a/src/xrt/drivers/solarxr/solarxr_device.c
++++ b/src/xrt/drivers/solarxr/solarxr_device.c
+@@ -1297,7 +1297,11 @@ solarxr_device_add_feeder_device(struct xrt_device *const device, struct xrt_dev
+ 	if (solarxr == NULL || solarxr_device(xdev) != NULL || solarxr_generic_tracker(xdev) != NULL) {
+ 		return false;
+ 	}
+-	return feeder_add_device(&solarxr->feeder, xdev);
++
++	if (xdev->TEMPsolarxr_feeder != NULL) {
++		solarxr_device_remove_feeder_device(xdev->TEMPsolarxr_feeder, xdev);
++	}
++	return feeder_add_device(&solarxr->feeder, xdev, device);
+ }
+ 
+ void
+@@ -1305,7 +1309,7 @@ solarxr_device_remove_feeder_device(struct xrt_device *const device, struct xrt_
+ {
+ 	struct solarxr_device *const solarxr = solarxr_device(device);
+ 	if (solarxr != NULL) {
+-		feeder_remove_device(&solarxr->feeder, xdev);
++		feeder_remove_device(&solarxr->feeder, xdev, device);
+ 	}
+ }
+ 
+diff --git a/src/xrt/include/CMakeLists.txt b/src/xrt/include/CMakeLists.txt
+index 5333502d9dd32c56a0cb7b3256f74ec8f3adc7cf..74339073be14f57e470dc1c76eb37bca5aecfaa2 100644
+--- a/src/xrt/include/CMakeLists.txt
++++ b/src/xrt/include/CMakeLists.txt
+@@ -8,6 +8,7 @@ add_library(xrt-interfaces INTERFACE)
+ target_include_directories(
+ 	xrt-interfaces INTERFACE ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR}
+ 	)
++target_link_libraries(xrt-interfaces INTERFACE drv_solarxr)
+ 
+ # Make sure the xrt-interfaces target depends on the generated header
+ add_dependencies(xrt-interfaces generate_xrt_macro_lists)
+diff --git a/src/xrt/include/xrt/xrt_device.h b/src/xrt/include/xrt/xrt_device.h
+index 87ccea7da0fd879decec8a4c29e4541077506151..848651788c2d5848cc6173c05eb10b5d7d629ffb 100644
+--- a/src/xrt/include/xrt/xrt_device.h
++++ b/src/xrt/include/xrt/xrt_device.h
+@@ -16,6 +16,11 @@
+ #include "xrt/xrt_plane_detector.h"
+ #include "xrt/xrt_visibility_mask.h"
+ #include "xrt/xrt_limits.h"
++#include "xrt/xrt_config_drivers.h" // XRT_BUILD_DRIVER_SOLARXR
++
++#ifdef XRT_BUILD_DRIVER_SOLARXR
++#include "../drivers/solarxr/solarxr_interface.h"
++#endif
+ 
+ #ifdef __cplusplus
+ extern "C" {
+@@ -342,6 +347,11 @@ struct xrt_device
+ 	//! What features/functions/things does this device supports?
+ 	struct xrt_device_supported supported;
+ 
++#ifdef XRT_BUILD_DRIVER_SOLARXR
++	// TODO: generic hotplug API
++	//! SolarXR bridge observing this device.
++	struct xrt_device *TEMPsolarxr_feeder;
++#endif
+ 
+ 	/*
+ 	 *
+@@ -1151,6 +1161,12 @@ xrt_device_destroy(struct xrt_device **xdev_ptr)
+ 		return;
+ 	}
+ 
++#ifdef XRT_BUILD_DRIVER_SOLARXR
++	if (xdev->TEMPsolarxr_feeder != NULL) {
++		solarxr_device_remove_feeder_device(xdev->TEMPsolarxr_feeder, xdev);
++	}
++#endif
++
+ 	xdev->destroy(xdev);
+ 	*xdev_ptr = NULL;
+ }
+

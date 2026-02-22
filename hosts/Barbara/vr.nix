@@ -40,7 +40,20 @@ in
         };
       };
       monado = nixpkgs-xr.packages.${pkgs.stdenv.hostPlatform.system}.monado.overrideAttrs {
-        cmakeFlags = prev.monado.cmakeFlags ++ [
+        patches = (nixpkgs-xr.packages.${pkgs.stdenv.hostPlatform.system}.patches or [ ]) ++ [
+          (pkgs.fetchpatch {
+            name = "load-solarxr-driver";
+            url = "https://gitlab.freedesktop.org/rcelyte/monado/-/commit/2cb76dd8e4743caaba616ef798ff2ddd4afb3b51.diff";
+            hash = "sha256-Fmg8C3KpxzHDSmJDk9ph9vRSSfoIlUrEaX4k3S4keDU=";
+          })
+          (pkgs.fetchpatch {
+            name = "solarxr-feeder-destroy-hooks";
+            url = "https://gitlab.freedesktop.org/rcelyte/monado/-/commit/2ecd3fc0daff464d3d994608aec9c9f441e20c16.diff";
+            hash = "sha256-ubbAaS1e1StkWSqLEd7iu2fiaBVW9WvonbV6uqBPBAk=";
+          })
+        ];
+
+        cmakeFlags = (nixpkgs-xr.packages.${pkgs.stdenv.hostPlatform.system}.monado.cmakeFlags or [ ]) ++ [
           (lib.cmakeBool "XRT_FEATURE_OPENXR_VISIBILITY_MASK" false)
         ];
       };
@@ -100,6 +113,11 @@ in
     # Bigscreen Beyond Firmware Mode?
     KERNEL=="hidraw*", SUBSYSTEM=="hidraw", ATTRS{idVendor}=="35bd", ATTRS{idProduct}=="4004", MODE="0660", TAG+="uaccess", GROUP="wheel"
 
+    # SlimeVR Dongle
+    SUBSYSTEM=="usb", ATTR{idVendor}=="1209", ATTR{idProduct}=="7690", MODE="0666"
+    KERNEL=="hidraw*", SUBSYSTEM=="hidraw", ATTRS{idVendor}=="1209", ATTRS{idProduct}=="7690", MODE="0666"
+
+    # Slime Serial connections
     KERNEL=="ttyUSB[0-9]*",MODE="0666"
     KERNEL=="ttyACM[0-9]*",MODE="0666"
   '';
@@ -122,6 +140,7 @@ in
       self.packages.x86_64-linux.baballonia
       monado-start
       nrfconnect
+      slimevr
     ]
     ++ [ buttplug-lite.packages.x86_64-linux.default ];
 
