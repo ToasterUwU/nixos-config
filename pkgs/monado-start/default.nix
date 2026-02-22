@@ -95,7 +95,7 @@ stdenv.mkDerivation {
         systemctl --user restart monado.service
 
         setsid sh -c '
-          ${lib.getExe lovr-playspace} &
+          # ${lib.getExe lovr-playspace} &
           ${lib.getExe wayvr} --replace &
           kde-inhibit --power --screenSaver sleep infinity &
           wait
