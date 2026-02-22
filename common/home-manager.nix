@@ -327,6 +327,10 @@
         btop.enable = true;
         bottom.enable = true;
         gitui.enable = true;
+        tirith = {
+          enable = true;
+          enableFishIntegration = true;
+        };
         ssh = {
           enable = true;
           enableDefaultConfig = false;
