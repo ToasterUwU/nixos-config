@@ -57,6 +57,31 @@ in
           (lib.cmakeBool "XRT_FEATURE_OPENXR_VISIBILITY_MASK" false)
         ];
       };
+      slimevr = prev.slimevr.overrideAttrs rec {
+        version = "18.2.0-rc.1";
+
+        src = pkgs.fetchFromGitHub {
+          owner = "SlimeVR";
+          repo = "SlimeVR-Server";
+          tag = "v${version}";
+          hash = "sha256-INkM7n1qr49B2CO5jpYH/NZjgwu6OKsS8qOxvwcbCbk=";
+          # solarxr
+          fetchSubmodules = true;
+        };
+
+        cargoDeps = pkgs.rustPlatform.fetchCargoVendor {
+          inherit src;
+          hash = "sha256-X5IgWZlkvsstMN3YS4r+NJl6RVfREfZqKUrfsrUPQuU=";
+        };
+
+        pnpmDeps = pkgs.fetchPnpmDeps {
+          pname = "${prev.slimevr.pname}-pnpm-deps";
+          inherit version src;
+          pnpm = pkgs.pnpm_9;
+          fetcherVersion = 1;
+          hash = "sha256-ExjEAr38GX2iZThVj3C3N/9mPgf0Bs7J5OAwtDdmn6I=";
+        };
+      };
     })
   ];
 
