@@ -66,7 +66,7 @@ in
 
   boot.kernelPackages = pkgs.linuxPackages_6_18;
 
-  # Bigscreen Beyond Kernel patches from LVRA Discord Thread
+  # Bigscreen Beyond Kernel patches from Linux Kernel Mailing List
   boot.kernelPatches = [
     {
       name = "0001-Change-device-uvc_version-check-on-dwMaxVideoFrameSize";
