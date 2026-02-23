@@ -130,7 +130,10 @@
             compatTool = "Proton CachyOS x86_64-v4";
             launchOptions = {
               wrappers = [ "./run_monkeyloader.sh" ];
-              args = [ "-Device" "SteamVR" ];
+              args = [
+                "-Device"
+                "SteamVR"
+              ];
             };
           };
           unravel-two = {
@@ -184,6 +187,13 @@
             id = 244850;
             launchOptions = {
               args = [ "-useallavailablecores" ];
+            };
+          };
+          overwatch = {
+            id = 2357570;
+            compatTool = "GE-Proton";
+            launchOptions = {
+              env.PROTON_ENABLE_OPENXR = 0;
             };
           };
         };
