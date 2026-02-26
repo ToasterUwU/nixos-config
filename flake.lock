@@ -394,11 +394,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1771851181,
-        "narHash": "sha256-gFgE6mGUftwseV3DUENMb0k0EiHd739lZexPo5O/sdQ=",
+        "lastModified": 1772060133,
+        "narHash": "sha256-VuyRptb8v1lVGMlLp4/1vRX3Efwec0CN0S6mKmDPzLg=",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "9a4b494b1aa1b93d8edf167f46dc8e0c0011280c",
+        "rev": "ce9b6e52500a0ea0ec48f0bbf6d7a3e431d9dfa4",
         "type": "github"
       },
       "original": {
@@ -517,11 +517,11 @@
       },
       "locked": {
         "dir": "packages/nix",
-        "lastModified": 1770491303,
-        "narHash": "sha256-JMN7T1ZrQ7PjSsgKobxtEENHiBAxqHNNIAaJcPnCeHM=",
+        "lastModified": 1771985657,
+        "narHash": "sha256-wAnrrFZxuHrITZAfyUyuIItYW/2gjO+gm3TCupExdt4=",
         "owner": "SteamClientHomebrew",
         "repo": "Millennium",
-        "rev": "5089051787adb186aa7ff0bea54d3d7cd5e67539",
+        "rev": "dbbb365d32725022041caa2d2211f7934ca8ef58",
         "type": "github"
       },
       "original": {
@@ -710,11 +710,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1771394512,
-        "narHash": "sha256-Q6kICRqsAkHIoXh6liBnpw37Nn3MVntP4YPO60WUJhg=",
+        "lastModified": 1771999527,
+        "narHash": "sha256-r7+LEniEAd5cOSl+7WNZ/T77CVjHBLZGl1c6bZPGkuM=",
         "owner": "powerofthe69",
         "repo": "nix-gaming-edge",
-        "rev": "ac5a8f5b2302b79a980ea9865c83ce10616e8473",
+        "rev": "731c3191ed69f1c9200efb207609c8b688e8d438",
         "type": "github"
       },
       "original": {
@@ -816,11 +816,11 @@
         "treefmt-nix": "treefmt-nix_3"
       },
       "locked": {
-        "lastModified": 1771986544,
-        "narHash": "sha256-2MygbaPO+F3iCoPEzTKZCh/asAGdZ+Lltr3hMES6/DI=",
+        "lastModified": 1772071484,
+        "narHash": "sha256-Sei6qR4NyNjVAH7NEWq752/lUuQJ6QRBj+6bxQllwVc=",
         "owner": "nix-community",
         "repo": "nixpkgs-xr",
-        "rev": "5889ab1d07430c8501f86a5b65603a9e343f66cf",
+        "rev": "4b02800ad9e1978f97706b23dd2383e47fdf235b",
         "type": "github"
       },
       "original": {
@@ -1224,7 +1224,7 @@
     "wayvr-openxr-actions": {
       "flake": false,
       "locked": {
-        "narHash": "sha256-l9xuqbwwcAGyQpUYhZQpuPurxK49Cl5X9aFwTjLRTcQ=",
+        "narHash": "sha256-O9S1cIVDQOyLgrdQ5VhoOvebeJgU7BaJBIqIJQ0Y2eA=",
         "type": "file",
         "url": "https://raw.githubusercontent.com/wlx-team/wayvr/refs/heads/main/wayvr/src/backend/openxr/openxr_actions.json5"
       },
