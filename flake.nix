@@ -91,20 +91,5 @@
 
         specialArgs = inputs;
       };
-
-      packages.x86_64-linux =
-        let
-          system = "x86_64-linux";
-          nixpkgs-patched = nixpkgs-patcher.lib.patchNixpkgs { inherit inputs system; };
-          pkgs-patched = import nixpkgs-patched {
-            inherit system;
-            config = {
-              allowUnfree = true;
-            };
-          };
-        in
-        {
-          baballonia = pkgs-patched.callPackage ./pkgs/baballonia { };
-        };
     };
 }

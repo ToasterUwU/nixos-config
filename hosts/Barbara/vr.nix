@@ -138,7 +138,6 @@ in
       # lovr-playspace
       resolute
       lighthouse-steamvr
-      self.packages.x86_64-linux.baballonia
       monado-start
       nrfconnect
       slimevr
