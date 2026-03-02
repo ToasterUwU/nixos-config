@@ -205,6 +205,7 @@
       intiface-central
       scrcpy
       qpwgraph
+      easyeffects
     ]
     ++ [
       (pkgs.wrapOBS {
