@@ -133,6 +133,7 @@
               args = [
                 "-Device"
                 "SteamVR"
+                "-ForceBabble"
               ];
             };
           };
