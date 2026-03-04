@@ -86,10 +86,6 @@
     };
   };
 
-  # Needed for iwmenu
-  networking.wireless.iwd.enable = true;
-  networking.networkmanager.wifi.backend = "iwd";
-
   # Needed for Nemo Networking
   services.gvfs.enable = true;
 
@@ -101,10 +97,6 @@
     nemo-with-extensions
     xviewer
     pavucontrol
-
-    pwmenu
-    iwmenu
-    bzmenu
 
     catppuccin-cursors.mochaPink
   ];
