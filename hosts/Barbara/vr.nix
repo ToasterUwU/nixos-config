@@ -40,19 +40,6 @@ in
         };
       };
       monado = nixpkgs-xr.packages.${pkgs.stdenv.hostPlatform.system}.monado.overrideAttrs {
-        patches = (nixpkgs-xr.packages.${pkgs.stdenv.hostPlatform.system}.patches or [ ]) ++ [
-          (pkgs.fetchpatch {
-            name = "load-solarxr-driver";
-            url = "https://gitlab.freedesktop.org/rcelyte/monado/-/commit/2cb76dd8e4743caaba616ef798ff2ddd4afb3b51.diff";
-            hash = "sha256-Fmg8C3KpxzHDSmJDk9ph9vRSSfoIlUrEaX4k3S4keDU=";
-          })
-          (pkgs.fetchpatch {
-            name = "solarxr-feeder-destroy-hooks";
-            url = "https://gitlab.freedesktop.org/rcelyte/monado/-/commit/2ecd3fc0daff464d3d994608aec9c9f441e20c16.diff";
-            hash = "sha256-ubbAaS1e1StkWSqLEd7iu2fiaBVW9WvonbV6uqBPBAk=";
-          })
-        ];
-
         cmakeFlags = (nixpkgs-xr.packages.${pkgs.stdenv.hostPlatform.system}.monado.cmakeFlags or [ ]) ++ [
           (lib.cmakeBool "XRT_FEATURE_OPENXR_VISIBILITY_MASK" false)
         ];
