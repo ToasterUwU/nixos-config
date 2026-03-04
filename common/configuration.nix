@@ -146,6 +146,7 @@
         "webgl.disabled" = false;
       };
     };
+    nativeMessagingHosts.packages = [ pkgs.firefoxpwa ];
   };
 
   fonts.packages = with pkgs; [
@@ -206,6 +207,7 @@
       scrcpy
       qpwgraph
       easyeffects
+      firefoxpwa
     ]
     ++ [
       (pkgs.wrapOBS {
