@@ -127,6 +127,8 @@
     };
   };
 
+  security.sudo-rs.enable = true;
+
   programs.fish.enable = true;
   environment.shells = [ pkgs.fish ];
 
