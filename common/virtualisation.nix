@@ -32,7 +32,7 @@
         watchtower.service = {
           stop_grace_period = "5m";
           container_name = "watchtower";
-          image = "containrrr/watchtower:latest";
+          image = "nickfedor/watchtower:latest";
           volumes = [
             "/var/run/docker.sock:/var/run/docker.sock"
             "/etc/localtime:/etc/localtime:ro"
