@@ -754,6 +754,18 @@
         "type": "github"
       }
     },
+    "nixpkgs-patch-fix-gearlever-build": {
+      "flake": false,
+      "locked": {
+        "narHash": "sha256-O42CbDmMXeAo300Yw5Ho03U14C/H7erGYvXZ6lLQxcA=",
+        "type": "file",
+        "url": "https://github.com/NixOS/nixpkgs/pull/495245.diff"
+      },
+      "original": {
+        "type": "file",
+        "url": "https://github.com/NixOS/nixpkgs/pull/495245.diff"
+      }
+    },
     "nixpkgs-patcher": {
       "locked": {
         "lastModified": 1769207991,
@@ -1000,6 +1012,7 @@
         "nix-cachyos-kernel": "nix-cachyos-kernel",
         "nix-gaming-edge": "nix-gaming-edge",
         "nixpkgs": "nixpkgs_5",
+        "nixpkgs-patch-fix-gearlever-build": "nixpkgs-patch-fix-gearlever-build",
         "nixpkgs-patcher": "nixpkgs-patcher",
         "nixpkgs-update": "nixpkgs-update",
         "nixpkgs-xr": "nixpkgs-xr",
