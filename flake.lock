@@ -766,6 +766,18 @@
         "url": "https://github.com/NixOS/nixpkgs/pull/495245.diff"
       }
     },
+    "nixpkgs-patch-fix-virt-secret-init-encryption": {
+      "flake": false,
+      "locked": {
+        "narHash": "sha256-QrZ1PldRU0Ig04cMQ4tHUqs1gHb3Zxu0ygoO5ls5mBE=",
+        "type": "file",
+        "url": "https://github.com/NixOS/nixpkgs/pull/496839.diff"
+      },
+      "original": {
+        "type": "file",
+        "url": "https://github.com/NixOS/nixpkgs/pull/496839.diff"
+      }
+    },
     "nixpkgs-patcher": {
       "locked": {
         "lastModified": 1772817589,
@@ -1013,6 +1025,7 @@
         "nix-gaming-edge": "nix-gaming-edge",
         "nixpkgs": "nixpkgs_5",
         "nixpkgs-patch-fix-gearlever-build": "nixpkgs-patch-fix-gearlever-build",
+        "nixpkgs-patch-fix-virt-secret-init-encryption": "nixpkgs-patch-fix-virt-secret-init-encryption",
         "nixpkgs-patcher": "nixpkgs-patcher",
         "nixpkgs-update": "nixpkgs-update",
         "nixpkgs-xr": "nixpkgs-xr",

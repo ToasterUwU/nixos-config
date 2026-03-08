@@ -51,6 +51,10 @@
       url = "https://github.com/NixOS/nixpkgs/pull/495245.diff";
       flake = false;
     };
+    nixpkgs-patch-fix-virt-secret-init-encryption = {
+      url = "https://github.com/NixOS/nixpkgs/pull/496839.diff";
+      flake = false;
+    };
   };
 
   outputs =
