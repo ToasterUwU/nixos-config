@@ -169,6 +169,7 @@
       file
       yt-dlp
       extract-audio
+      split-3d-image
       gnupg
       git
       nano
