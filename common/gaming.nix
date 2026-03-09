@@ -197,6 +197,12 @@
               env.PROTON_ENABLE_OPENXR = 0;
             };
           };
+          jump-space = {
+            id = 1757300;
+            launchOptions = {
+              env.PROTON_ENABLE_OPENXR = 0;
+            };
+          };
         };
       };
     };
