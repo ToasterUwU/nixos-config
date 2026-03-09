@@ -249,6 +249,11 @@
         };
       };
 
+      qt = {
+        enable = true;
+        style.name = "kvantum";
+      };
+
       programs = {
         ghostty = {
           enable = true;
