@@ -95,6 +95,7 @@
     xwayland-satellite
 
     nemo-with-extensions
+    file-roller
     xviewer
     pavucontrol
 
