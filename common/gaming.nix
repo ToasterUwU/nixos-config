@@ -37,7 +37,6 @@
     package = pkgs.steam.override {
       extraProfile = ''
         unset TZ
-        export PRESSURE_VESSEL_IMPORT_OPENXR_1_RUNTIMES=1
       '';
     };
   };
@@ -123,11 +122,11 @@
                 "/restart"
                 "15"
               ];
+              env.PRESSURE_VESSEL_IMPORT_OPENXR_1_RUNTIMES = 1;
             };
           };
           resonite = {
             id = 2519830;
-            compatTool = "Proton CachyOS x86_64-v4";
             launchOptions = {
               wrappers = [ "./run_monkeyloader.sh" ];
               args = [
@@ -135,6 +134,7 @@
                 "SteamVR"
                 "-ForceBabble"
               ];
+              env.PRESSURE_VESSEL_IMPORT_OPENXR_1_RUNTIMES = 1;
             };
           };
           unravel-two = {
@@ -182,6 +182,7 @@
                   export $var=$(echo $\{!var} | rev | cut -c 1-2000 | rev);
                 done
               '';
+              env.PRESSURE_VESSEL_IMPORT_OPENXR_1_RUNTIMES = 1;
             };
           };
           space-engineers = {
@@ -193,14 +194,89 @@
           overwatch = {
             id = 2357570;
             compatTool = "GE-Proton";
+          };
+          stride = {
+            id = 1292040;
             launchOptions = {
-              env.PROTON_ENABLE_OPENXR = 0;
+              env.PRESSURE_VESSEL_IMPORT_OPENXR_1_RUNTIMES = 1;
             };
           };
-          jump-space = {
-            id = 1757300;
+          baballonia = {
+            id = 4091970;
             launchOptions = {
-              env.PROTON_ENABLE_OPENXR = 0;
+              env.PRESSURE_VESSEL_IMPORT_OPENXR_1_RUNTIMES = 1;
+            };
+          };
+          beat-saber = {
+            id = 620980;
+            launchOptions = {
+              env.PRESSURE_VESSEL_IMPORT_OPENXR_1_RUNTIMES = 1;
+            };
+          };
+          ghost-signal = {
+            id = 2156770;
+            launchOptions = {
+              env.PRESSURE_VESSEL_IMPORT_OPENXR_1_RUNTIMES = 1;
+            };
+          };
+          the-last-clockwinder = {
+            id = 1755100;
+            launchOptions = {
+              env.PRESSURE_VESSEL_IMPORT_OPENXR_1_RUNTIMES = 1;
+            };
+          };
+          underdogs = {
+            id = 2441700;
+            launchOptions = {
+              env.PRESSURE_VESSEL_IMPORT_OPENXR_1_RUNTIMES = 1;
+            };
+          };
+          half-life-alyx = {
+            id = 546560;
+            launchOptions = {
+              env.PRESSURE_VESSEL_IMPORT_OPENXR_1_RUNTIMES = 1;
+            };
+          };
+          space-pirate-trainer = {
+            id = 418650;
+            launchOptions = {
+              env.PRESSURE_VESSEL_IMPORT_OPENXR_1_RUNTIMES = 1;
+            };
+          };
+          superhot-vr = {
+            id = 617830;
+            launchOptions = {
+              env.PRESSURE_VESSEL_IMPORT_OPENXR_1_RUNTIMES = 1;
+            };
+          };
+          panoptic = {
+            id = 541930;
+            launchOptions = {
+              env.PRESSURE_VESSEL_IMPORT_OPENXR_1_RUNTIMES = 1;
+            };
+          };
+          the-curious-tale-of-the-stolen-pets = {
+            id = 1099500;
+            launchOptions = {
+              env.PRESSURE_VESSEL_IMPORT_OPENXR_1_RUNTIMES = 1;
+            };
+          };
+          myst = {
+            id = 1255560;
+            launchOptions = {
+              env.PRESSURE_VESSEL_IMPORT_OPENXR_1_RUNTIMES = 1;
+            };
+          };
+          portal-stories-vr = {
+            id = 446750;
+            launchOptions = {
+              env.PRESSURE_VESSEL_IMPORT_OPENXR_1_RUNTIMES = 1;
+            };
+          };
+          rumble = {
+            id = 890550;
+            launchOptions = {
+              env.PRESSURE_VESSEL_IMPORT_OPENXR_1_RUNTIMES = 1;
             };
           };
         };
