@@ -47,14 +47,6 @@
       inputs.elephant.follows = "elephant";
     };
     direnv-instant.url = "github:Mic92/direnv-instant";
-    nixpkgs-patch-fix-gearlever-build = {
-      url = "https://github.com/NixOS/nixpkgs/pull/495245.diff";
-      flake = false;
-    };
-    nixpkgs-patch-fix-virt-secret-init-encryption = {
-      url = "https://github.com/NixOS/nixpkgs/pull/496839.diff";
-      flake = false;
-    };
   };
 
   outputs =
