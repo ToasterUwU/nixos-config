@@ -47,6 +47,10 @@
       inputs.elephant.follows = "elephant";
     };
     direnv-instant.url = "github:Mic92/direnv-instant";
+    nixpkgs-patch-fix-whisper-cpp-endless-build = {
+      url = "https://github.com/NixOS/nixpkgs/pull/497818.diff";
+      flake = false;
+    };
   };
 
   outputs =

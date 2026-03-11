@@ -754,6 +754,18 @@
         "type": "github"
       }
     },
+    "nixpkgs-patch-fix-whisper-cpp-endless-build": {
+      "flake": false,
+      "locked": {
+        "narHash": "sha256-HyivzrRH6Ac3h5PajpVZtY1OS9XdyeVukDcEE7s4OPY=",
+        "type": "file",
+        "url": "https://github.com/NixOS/nixpkgs/pull/497818.diff"
+      },
+      "original": {
+        "type": "file",
+        "url": "https://github.com/NixOS/nixpkgs/pull/497818.diff"
+      }
+    },
     "nixpkgs-patcher": {
       "locked": {
         "lastModified": 1772817589,
@@ -1000,6 +1012,7 @@
         "nix-cachyos-kernel": "nix-cachyos-kernel",
         "nix-gaming-edge": "nix-gaming-edge",
         "nixpkgs": "nixpkgs_5",
+        "nixpkgs-patch-fix-whisper-cpp-endless-build": "nixpkgs-patch-fix-whisper-cpp-endless-build",
         "nixpkgs-patcher": "nixpkgs-patcher",
         "nixpkgs-update": "nixpkgs-update",
         "nixpkgs-xr": "nixpkgs-xr",
