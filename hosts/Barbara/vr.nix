@@ -58,10 +58,6 @@ in
       name = "0001-Change-device-uvc_version-check-on-dwMaxVideoFrameSize";
       patch = ../../assets/kernel/0001-Change-device-uvc_version-check-on-dwMaxVideoFrameSize.patch;
     }
-    {
-      name = "0001-amd-bsb-dsc-fix.patch";
-      patch = ../../assets/kernel/0001-amd-bsb-dsc-fix.patch;
-    }
   ];
 
   # Udev rules for Bigscreen devices
