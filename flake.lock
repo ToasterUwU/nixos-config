@@ -766,6 +766,18 @@
         "url": "https://github.com/NixOS/nixpkgs/pull/497818.diff"
       }
     },
+    "nixpkgs-patch-update-supersonic": {
+      "flake": false,
+      "locked": {
+        "narHash": "sha256-BSh+0ixhAZECaQ08E1m6drQ9VUitU6R2EwgIIZc5wFM=",
+        "type": "file",
+        "url": "https://github.com/NixOS/nixpkgs/pull/499128.diff"
+      },
+      "original": {
+        "type": "file",
+        "url": "https://github.com/NixOS/nixpkgs/pull/499128.diff"
+      }
+    },
     "nixpkgs-patcher": {
       "locked": {
         "lastModified": 1772817589,
@@ -1013,6 +1025,7 @@
         "nix-gaming-edge": "nix-gaming-edge",
         "nixpkgs": "nixpkgs_5",
         "nixpkgs-patch-fix-whisper-cpp-endless-build": "nixpkgs-patch-fix-whisper-cpp-endless-build",
+        "nixpkgs-patch-update-supersonic": "nixpkgs-patch-update-supersonic",
         "nixpkgs-patcher": "nixpkgs-patcher",
         "nixpkgs-update": "nixpkgs-update",
         "nixpkgs-xr": "nixpkgs-xr",
