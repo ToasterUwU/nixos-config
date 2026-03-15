@@ -1,7 +1,7 @@
 { pkgs, ... }:
 {
   environment.systemPackages = with pkgs; [
-    libreoffice-qt-fresh
+    libreoffice
     hunspell
     hunspellDicts.de_DE
     hunspellDicts.en_US
