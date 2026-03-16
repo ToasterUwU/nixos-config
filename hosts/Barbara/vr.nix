@@ -115,6 +115,7 @@ in
     environment = {
       STEAMVR_LH_ENABLE = "true";
       XRT_COMPOSITOR_COMPUTE = "1";
+      LH_OVERRIDE_IPD_MM = "64";
       XRT_COMPOSITOR_SCALE_PERCENTAGE = "100";
       XRT_COMPOSITOR_DESIRED_MODE = "1";
       # XRT_COMPOSITOR_DESIRED_MODE=0 is the 75hz mode
