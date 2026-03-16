@@ -47,6 +47,10 @@
       inputs.elephant.follows = "elephant";
     };
     direnv-instant.url = "github:Mic92/direnv-instant";
+    nixpkgs-patch-fix-unityhub-missing-deps = {
+      url = "https://github.com/NixOS/nixpkgs/pull/500431.diff";
+      flake = false;
+    };
   };
 
   outputs =

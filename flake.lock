@@ -754,6 +754,18 @@
         "type": "github"
       }
     },
+    "nixpkgs-patch-fix-unityhub-missing-deps": {
+      "flake": false,
+      "locked": {
+        "narHash": "sha256-VqwHiO99uCWDSJDTBPpwFGvuw5kTri9y5MmjZbgZjW0=",
+        "type": "file",
+        "url": "https://github.com/NixOS/nixpkgs/pull/500431.diff"
+      },
+      "original": {
+        "type": "file",
+        "url": "https://github.com/NixOS/nixpkgs/pull/500431.diff"
+      }
+    },
     "nixpkgs-patcher": {
       "locked": {
         "lastModified": 1772817589,
@@ -1000,6 +1012,7 @@
         "nix-cachyos-kernel": "nix-cachyos-kernel",
         "nix-gaming-edge": "nix-gaming-edge",
         "nixpkgs": "nixpkgs_5",
+        "nixpkgs-patch-fix-unityhub-missing-deps": "nixpkgs-patch-fix-unityhub-missing-deps",
         "nixpkgs-patcher": "nixpkgs-patcher",
         "nixpkgs-update": "nixpkgs-update",
         "nixpkgs-xr": "nixpkgs-xr",
