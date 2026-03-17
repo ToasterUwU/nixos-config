@@ -161,6 +161,9 @@
   fonts.packages = with pkgs; [
     fira-code
     nerd-fonts.fira-code
+    roboto
+    source-sans
+    font-awesome
   ];
 
   environment.systemPackages =
