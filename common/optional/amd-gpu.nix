@@ -5,5 +5,5 @@
 
   hardware.graphics.extraPackages = with pkgs; [ rocmPackages.clr.icd ];
 
-  nixpkgs.config.rocmSupport = true;
+  # nixpkgs.config.rocmSupport = true;
 }
