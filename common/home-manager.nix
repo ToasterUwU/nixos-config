@@ -247,6 +247,7 @@
             }
           );
         };
+        gtk4.theme = config.home-manager.users.aki.gtk.theme;
       };
 
       qt = {

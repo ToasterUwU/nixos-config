@@ -43,6 +43,8 @@
             rerere.enabled = true;
             core.fsmonitor = true;
           };
+
+          signing.format = "openpgp";
         };
 
         direnv = {
