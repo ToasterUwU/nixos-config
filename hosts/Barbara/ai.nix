@@ -6,6 +6,7 @@
     loadModels = [
       "qwen2.5-coder:7b"
       "qwen3-coder:30b"
+      "gemma4:31b"
     ];
     package = pkgs.ollama-vulkan;
   };
