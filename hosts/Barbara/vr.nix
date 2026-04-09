@@ -2,7 +2,6 @@
   pkgs,
   lib,
   nix-gaming-edge,
-  buttplug-lite,
   nixpkgs-xr,
   wayvr-openxr-actions,
   ...
@@ -96,10 +95,10 @@ in
       resolute
       lighthouse-steamvr
       monado-start
+      buttplug-lite
       nrfconnect
       slimevr
-    ]
-    ++ [ buttplug-lite.packages.x86_64-linux.default ];
+    ];
 
   services.monado = {
     enable = true;

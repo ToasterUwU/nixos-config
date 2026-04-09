@@ -81,26 +81,6 @@
         "type": "github"
       }
     },
-    "buttplug-lite": {
-      "inputs": {
-        "nixpkgs": [
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "lastModified": 1775593973,
-        "narHash": "sha256-oMi2SHqxUhErTjHZJNSvXEkaX8oD3Rcbj6Dah525eR0=",
-        "owner": "runtime-shady-backroom",
-        "repo": "buttplug-lite",
-        "rev": "d3e788ed0c2da3d8f11967e474073455d1e58268",
-        "type": "github"
-      },
-      "original": {
-        "owner": "runtime-shady-backroom",
-        "repo": "buttplug-lite",
-        "type": "github"
-      }
-    },
     "cachyos-kernel": {
       "flake": false,
       "locked": {
@@ -1002,7 +982,6 @@
       "inputs": {
         "agenix": "agenix",
         "arion": "arion",
-        "buttplug-lite": "buttplug-lite",
         "catppuccin": "catppuccin",
         "direnv-instant": "direnv-instant",
         "elephant": "elephant",

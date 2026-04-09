@@ -28,10 +28,6 @@
       flake = false;
     };
     nixpkgs-update.url = "github:ryantm/nixpkgs-update";
-    buttplug-lite = {
-      url = "github:runtime-shady-backroom/buttplug-lite";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
     nix-cachyos-kernel.url = "github:xddxdd/nix-cachyos-kernel/release";
     nix-gaming-edge = {
       url = "github:powerofthe69/nix-gaming-edge";
