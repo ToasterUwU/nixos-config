@@ -1,36 +1,23 @@
-name: "Update flake.lock"
-
+name: Update Flake
 on:
-  workflow_dispatch:
   schedule:
-    - cron: '0 3 * * *'
-
-permissions:
-  contents: write
-  pull-requests: write
+    - cron: '0 3 * * *' # 3 AM daily
+  workflow_dispatch: # Allows manual trigger
 
 jobs:
-  lockfile:
+  update:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: DeterminateSystems/nix-installer-action@main
-      - uses: DeterminateSystems/update-flake-lock@main
-        id: update
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-      - name: Test NixOS build for Barbara
-        run: |
-          nix run nixpkgs#nixos-rebuild -- \
-            dry-build --flake .#Barbara
+      - name: Install Nix
+        uses: DeterminateSystems/nix-installer-action@main
 
-      - name: Test NixOS build for Gertrude
-        if: success()
-        run: |
-          nix run nixpkgs#nixos-rebuild -- \
-            dry-build --flake .#Gertrude
-
-      - name: Auto-merge PR
-        if: success()
-        run: gh pr merge --auto "${{ steps.update.outputs.pull-request-number }}" --rebase
-        env:
-          GH_TOKEN: ${{ github.token }}
+      - name: Update flake.lock
+        uses: DeterminateSystems/update-flake-lock@main
+        with:
+          pr-title: "chore: update flake.lock"
+          pr-labels: |
+            dependencies
+            automated

@@ -1,0 +1,47 @@
+name: CI & Auto-Merge
+on:
+  pull_request:
+    paths:
+      - 'flake.lock'
+
+permissions:
+  pull-requests: write
+  contents: write
+
+jobs:
+  build-and-merge:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install Nix
+        uses: DeterminateSystems/nix-installer-action@main
+
+      - name: Magic Nix Cache
+        uses: DeterminateSystems/magic-nix-cache-action@main
+
+      - name: Build NixOS Configuration
+        id: build
+        run: |
+          # We build the 'toplevel' which is what nixos-rebuild actually creates
+          nix build .#nixosConfigurations.YOUR_HOSTNAME.config.system.build.toplevel --print-build-logs > build_output.txt 2>&1
+
+      - name: Post Failure Comment
+        if: failure()
+        uses: marocchino/sticky-pull-request-comment@main
+        with:
+          header: build-status
+          message: |
+            ## ❌ Build Failed
+            The flake update broke the configuration. Check the logs below:
+            ```text
+            $(tail -n 50 build_output.txt)
+            ```
+
+      - name: Auto-merge for GitHub-initiated PRs
+        if: success()
+        run: gh pr merge --auto --merge "$PR_URL"
+        env:
+          PR_URL: ${{ github.event.pull_request.html_url }}
+          GITHUB_TOKEN: ${{ github.token }}
