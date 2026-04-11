@@ -7,13 +7,14 @@ on:
 permissions:
   pull-requests: write
   contents: write
+  statuses: write
 
 jobs:
   build-and-merge:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Install Nix
         uses: DeterminateSystems/nix-installer-action@main
@@ -24,8 +25,26 @@ jobs:
       - name: Build NixOS Configuration
         id: build
         run: |
-          # We build the 'toplevel' which is what nixos-rebuild actually creates
-          nix build .#nixosConfigurations.YOUR_HOSTNAME.config.system.build.toplevel --print-build-logs > build_output.txt 2>&1
+          # Use --print-build-logs and redirect everything to a file
+          # We use 'tee' so we can still see it in the Action console while saving to a file
+          nix build .#nixosConfigurations.Barbara.config.system.build.toplevel --print-build-logs 2>&1 | tee build_output.txt
+
+      - name: Upload full log artifact
+        if: failure()
+        uses: actions/upload-artifact@v7
+        with:
+          name: full-nixos-build-log
+          path: build_output.txt
+          retention-days: 5
+
+      - name: Prepare log for comment
+        if: failure()
+        id: log_prep
+        run: |
+          # Read the log, but escape it for GHA output limits (last 300 lines for the comment)
+          echo "log_exception<<EOF" >> $GITHUB_OUTPUT
+          tail -n 300 build_output.txt >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
 
       - name: Post Failure Comment
         if: failure()
@@ -34,14 +53,22 @@ jobs:
           header: build-status
           message: |
             ## ❌ Build Failed
-            The flake update broke the configuration. Check the logs below:
-            ```text
-            $(tail -n 50 build_output.txt)
-            ```
+            The flake update broke the configuration.
+            
+            **Full Log:** You can download the full `build_output.txt` from the **Summary** tab of this GitHub Action run.
 
-      - name: Auto-merge for GitHub-initiated PRs
+            ### Log Snippet (Last 300 lines):
+            <details>
+            <summary>Click to expand error log</summary>
+
+            ```text
+            ${{ steps.log_prep.outputs.log_exception }}
+            ```
+            </details>
+
+      - name: Auto-merge
         if: success()
         run: gh pr merge --auto --merge "$PR_URL"
         env:
           PR_URL: ${{ github.event.pull_request.html_url }}
-          GITHUB_TOKEN: ${{ github.token }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
