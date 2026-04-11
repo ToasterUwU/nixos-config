@@ -27,7 +27,7 @@ jobs:
         run: |
           # Use --print-build-logs and redirect everything to a file
           # We use 'tee' so we can still see it in the Action console while saving to a file
-          nix build .#nixosConfigurations.Barbara.config.system.build.toplevel --print-build-logs 2>&1 | tee build_output.txt
+          nix build .#nixosConfigurations.Barbara.config.system.build.toplevel --dry-run --print-build-logs 2>&1 | tee build_output.txt
 
       - name: Upload full log artifact
         if: failure()
