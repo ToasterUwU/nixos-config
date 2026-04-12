@@ -9,5 +9,8 @@
       "gemma4:31b"
     ];
     package = pkgs.ollama-vulkan;
+    environmentVariables = {
+      GGML_VK_VISIBLE_DEVICES = "0";
+    };
   };
 }
