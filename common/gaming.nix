@@ -128,11 +128,12 @@
           resonite = {
             id = 2519830;
             launchOptions = {
-              wrappers = [ "./run_monkeyloader.sh" ];
               args = [
                 "-Device"
                 "SteamVR"
                 "-ForceBabble"
+                "-LoadAssembly"
+                "Libraries/ResoniteModLoader.dll"
               ];
               env.PRESSURE_VESSEL_IMPORT_OPENXR_1_RUNTIMES = 1;
             };
