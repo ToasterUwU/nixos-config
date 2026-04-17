@@ -63,6 +63,9 @@
 
   hardware.ledger.enable = true;
 
+  hardware.logitech.wireless.enable = true;
+  hardware.logitech.wireless.enableGraphical = true;
+
   hardware.sane.enable = true;
   services.printing.enable = true;
   hardware.sane.extraBackends = with pkgs; [
