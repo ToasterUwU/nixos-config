@@ -6,7 +6,14 @@
   ...
 }:
 {
-  nixpkgs.overlays = [ (self: super: import ../pkgs { pkgs = super; }) ];
+  nixpkgs.overlays = [
+    (self: super: import ../pkgs { pkgs = super; })
+    (final: prev: {
+      super-productivity = prev.super-productivity.overrideAttrs (old: {
+        patches = (old.patches or [ ]) ++ [ ../assets/super-productivity-advanced-search.patch ];
+      });
+    })
+  ];
 
   nix.settings.experimental-features = [
     "nix-command"
@@ -224,6 +231,8 @@
       qpwgraph
       easyeffects
       firefoxpwa
+      freecad
+      super-productivity
     ]
     ++ [
       (pkgs.wrapOBS {
