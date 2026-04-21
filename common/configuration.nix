@@ -206,7 +206,6 @@
       vesktop
       mprisence
       signal-desktop
-      kdePackages.neochat
       tor-browser
       ungoogled-chromium
       supersonic
