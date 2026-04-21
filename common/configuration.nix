@@ -6,14 +6,7 @@
   ...
 }:
 {
-  nixpkgs.overlays = [
-    (self: super: import ../pkgs { pkgs = super; })
-    (final: prev: {
-      super-productivity = prev.super-productivity.overrideAttrs (old: {
-        patches = (old.patches or [ ]) ++ [ ../assets/super-productivity-advanced-search.patch ];
-      });
-    })
-  ];
+  nixpkgs.overlays = [ (self: super: import ../pkgs { pkgs = super; }) ];
 
   nix.settings.experimental-features = [
     "nix-command"
