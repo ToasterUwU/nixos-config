@@ -91,7 +91,7 @@ in
     [
       bs-manager
       wayvr
-      # lovr-playspace
+      xr-chaperone
       resolute
       lighthouse-steamvr
       monado-start
@@ -148,13 +148,6 @@ in
 
       xdg.configFile."wayvr/conf.d/skybox.yaml".text = ''
         skybox_texture: ${../../assets/battlefront-2.dds}
-      '';
-
-      xdg.dataFile."LOVR/lovr-playspace/fade_start.txt".text = ''
-        0.1
-      '';
-      xdg.dataFile."LOVR/lovr-playspace/fade_stop.txt".text = ''
-        0.2
       '';
 
       xdg.configFile."wayvr/openxr_actions.json5".source = "${patched_openxr_actions}/openxr_actions.json5";
