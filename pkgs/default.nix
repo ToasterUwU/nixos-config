@@ -4,4 +4,5 @@
   split-3d-image = pkgs.callPackage ./split-3d-image { };
   monado-start = pkgs.callPackage ./monado-start { };
   xr-chaperone = pkgs.callPackage ./xr-chaperone { };
+  cyberia = pkgs.callPackage ./cyberia { };
 }

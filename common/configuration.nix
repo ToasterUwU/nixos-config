@@ -197,6 +197,7 @@
       kdePackages.kdenlive
       bitwarden-desktop
       vesktop
+      cyberia
       mprisence
       signal-desktop
       tor-browser
