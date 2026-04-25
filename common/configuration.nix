@@ -17,6 +17,7 @@
   # boot.kernelPackages = pkgs.linuxPackages_zen;
 
   boot.initrd.systemd.enable = true;
+  boot.initrd.kernelModules = [ "lz4" ];
   boot.kernelParams = [
     "zswap.enabled=1" # enables zswap
     "zswap.compressor=lz4" # compression algorithm
