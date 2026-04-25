@@ -47,6 +47,10 @@
       url = "https://github.com/NixOS/nixpkgs/pull/500431.diff";
       flake = false;
     };
+    nixpkgs-patch-add-xr-chaperone = {
+      url = "https://github.com/NixOS/nixpkgs/pull/513111.diff";
+      flake = false;
+    };
   };
 
   outputs =
