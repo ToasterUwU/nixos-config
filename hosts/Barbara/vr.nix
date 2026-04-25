@@ -24,19 +24,6 @@ in
   nixpkgs.overlays = [
     nix-gaming-edge.overlays.mesa-git
     (final: prev: {
-      xrizer = nixpkgs-xr.packages.${pkgs.stdenv.hostPlatform.system}.xrizer.overrideAttrs rec {
-        src = pkgs.fetchFromGitHub {
-          owner = "ImSapphire";
-          repo = "xrizer";
-          rev = "0046aae8bab66a6a7ad69d5dac481ea294e0a803";
-          hash = "sha256-NnNYzoekeZeNQVoy8phcnWkyORFvxizDVkWGArg316g=";
-        };
-
-        cargoDeps = pkgs.rustPlatform.fetchCargoVendor {
-          inherit src;
-          hash = "sha256-orfK5pwWv91hA7Ra3Kk+isFTR+qMHSZ0EYZTVbf0fO0=";
-        };
-      };
       monado = nixpkgs-xr.packages.${pkgs.stdenv.hostPlatform.system}.monado.overrideAttrs {
         cmakeFlags = (nixpkgs-xr.packages.${pkgs.stdenv.hostPlatform.system}.monado.cmakeFlags or [ ]) ++ [
           (lib.cmakeBool "XRT_FEATURE_OPENXR_VISIBILITY_MASK" false)
