@@ -57,7 +57,6 @@
     protonplus
     gale
     prismlauncher
-    lutris
     pcsx2
     ed-odyssey-materials-helper
     edmarketconnector
