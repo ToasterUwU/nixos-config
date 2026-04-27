@@ -51,6 +51,10 @@
       url = "https://github.com/NixOS/nixpkgs/pull/513111.diff";
       flake = false;
     };
+    nixpkgs-patch-fix-openvr-library = {
+      url = "https://github.com/NixOS/nixpkgs/pull/513244.diff";
+      flake = false;
+    };
   };
 
   outputs =
