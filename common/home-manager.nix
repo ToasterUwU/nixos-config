@@ -349,7 +349,7 @@
             };
 
             hiltrud = {
-              hostname = "192.168.178.167";
+              hostname = "192.168.178.34";
               user = "mks";
             };
 
