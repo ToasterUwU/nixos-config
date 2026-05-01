@@ -734,6 +734,18 @@
         "type": "github"
       }
     },
+    "nixpkgs-patch-add-cyberia-package": {
+      "flake": false,
+      "locked": {
+        "narHash": "sha256-YEAQwtBo2EKsYqEPIZnFOVrd4GcBfWBGV55McQKL/EA=",
+        "type": "file",
+        "url": "https://github.com/NixOS/nixpkgs/pull/515090.diff"
+      },
+      "original": {
+        "type": "file",
+        "url": "https://github.com/NixOS/nixpkgs/pull/515090.diff"
+      }
+    },
     "nixpkgs-patch-add-xr-chaperone": {
       "flake": false,
       "locked": {
@@ -1015,6 +1027,7 @@
         "nix-cachyos-kernel": "nix-cachyos-kernel",
         "nix-gaming-edge": "nix-gaming-edge",
         "nixpkgs": "nixpkgs_5",
+        "nixpkgs-patch-add-cyberia-package": "nixpkgs-patch-add-cyberia-package",
         "nixpkgs-patch-add-xr-chaperone": "nixpkgs-patch-add-xr-chaperone",
         "nixpkgs-patch-fix-openvr-library": "nixpkgs-patch-fix-openvr-library",
         "nixpkgs-patch-fix-unityhub-missing-deps": "nixpkgs-patch-fix-unityhub-missing-deps",
