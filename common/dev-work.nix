@@ -141,6 +141,8 @@
       nodejs
 
       python3
+
+      renderdoc
     ];
   };
 }
