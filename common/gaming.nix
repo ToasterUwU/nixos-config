@@ -4,12 +4,14 @@
   steam-config-nix,
   nix-cachyos-kernel,
   nix-gaming-edge,
+  millennium,
   ...
 }:
 {
   nixpkgs.overlays = [
     nix-cachyos-kernel.overlays.pinned
     nix-gaming-edge.overlays.proton-cachyos
+    millennium.overlays.default
   ];
 
   # CachyOS Kernel Substituter
@@ -34,7 +36,7 @@
     localNetworkGameTransfers.openFirewall = true;
     remotePlay.openFirewall = true;
     protontricks.enable = true;
-    package = pkgs.steam.override {
+    package = pkgs.millennium-steam.override {
       extraProfile = ''
         unset TZ
       '';
@@ -103,180 +105,190 @@
             "additionalProducts": []
         }
       '';
-      programs.steam.config = {
-        enable = true;
-        closeSteam = true;
-        defaultCompatTool = "Proton CachyOS x86_64-v3";
+      programs.steam = {
+        theme = null;
+        plugins = with pkgs.millenniumPlugins; [
+          extendium
+          gratitude
+          hltb
+          non-steam-playtimes
+          browser-history
+        ];
+        config = {
+          enable = true;
+          closeSteam = true;
+          defaultCompatTool = "Proton CachyOS x86_64-v3";
 
-        apps = {
-          elite-dangerous = {
-            id = 359320;
-            launchOptions = {
-              wrappers = [ "${lib.getExe pkgs.min-ed-launcher}" ];
-              args = [
-                "/autorun"
-                "/autoquit"
-                "/edo"
-                "/vr"
-                "/restart"
-                "15"
-              ];
-              env.PRESSURE_VESSEL_IMPORT_OPENXR_1_RUNTIMES = 1;
+          apps = {
+            elite-dangerous = {
+              id = 359320;
+              launchOptions = {
+                wrappers = [ "${lib.getExe pkgs.min-ed-launcher}" ];
+                args = [
+                  "/autorun"
+                  "/autoquit"
+                  "/edo"
+                  "/vr"
+                  "/restart"
+                  "15"
+                ];
+                env.PRESSURE_VESSEL_IMPORT_OPENXR_1_RUNTIMES = 1;
+              };
             };
-          };
-          resonite = {
-            id = 2519830;
-            launchOptions = {
-              args = [
-                "-Device"
-                "SteamVR"
-                "-ForceBabble"
-                "-LoadAssembly"
-                "Libraries/ResoniteModLoader.dll"
-              ];
-              env.PRESSURE_VESSEL_IMPORT_OPENXR_1_RUNTIMES = 1;
+            resonite = {
+              id = 2519830;
+              launchOptions = {
+                args = [
+                  "-Device"
+                  "SteamVR"
+                  "-ForceBabble"
+                  "-LoadAssembly"
+                  "Libraries/ResoniteModLoader.dll"
+                ];
+                env.PRESSURE_VESSEL_IMPORT_OPENXR_1_RUNTIMES = 1;
+              };
             };
-          };
-          unravel-two = {
-            id = 1225570;
-            # EA Launcher Fix
-            launchOptions = {
-              extraConfig = ''
-                for var in $(printenv | awk -F= 'length($2) > 2000 {print $1}');
-                do
-                  export $var=$(echo $\{!var} | rev | cut -c 1-2000 | rev);
-                done
-              '';
+            unravel-two = {
+              id = 1225570;
+              # EA Launcher Fix
+              launchOptions = {
+                extraConfig = ''
+                  for var in $(printenv | awk -F= 'length($2) > 2000 {print $1}');
+                  do
+                    export $var=$(echo $\{!var} | rev | cut -c 1-2000 | rev);
+                  done
+                '';
+              };
             };
-          };
-          mirrors-edge-catalyst = {
-            id = 1233570;
-            # EA Launcher Fix
-            launchOptions = {
-              extraConfig = ''
-                for var in $(printenv | awk -F= 'length($2) > 2000 {print $1}');
-                do
-                  export $var=$(echo $\{!var} | rev | cut -c 1-2000 | rev);
-                done
-              '';
+            mirrors-edge-catalyst = {
+              id = 1233570;
+              # EA Launcher Fix
+              launchOptions = {
+                extraConfig = ''
+                  for var in $(printenv | awk -F= 'length($2) > 2000 {print $1}');
+                  do
+                    export $var=$(echo $\{!var} | rev | cut -c 1-2000 | rev);
+                  done
+                '';
+              };
             };
-          };
-          burnout-paradise-remastered = {
-            id = 1238080;
-            # EA Launcher Fix
-            launchOptions = {
-              extraConfig = ''
-                for var in $(printenv | awk -F= 'length($2) > 2000 {print $1}');
-                do
-                  export $var=$(echo $\{!var} | rev | cut -c 1-2000 | rev);
-                done
-              '';
+            burnout-paradise-remastered = {
+              id = 1238080;
+              # EA Launcher Fix
+              launchOptions = {
+                extraConfig = ''
+                  for var in $(printenv | awk -F= 'length($2) > 2000 {print $1}');
+                  do
+                    export $var=$(echo $\{!var} | rev | cut -c 1-2000 | rev);
+                  done
+                '';
+              };
             };
-          };
-          h3vr = {
-            id = 450540;
-            launchOptions = {
-              extraConfig = ''
-                for var in $(printenv | awk -F= 'length($2) > 2000 {print $1}');
-                do
-                  export $var=$(echo $\{!var} | rev | cut -c 1-2000 | rev);
-                done
-              '';
-              env.PRESSURE_VESSEL_IMPORT_OPENXR_1_RUNTIMES = 1;
+            h3vr = {
+              id = 450540;
+              launchOptions = {
+                extraConfig = ''
+                  for var in $(printenv | awk -F= 'length($2) > 2000 {print $1}');
+                  do
+                    export $var=$(echo $\{!var} | rev | cut -c 1-2000 | rev);
+                  done
+                '';
+                env.PRESSURE_VESSEL_IMPORT_OPENXR_1_RUNTIMES = 1;
+              };
             };
-          };
-          space-engineers = {
-            id = 244850;
-            launchOptions = {
-              args = [ "-useallavailablecores" ];
+            space-engineers = {
+              id = 244850;
+              launchOptions = {
+                args = [ "-useallavailablecores" ];
+              };
             };
-          };
-          overwatch = {
-            id = 2357570;
-            compatTool = "GE-Proton";
-          };
-          stride = {
-            id = 1292040;
-            launchOptions = {
-              env.PRESSURE_VESSEL_IMPORT_OPENXR_1_RUNTIMES = 1;
+            overwatch = {
+              id = 2357570;
+              compatTool = "GE-Proton";
             };
-          };
-          baballonia = {
-            id = 4091970;
-            launchOptions = {
-              env.PRESSURE_VESSEL_IMPORT_OPENXR_1_RUNTIMES = 1;
+            stride = {
+              id = 1292040;
+              launchOptions = {
+                env.PRESSURE_VESSEL_IMPORT_OPENXR_1_RUNTIMES = 1;
+              };
             };
-          };
-          beat-saber = {
-            id = 620980;
-            launchOptions = {
-              env.PRESSURE_VESSEL_IMPORT_OPENXR_1_RUNTIMES = 1;
+            baballonia = {
+              id = 4091970;
+              launchOptions = {
+                env.PRESSURE_VESSEL_IMPORT_OPENXR_1_RUNTIMES = 1;
+              };
             };
-          };
-          ghost-signal = {
-            id = 2156770;
-            launchOptions = {
-              env.PRESSURE_VESSEL_IMPORT_OPENXR_1_RUNTIMES = 1;
+            beat-saber = {
+              id = 620980;
+              launchOptions = {
+                env.PRESSURE_VESSEL_IMPORT_OPENXR_1_RUNTIMES = 1;
+              };
             };
-          };
-          the-last-clockwinder = {
-            id = 1755100;
-            launchOptions = {
-              env.PRESSURE_VESSEL_IMPORT_OPENXR_1_RUNTIMES = 1;
+            ghost-signal = {
+              id = 2156770;
+              launchOptions = {
+                env.PRESSURE_VESSEL_IMPORT_OPENXR_1_RUNTIMES = 1;
+              };
             };
-          };
-          underdogs = {
-            id = 2441700;
-            launchOptions = {
-              env.PRESSURE_VESSEL_IMPORT_OPENXR_1_RUNTIMES = 1;
+            the-last-clockwinder = {
+              id = 1755100;
+              launchOptions = {
+                env.PRESSURE_VESSEL_IMPORT_OPENXR_1_RUNTIMES = 1;
+              };
             };
-          };
-          half-life-alyx = {
-            id = 546560;
-            launchOptions = {
-              env.PRESSURE_VESSEL_IMPORT_OPENXR_1_RUNTIMES = 1;
+            underdogs = {
+              id = 2441700;
+              launchOptions = {
+                env.PRESSURE_VESSEL_IMPORT_OPENXR_1_RUNTIMES = 1;
+              };
             };
-          };
-          space-pirate-trainer = {
-            id = 418650;
-            launchOptions = {
-              env.PRESSURE_VESSEL_IMPORT_OPENXR_1_RUNTIMES = 1;
+            half-life-alyx = {
+              id = 546560;
+              launchOptions = {
+                env.PRESSURE_VESSEL_IMPORT_OPENXR_1_RUNTIMES = 1;
+              };
             };
-          };
-          superhot-vr = {
-            id = 617830;
-            launchOptions = {
-              env.PRESSURE_VESSEL_IMPORT_OPENXR_1_RUNTIMES = 1;
+            space-pirate-trainer = {
+              id = 418650;
+              launchOptions = {
+                env.PRESSURE_VESSEL_IMPORT_OPENXR_1_RUNTIMES = 1;
+              };
             };
-          };
-          panoptic = {
-            id = 541930;
-            launchOptions = {
-              env.PRESSURE_VESSEL_IMPORT_OPENXR_1_RUNTIMES = 1;
+            superhot-vr = {
+              id = 617830;
+              launchOptions = {
+                env.PRESSURE_VESSEL_IMPORT_OPENXR_1_RUNTIMES = 1;
+              };
             };
-          };
-          the-curious-tale-of-the-stolen-pets = {
-            id = 1099500;
-            launchOptions = {
-              env.PRESSURE_VESSEL_IMPORT_OPENXR_1_RUNTIMES = 1;
+            panoptic = {
+              id = 541930;
+              launchOptions = {
+                env.PRESSURE_VESSEL_IMPORT_OPENXR_1_RUNTIMES = 1;
+              };
             };
-          };
-          myst = {
-            id = 1255560;
-            launchOptions = {
-              env.PRESSURE_VESSEL_IMPORT_OPENXR_1_RUNTIMES = 1;
+            the-curious-tale-of-the-stolen-pets = {
+              id = 1099500;
+              launchOptions = {
+                env.PRESSURE_VESSEL_IMPORT_OPENXR_1_RUNTIMES = 1;
+              };
             };
-          };
-          portal-stories-vr = {
-            id = 446750;
-            launchOptions = {
-              env.PRESSURE_VESSEL_IMPORT_OPENXR_1_RUNTIMES = 1;
+            myst = {
+              id = 1255560;
+              launchOptions = {
+                env.PRESSURE_VESSEL_IMPORT_OPENXR_1_RUNTIMES = 1;
+              };
             };
-          };
-          rumble = {
-            id = 890550;
-            launchOptions = {
-              env.PRESSURE_VESSEL_IMPORT_OPENXR_1_RUNTIMES = 1;
+            portal-stories-vr = {
+              id = 446750;
+              launchOptions = {
+                env.PRESSURE_VESSEL_IMPORT_OPENXR_1_RUNTIMES = 1;
+              };
+            };
+            rumble = {
+              id = 890550;
+              launchOptions = {
+                env.PRESSURE_VESSEL_IMPORT_OPENXR_1_RUNTIMES = 1;
+              };
             };
           };
         };

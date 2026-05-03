@@ -6,10 +6,6 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    steam-config-nix = {
-      url = "github:different-name/steam-config-nix";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
     flatpaks.url = "github:in-a-dil-emma/declarative-flatpak";
     agenix = {
       url = "github:ryantm/agenix";
@@ -31,6 +27,15 @@
     nix-cachyos-kernel.url = "github:xddxdd/nix-cachyos-kernel/release";
     nix-gaming-edge = {
       url = "github:powerofthe69/nix-gaming-edge";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    steam-config-nix = {
+      url = "github:different-name/steam-config-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    millennium.url = "github:SteamClientHomebrew/Millennium?dir=packages/nix";
+    nixos-millennium = {
+      url = "github:toasteruwu/nixos-millennium";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     niri = {
@@ -65,6 +70,8 @@
       arion,
       nixpkgs-xr,
       nix-gaming-edge,
+      nixos-millennium,
+      niri,
       ...
     }@inputs:
     {
@@ -78,7 +85,8 @@
           arion.nixosModules.arion
           nixpkgs-xr.nixosModules.nixpkgs-xr
           nix-gaming-edge.nixosModules.mesa-git
-          inputs.niri.nixosModules.niri
+          nixos-millennium.nixosModules.default
+          niri.nixosModules.niri
           ./hosts/Barbara
         ];
 
@@ -92,7 +100,8 @@
           catppuccin.nixosModules.catppuccin
           agenix.nixosModules.default
           arion.nixosModules.arion
-          inputs.niri.nixosModules.niri
+          nixos-millennium.nixosModules.default
+          niri.nixosModules.niri
           ./hosts/Gertrude
         ];
 
