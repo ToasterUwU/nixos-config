@@ -29,7 +29,7 @@
     enable = true;
     extraCompatPackages = with pkgs; [
       proton-ge-bin
-      proton-cachyos-x86_64_v4
+      proton-cachyos-x86_64_v3
     ];
     localNetworkGameTransfers.openFirewall = true;
     remotePlay.openFirewall = true;
@@ -106,7 +106,7 @@
       programs.steam.config = {
         enable = true;
         closeSteam = true;
-        defaultCompatTool = "Proton CachyOS x86_64-v4";
+        defaultCompatTool = "Proton CachyOS x86_64-v3";
 
         apps = {
           elite-dangerous = {
