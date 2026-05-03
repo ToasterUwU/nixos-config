@@ -2,15 +2,8 @@
 {
   home-manager = {
     users.aki =
-      { config, ... }:
+      { ... }:
       {
-        services = {
-          mako = {
-            settings = {
-              output = "eDP-1";
-            };
-          };
-        };
         programs = {
           niri.settings = {
             outputs = {
@@ -24,6 +17,24 @@
                 position = {
                   x = 1920;
                   y = 0;
+                };
+              };
+            };
+          };
+          noctalia-shell = {
+            pluginSettings = {
+              linux-wallpaperengine-controller = {
+                screens = {
+                  eDP-1 = {
+                    path = "/home/aki/.local/share/Steam/steamapps/workshop/content/431960/1463724965";
+                    scaling = "fill";
+                  };
+                };
+                lastKnownGoodScreens = {
+                  eDP-1 = {
+                    path = "/home/aki/.local/share/Steam/steamapps/workshop/content/431960/1463724965";
+                    scaling = "fill";
+                  };
                 };
               };
             };

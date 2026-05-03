@@ -2,15 +2,8 @@
 {
   home-manager = {
     users.aki =
-      { config, ... }:
+      { ... }:
       {
-        services = {
-          mako = {
-            settings = {
-              output = "DP-3";
-            };
-          };
-        };
         programs = {
           niri.settings = {
             outputs = {
@@ -31,6 +24,40 @@
                 position = {
                   x = 5120;
                   y = 0;
+                };
+              };
+            };
+          };
+          noctalia-shell = {
+            pluginSettings = {
+              linux-wallpaperengine-controller = {
+                screens = {
+                  HDMI-A-1 = {
+                    path = "/home/aki/.local/share/Steam/steamapps/workshop/content/431960/820705596";
+                    scaling = "fill";
+                  };
+                  DP-3 = {
+                    path = "/home/aki/.local/share/Steam/steamapps/workshop/content/431960/1463724965";
+                    scaling = "fill";
+                  };
+                  DP-2 = {
+                    path = "/home/aki/.local/share/Steam/steamapps/workshop/content/431960/1498288260";
+                    scaling = "fill";
+                  };
+                };
+                lastKnownGoodScreens = {
+                  HDMI-A-1 = {
+                    path = "/home/aki/.local/share/Steam/steamapps/workshop/content/431960/820705596";
+                    scaling = "fill";
+                  };
+                  DP-3 = {
+                    path = "/home/aki/.local/share/Steam/steamapps/workshop/content/431960/1463724965";
+                    scaling = "fill";
+                  };
+                  DP-2 = {
+                    path = "/home/aki/.local/share/Steam/steamapps/workshop/content/431960/1498288260";
+                    scaling = "fill";
+                  };
                 };
               };
             };

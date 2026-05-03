@@ -180,6 +180,7 @@
       uutils-coreutils-noprefix
       wget
       curl
+      jq
       file
       yt-dlp
       extract-audio
