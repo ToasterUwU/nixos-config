@@ -579,7 +579,7 @@
                 defaultScaling = "fill";
                 defaultClamp = "clamp";
                 defaultFps = 30;
-                defaultVolume = 50;
+                defaultVolume = 0;
                 defaultMuted = true;
                 defaultAudioReactiveEffects = false;
                 defaultNoAutomute = false;
