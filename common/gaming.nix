@@ -137,6 +137,7 @@
             };
             resonite = {
               id = 2519830;
+              compatTool = "proton_10";
               launchOptions = {
                 args = [
                   "-Device"
