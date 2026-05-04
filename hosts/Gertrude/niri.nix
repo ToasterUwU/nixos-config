@@ -26,13 +26,13 @@
               linux-wallpaperengine-controller = {
                 screens = {
                   eDP-1 = {
-                    path = "/home/aki/.local/share/Steam/steamapps/workshop/content/431960/1463724965";
+                    path = "/home/aki/.local/share/Steam/steamapps/workshop/content/431960/3551537747";
                     scaling = "fill";
                   };
                 };
                 lastKnownGoodScreens = {
                   eDP-1 = {
-                    path = "/home/aki/.local/share/Steam/steamapps/workshop/content/431960/1463724965";
+                    path = "/home/aki/.local/share/Steam/steamapps/workshop/content/431960/3551537747";
                     scaling = "fill";
                   };
                 };

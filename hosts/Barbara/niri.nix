@@ -32,30 +32,30 @@
             pluginSettings = {
               linux-wallpaperengine-controller = {
                 screens = {
-                  HDMI-A-1 = {
-                    path = "/home/aki/.local/share/Steam/steamapps/workshop/content/431960/820705596";
-                    scaling = "fill";
-                  };
-                  DP-3 = {
+                  DP-2 = {
                     path = "/home/aki/.local/share/Steam/steamapps/workshop/content/431960/1463724965";
                     scaling = "fill";
                   };
-                  DP-2 = {
-                    path = "/home/aki/.local/share/Steam/steamapps/workshop/content/431960/1498288260";
+                  DP-3 = {
+                    path = "/home/aki/.local/share/Steam/steamapps/workshop/content/431960/3551537747";
+                    scaling = "fill";
+                  };
+                  HDMI-A-1 = {
+                    path = "/home/aki/.local/share/Steam/steamapps/workshop/content/431960/2565816521";
                     scaling = "fill";
                   };
                 };
                 lastKnownGoodScreens = {
-                  HDMI-A-1 = {
-                    path = "/home/aki/.local/share/Steam/steamapps/workshop/content/431960/820705596";
-                    scaling = "fill";
-                  };
-                  DP-3 = {
+                  DP-2 = {
                     path = "/home/aki/.local/share/Steam/steamapps/workshop/content/431960/1463724965";
                     scaling = "fill";
                   };
-                  DP-2 = {
-                    path = "/home/aki/.local/share/Steam/steamapps/workshop/content/431960/1498288260";
+                  DP-3 = {
+                    path = "/home/aki/.local/share/Steam/steamapps/workshop/content/431960/3551537747";
+                    scaling = "fill";
+                  };
+                  HDMI-A-1 = {
+                    path = "/home/aki/.local/share/Steam/steamapps/workshop/content/431960/2565816521";
                     scaling = "fill";
                   };
                 };

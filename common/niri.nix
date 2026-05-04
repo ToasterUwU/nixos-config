@@ -580,8 +580,8 @@
                 defaultClamp = "clamp";
                 defaultFps = 30;
                 defaultVolume = 50;
-                defaultMuted = false;
-                defaultAudioReactiveEffects = true;
+                defaultMuted = true;
+                defaultAudioReactiveEffects = false;
                 defaultNoAutomute = false;
                 defaultDisableMouse = false;
                 defaultDisableParallax = false;
