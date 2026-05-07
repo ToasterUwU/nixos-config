@@ -168,10 +168,9 @@
             prefer-no-csd = true;
 
             spawn-at-startup = [
-              { command = [ "noctalia-shell" ]; }
-              { command = [ "sleep 5" ]; }
-              { command = [ "vesktop" ]; }
-              { command = [ "openrgb --startminimized --profile Pink" ]; }
+              { sh = "noctalia-shell"; }
+              { sh = "sleep 5 && vesktop"; }
+              { sh = "sleep 5 && openrgb --startminimized --profile Pink"; }
             ];
 
             hotkey-overlay.skip-at-startup = true;
