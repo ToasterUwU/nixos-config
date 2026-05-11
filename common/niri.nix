@@ -109,6 +109,10 @@
     jq
   ];
 
+  networking.networkmanager.enable = true; # Networking widgets for noctalia
+  hardware.bluetooth.enable = true; # Bluetooth widgets for noctalia
+  services.tuned.enable = true; # Power widgets for noctalia
+  services.upower.enable = true; # Battery widgets for noctalia
   services = {
     gnome.evolution-data-server.enable = true; # Events in Noctalia Calender
   };
