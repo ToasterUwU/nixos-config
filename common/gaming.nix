@@ -145,6 +145,8 @@
                   "-ForceBabble"
                   "-LoadAssembly"
                   "Libraries/ResoniteModLoader.dll"
+                  "-Renderer"
+                  "/home/aki/.local/share/Steam/steamapps/common/Resonite/CustomRenderer"
                 ];
                 env.PRESSURE_VESSEL_IMPORT_OPENXR_1_RUNTIMES = 1;
               };
