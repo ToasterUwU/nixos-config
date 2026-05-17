@@ -26,7 +26,15 @@ in
     (final: prev: {
       monado = nixpkgs-xr.packages.${pkgs.stdenv.hostPlatform.system}.monado.overrideAttrs {
         cmakeFlags = (nixpkgs-xr.packages.${pkgs.stdenv.hostPlatform.system}.monado.cmakeFlags or [ ]) ++ [
+          (lib.cmakeBool "XRT_BUILD_DRIVER_SOLARXR" true)
           (lib.cmakeBool "XRT_FEATURE_OPENXR_VISIBILITY_MASK" false)
+        ];
+
+        patches = (nixpkgs-xr.packages.${pkgs.stdenv.hostPlatform.system}.monado.patches or [ ]) ++ [
+          (final.fetchpatch {
+            url = "file://${../../assets/monado/solarxr-load-driver.diff}";
+            hash = "sha256-gq2mvTrs1FCpNMRFkgaegePEzGFRcQpR1Z6QkqxdnqA=";
+          })
         ];
       };
     })
@@ -73,19 +81,17 @@ in
   nixpkgs.config.allowUnfree = true;
   nixpkgs.config.segger-jlink.acceptLicense = true;
 
-  environment.systemPackages =
-    with pkgs;
-    [
-      bs-manager
-      wayvr
-      xr-chaperone
-      resolute
-      lighthouse-steamvr
-      monado-start
-      buttplug-lite
-      nrfconnect
-      slimevr
-    ];
+  environment.systemPackages = with pkgs; [
+    bs-manager
+    wayvr
+    xr-chaperone
+    resolute
+    lighthouse-steamvr
+    monado-start
+    buttplug-lite
+    nrfconnect
+    slimevr
+  ];
 
   services.monado = {
     enable = true;
