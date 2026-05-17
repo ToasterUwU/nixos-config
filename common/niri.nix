@@ -203,7 +203,7 @@
                 accel-profile = "flat";
               };
 
-              warp-mouse-to-focus.enable = true;
+              warp-mouse-to-focus.enable = false;
 
               focus-follows-mouse = {
                 max-scroll-amount = "0%";
