@@ -263,11 +263,11 @@
         "nixpkgs-lib": "nixpkgs-lib_2"
       },
       "locked": {
-        "lastModified": 1777678872,
-        "narHash": "sha256-EPIFsulyon7Z1vLQq5Fk64GR8L7cQsT+IPhcsukVbgk=",
+        "lastModified": 1778716662,
+        "narHash": "sha256-m1Yf0wZ8j1OHjTc2UwHwyQRSnNeSgLJOd7q5Y45hzi4=",
         "owner": "hercules-ci",
         "repo": "flake-parts",
-        "rev": "5250617bffd85403b14dbf43c3870e7f255d2c16",
+        "rev": "f7c1a2d347e4c52d5fb8d10cb4d94b5884e546fb",
         "type": "github"
       },
       "original": {
@@ -569,11 +569,11 @@
       },
       "locked": {
         "dir": "packages/nix",
-        "lastModified": 1777740058,
-        "narHash": "sha256-ZvVZpQH2F3NwKA0Gki5QJFqb3Zo5WEHuDZoukaabLLY=",
+        "lastModified": 1778009348,
+        "narHash": "sha256-hIjlaMu6ildZqBMpxRVieHAGUjxsFSgWi24QMmpqM+Y=",
         "owner": "SteamClientHomebrew",
         "repo": "Millennium",
-        "rev": "299b10fdf680afadbcea57077cc5f49237fa8025",
+        "rev": "e2c66a276e579ee73c5151b01897bf63503aa12c",
         "type": "github"
       },
       "original": {
@@ -766,15 +766,15 @@
         ]
       },
       "locked": {
-        "lastModified": 1777847741,
-        "narHash": "sha256-CkIlSNFWPpt9U157/ZUKquMVCW+muQTW3CvxlADoYnI=",
-        "owner": "toasteruwu",
+        "lastModified": 1778989844,
+        "narHash": "sha256-++DCpF3s32bvFLsgqrHBAYU40/6sihRhkt32mogT/b4=",
+        "owner": "re1n0",
         "repo": "nixos-millennium",
-        "rev": "caccb4274c61a93e719eb7eeabb81cf5ff2215fb",
+        "rev": "0d1b6f8369d00c8f0e087d29dcf536d6c3fbd05b",
         "type": "github"
       },
       "original": {
-        "owner": "toasteruwu",
+        "owner": "re1n0",
         "repo": "nixos-millennium",
         "type": "github"
       }

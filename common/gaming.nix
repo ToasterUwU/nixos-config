@@ -110,7 +110,7 @@
         plugins = with pkgs.millenniumPlugins; [
           extendium
           gratitude
-          hltb
+          # hltb
           non-steam-playtimes
           browser-history
         ];

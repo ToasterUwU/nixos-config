@@ -35,7 +35,7 @@
     };
     millennium.url = "github:SteamClientHomebrew/Millennium?dir=packages/nix";
     nixos-millennium = {
-      url = "github:toasteruwu/nixos-millennium";
+      url = "github:re1n0/nixos-millennium";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     niri = {
