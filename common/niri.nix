@@ -173,7 +173,7 @@
 
             spawn-at-startup = [
               { sh = "noctalia-shell"; }
-              { sh = "sleep 5 && vesktop"; }
+              { sh = "sleep 5 && discord"; }
               { sh = "sleep 5 && openrgb --startminimized --profile Pink"; }
             ];
 

@@ -198,7 +198,6 @@
       vlc
       kdePackages.kdenlive
       bitwarden-desktop
-      vesktop
       cyberia
       mprisence
       signal-desktop
@@ -240,16 +239,6 @@
       })
     ]
     ++ [ agenix.packages.x86_64-linux.default ];
-
-  services.mediamtx = {
-    enable = true;
-    settings = {
-      paths = {
-        discordSucksSoIUseOBS = { };
-      };
-      webrtc = true;
-    };
-  };
 
   # MakeMKV requires sg kernel module, v4l2loopback for OBS virtual cam
   boot.kernelModules = [

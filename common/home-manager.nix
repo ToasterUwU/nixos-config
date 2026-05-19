@@ -3,6 +3,7 @@
   config,
   catppuccin,
   lib,
+  nixcord,
   ...
 }:
 {
@@ -49,7 +50,10 @@
     useGlobalPkgs = true;
     useUserPackages = true;
 
-    sharedModules = [ catppuccin.homeModules.catppuccin ];
+    sharedModules = [
+      catppuccin.homeModules.catppuccin
+      nixcord.homeModules.nixcord
+    ];
 
     users.aki = {
       home.stateVersion = "23.11";
@@ -256,6 +260,94 @@
       };
 
       programs = {
+        nixcord = {
+          enable = true;
+
+          discord.vencord.enable = false;
+          discord.equicord.enable = true;
+
+          config = {
+            useQuickCss = true;
+            themeLinks = [ "https://catppuccin.github.io/discord/dist/catppuccin-mocha-pink.theme.css" ];
+            frameless = true;
+
+            plugins = {
+              altKrispSwitch.enable = true;
+              anonymiseFileNames.enable = true;
+              betterActivities.enable = true;
+              betterCommands.enable = true;
+              betterGifPicker.enable = true;
+              BlurNSFW.enable = true;
+              callTimer.enable = true;
+              characterCounter.enable = true;
+              ClearURLs.enable = true;
+              clickableRoles.enable = true;
+              contentWarning.enable = true;
+              copyFileContents.enable = true;
+              CopyUserURLs.enable = true;
+              disableCallIdle.enable = true;
+              dontRoundMyTimestamps.enable = true;
+              exportMessages.enable = true;
+              expressionCloner.enable = true;
+              fakeNitro.enable = true;
+              favoriteEmojiFirst.enable = true;
+              favoriteGifSearch.enable = true;
+              findReply.enable = true;
+              fixFileExtensions.enable = true;
+              fixImagesQuality.enable = true;
+              fixSpotifyEmbeds.enable = true;
+              fixYoutubeEmbeds.enable = true;
+              followVoiceUser.enable = true;
+              forceOwnerCrown.enable = true;
+              forwardAnywhere.enable = true;
+              friendshipRanks.enable = true;
+              gameActivityToggle.enable = true;
+              gifCollections.enable = true;
+              googleThat = {
+                enable = true;
+                defaultEngine = "DuckDuckGo";
+              };
+              greetStickerPicker.enable = true;
+              guildPickerDumper.enable = true;
+              homeTyping.enable = true;
+              iLoveSpam.enable = true;
+              imageZoom.enable = true;
+              implicitRelationships.enable = true;
+              jumpTo.enable = true;
+              memberCount.enable = true;
+              messageLinkEmbeds.enable = true;
+              messageLoggerEnhanced.enable = true;
+              MutualGroupDMs.enable = true;
+              newPluginsManager.enable = true;
+              noF1.enable = true;
+              noNitroUpsell.enable = true;
+              openInApp.enable = true;
+              permissionsViewer.enable = true;
+              petpet.enable = true;
+              pictureInPicture.enable = true;
+              PinDMs.enable = true;
+              quoter.enable = true;
+              relationshipNotifier.enable = true;
+              reverseImageSearch.enable = true;
+              richMagnetLinks.enable = true;
+              SaveFavoriteGIFs.enable = true;
+              scheduledMessages.enable = true;
+              searchFix.enable = true;
+              sendTimestamps.enable = true;
+              silentMessageToggle.enable = true;
+              splitLargeMessages.enable = true;
+              timezones.enable = true;
+              voiceChatDoubleClick.enable = true;
+              voiceDownload.enable = true;
+              voiceMessages.enable = true;
+              voiceRejoin.enable = true;
+              volumeBooster.enable = true;
+              whoReacted.enable = true;
+              whosWatching.enable = true;
+              youtubeAdblock.enable = true;
+            };
+          };
+        };
         fastfetch = {
           enable = true;
         };
