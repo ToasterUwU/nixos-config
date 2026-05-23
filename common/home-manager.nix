@@ -267,8 +267,8 @@
           discord.equicord.enable = true;
 
           config = {
-            useQuickCss = true;
             themeLinks = [ "https://catppuccin.github.io/discord/dist/catppuccin-mocha-pink.theme.css" ];
+            enabledThemeLinks = [ "https://catppuccin.github.io/discord/dist/catppuccin-mocha-pink.theme.css" ];
             frameless = true;
 
             plugins = {
@@ -276,18 +276,26 @@
               anonymiseFileNames.enable = true;
               betterActivities.enable = true;
               betterCommands.enable = true;
-              betterGifPicker.enable = true;
               BlurNSFW.enable = true;
               callTimer.enable = true;
               characterCounter.enable = true;
               ClearURLs.enable = true;
               clickableRoles.enable = true;
-              contentWarning.enable = true;
+              contentWarning = {
+                enable = true;
+                triggerWords = [
+                  "rape"
+                  "sexual assault"
+                ];
+              };
               copyFileContents.enable = true;
               CopyUserURLs.enable = true;
               disableCallIdle.enable = true;
               dontRoundMyTimestamps.enable = true;
-              exportMessages.enable = true;
+              exportMessages = {
+                enable = true;
+                exportContacts = true;
+              };
               expressionCloner.enable = true;
               fakeNitro.enable = true;
               favoriteEmojiFirst.enable = true;
@@ -303,10 +311,6 @@
               friendshipRanks.enable = true;
               gameActivityToggle.enable = true;
               gifCollections.enable = true;
-              googleThat = {
-                enable = true;
-                defaultEngine = "DuckDuckGo";
-              };
               greetStickerPicker.enable = true;
               guildPickerDumper.enable = true;
               homeTyping.enable = true;
@@ -321,13 +325,44 @@
               newPluginsManager.enable = true;
               noF1.enable = true;
               noNitroUpsell.enable = true;
-              openInApp.enable = true;
+              openInApp = {
+                enable = true;
+                epic = false;
+                itunes = false;
+                spotify = false;
+                steam = true;
+                tidal = false;
+                vrcx = false;
+              };
               permissionsViewer.enable = true;
               petpet.enable = true;
               pictureInPicture.enable = true;
-              PinDMs.enable = true;
+              PinDMs = {
+                enable = true;
+                userBasedCategoryList = {
+                  "235416194293694466" = [
+                    {
+                      id = "xzt0czhin2";
+                      name = "Special";
+                      color = 13601515;
+                      collapsed = false;
+                      channels = [
+                        "1361859492563779604"
+                        "1363341770112372886"
+                        "1354257168563703810"
+                      ];
+                    }
+                  ];
+                };
+              };
               quoter.enable = true;
               relationshipNotifier.enable = true;
+              replaceGoogleSearch = {
+                enable = true;
+                replacementEngine = "custom";
+                customEngineURL = "https://duckduckgo.com/?q=";
+                customEngineName = "DuckDuckGo";
+              };
               reverseImageSearch.enable = true;
               richMagnetLinks.enable = true;
               SaveFavoriteGIFs.enable = true;
@@ -336,7 +371,11 @@
               sendTimestamps.enable = true;
               silentMessageToggle.enable = true;
               splitLargeMessages.enable = true;
-              timezones.enable = true;
+              timezones = {
+                enable = true;
+                _24hTime = true;
+                askedTimezone = true;
+              };
               voiceChatDoubleClick.enable = true;
               voiceDownload.enable = true;
               voiceMessages.enable = true;
