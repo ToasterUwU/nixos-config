@@ -112,7 +112,7 @@
           gratitude
           # hltb
           non-steam-playtimes
-          browser-history
+          # browser-history
         ];
         config = {
           enable = true;
