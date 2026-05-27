@@ -84,11 +84,11 @@
         "nixpkgs": "nixpkgs"
       },
       "locked": {
-        "lastModified": 1779741226,
-        "narHash": "sha256-2Oz1vwT1lRF16zXFpT8FoxSTF6/V6uKLsKo52Xxa0cs=",
+        "lastModified": 1779837589,
+        "narHash": "sha256-zb1SyZxDdWEwZjIQ5WTHxFMnbmVNjK4JJ0XFKQwizKI=",
         "owner": "catppuccin",
         "repo": "nix",
-        "rev": "823da4d4f1160d7ac395fe459a4e33d9dfe57bb2",
+        "rev": "96bf46de3e35bc8e4e1040db43d57f21ae8648e2",
         "type": "github"
       },
       "original": {
@@ -392,11 +392,11 @@
       },
       "locked": {
         "dir": "packages/nix",
-        "lastModified": 1779645560,
-        "narHash": "sha256-Pfij7yqey+Sf0CNjFNLUdHZjLaWyqFsR4M6OrAAJaOo=",
+        "lastModified": 1779813116,
+        "narHash": "sha256-38Bm3h1l5LMPZUhviiK8eg7PoTeckxv3uQmFCWEXid4=",
         "owner": "SteamClientHomebrew",
         "repo": "Millennium",
-        "rev": "992c2018ac5b388b3736dd81ea1fa247be23ba91",
+        "rev": "e2997de8fa6f5fab2e72c456b74a83fd01035ff1",
         "type": "github"
       },
       "original": {
@@ -444,15 +444,18 @@
       "inputs": {
         "luajit-src": "luajit-src_2",
         "millennium-src": "millennium-src_2",
-        "nixpkgs": "nixpkgs_6"
+        "nixpkgs": [
+          "nixos-millennium",
+          "nixpkgs"
+        ]
       },
       "locked": {
         "dir": "packages/nix",
-        "lastModified": 1779739620,
-        "narHash": "sha256-4PZ0QOPiNr38Rdu4qeUWt7taAFv5YEMev/7oVGX0kUw=",
+        "lastModified": 1779816674,
+        "narHash": "sha256-04DBE+muBCIyq54U2RZ7JOiBn1x3ZY0TSQ2X0AVwedc=",
         "owner": "SteamClientHomebrew",
         "repo": "Millennium",
-        "rev": "4d84980440d2a49f853af282da48c1c036b19675",
+        "rev": "c6f02b711a8c2e06a9b4aebddf3e281df4fe5639",
         "type": "github"
       },
       "original": {
@@ -573,11 +576,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1779605004,
-        "narHash": "sha256-RXaQ7ekmygWbLkkMU8LCbaV3cxLeE8QT0vMofACaRdQ=",
+        "lastModified": 1779804569,
+        "narHash": "sha256-NJjJY15fsENZOEL/9ogi9pruDTtR37dtM8Gv5pqQnbI=",
         "owner": "powerofthe69",
         "repo": "nix-gaming-edge",
-        "rev": "6269f17b0cb9f640731babd5bf04e2f1d10525bd",
+        "rev": "cd547376a06472d1496ab3fd9d922fa9663c560f",
         "type": "github"
       },
       "original": {
@@ -594,11 +597,11 @@
         "nixpkgs-nixcord": "nixpkgs-nixcord"
       },
       "locked": {
-        "lastModified": 1779498537,
-        "narHash": "sha256-6LQjFDS69JufrN4sVsMNsXxeSF6BbDzMSbN7sVApsaA=",
+        "lastModified": 1779844462,
+        "narHash": "sha256-zM/kljRBq/o4gg0QhFglJBrP9POH5lFA9+msA2QFsuc=",
         "owner": "FlameFlag",
         "repo": "nixcord",
-        "rev": "45a98c17b0d9e695bdee92ab00c76657eddf47e7",
+        "rev": "b01cb33ce9f7f85021b4863fbda30858343a3d2d",
         "type": "github"
       },
       "original": {
@@ -616,11 +619,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1779767814,
-        "narHash": "sha256-xdr8NSQVlr9WyVcq9SRnYtFBrIOFlRxlaRRqlmWVCXc=",
+        "lastModified": 1779855039,
+        "narHash": "sha256-kaeiR5Y/HqHaoIwjDQsrxN34t17FUd6kGxEoGjGd8Fc=",
         "owner": "re1n0",
         "repo": "nixos-millennium",
-        "rev": "82320d84a101490f68f77d508e55bd9cd37d7191",
+        "rev": "184e1f949a9d7b28773374fdff1fd5aacae42a44",
         "type": "github"
       },
       "original": {
@@ -733,7 +736,7 @@
     "nixpkgs-patch-fix-unityhub-missing-deps": {
       "flake": false,
       "locked": {
-        "narHash": "sha256-AJaZiwm1MLDkBRl4zoH17KsDqjtx8399NnHtBBheXig=",
+        "narHash": "sha256-2UCfV3oOXkFAyQMgdOW0bDtKVqmKVx3dtgBngZ/FMKI=",
         "type": "file",
         "url": "https://github.com/NixOS/nixpkgs/pull/500431.diff"
       },
@@ -776,7 +779,7 @@
     "nixpkgs-update": {
       "inputs": {
         "mmdoc": "mmdoc",
-        "nixpkgs": "nixpkgs_8",
+        "nixpkgs": "nixpkgs_7",
         "runtimeDeps": "runtimeDeps",
         "treefmt-nix": "treefmt-nix_2"
       },
@@ -798,17 +801,17 @@
       "inputs": {
         "flake-compat": "flake-compat_3",
         "flake-utils": "flake-utils",
-        "nixpkgs": "nixpkgs_9",
+        "nixpkgs": "nixpkgs_8",
         "nvfetcher": "nvfetcher",
         "systems": "systems_3",
         "treefmt-nix": "treefmt-nix_3"
       },
       "locked": {
-        "lastModified": 1779773102,
-        "narHash": "sha256-cQ8tjKBkxfok7X5w1+2yxI2NLOzg7X8lUWrG/QntT48=",
+        "lastModified": 1779827879,
+        "narHash": "sha256-+gyK11S15w0AVGO56GivsPd4HKZ6w3QQjMWC9abeCz4=",
         "owner": "nix-community",
         "repo": "nixpkgs-xr",
-        "rev": "3d98eb83f269145f95d9ac7f490d44f659c846fd",
+        "rev": "353988e023bd6589dfc7bec6815b359bd1d1cbf0",
         "type": "github"
       },
       "original": {
@@ -883,22 +886,6 @@
     },
     "nixpkgs_6": {
       "locked": {
-        "lastModified": 1770115704,
-        "narHash": "sha256-KHFT9UWOF2yRPlAnSXQJh6uVcgNcWlFqqiAZ7OVlHNc=",
-        "owner": "nixos",
-        "repo": "nixpkgs",
-        "rev": "e6eae2ee2110f3d31110d5c222cd395303343b08",
-        "type": "github"
-      },
-      "original": {
-        "owner": "nixos",
-        "ref": "nixos-unstable",
-        "repo": "nixpkgs",
-        "type": "github"
-      }
-    },
-    "nixpkgs_7": {
-      "locked": {
         "lastModified": 1779560665,
         "narHash": "sha256-tpyBcxPpcQb8ukyNF7DoCwfSY3VPsxHoYwj00Cayv5o=",
         "owner": "NixOS",
@@ -913,7 +900,7 @@
         "type": "github"
       }
     },
-    "nixpkgs_8": {
+    "nixpkgs_7": {
       "locked": {
         "lastModified": 1672428209,
         "narHash": "sha256-eejhqkDz2cb2vc5VeaWphJz8UXNuoNoM8/Op8eWv2tQ=",
@@ -927,7 +914,7 @@
         "type": "indirect"
       }
     },
-    "nixpkgs_9": {
+    "nixpkgs_8": {
       "locked": {
         "lastModified": 1779560665,
         "narHash": "sha256-tpyBcxPpcQb8ukyNF7DoCwfSY3VPsxHoYwj00Cayv5o=",
@@ -1031,7 +1018,7 @@
         "nix-gaming-edge": "nix-gaming-edge",
         "nixcord": "nixcord",
         "nixos-millennium": "nixos-millennium",
-        "nixpkgs": "nixpkgs_7",
+        "nixpkgs": "nixpkgs_6",
         "nixpkgs-patch-add-cyberia-package": "nixpkgs-patch-add-cyberia-package",
         "nixpkgs-patch-add-xr-chaperone": "nixpkgs-patch-add-xr-chaperone",
         "nixpkgs-patch-fix-unityhub-missing-deps": "nixpkgs-patch-fix-unityhub-missing-deps",
