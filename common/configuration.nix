@@ -266,6 +266,7 @@
   services.gnome.gcr-ssh-agent.enable = false;
 
   catppuccin.enable = true;
+  catppuccin.autoEnable = true;
   catppuccin.flavor = "mocha";
   catppuccin.accent = "pink";
 
