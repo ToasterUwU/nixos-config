@@ -60,6 +60,10 @@
       url = "https://github.com/NixOS/nixpkgs/pull/515090.diff";
       flake = false;
     };
+    nixpkgs-patch-fix-firefoxpwa = {
+      url = "https://github.com/NixOS/nixpkgs/pull/525720.diff";
+      flake = false;
+    };
   };
 
   outputs =
