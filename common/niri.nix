@@ -706,7 +706,6 @@
                 capsuleColorKey = "none";
                 capsuleOpacity = 1;
                 contentPadding = 2;
-                density = "comfortable";
                 displayMode = "always_visible";
                 enableExclusionZoneInset = true;
                 fontScale = 1;

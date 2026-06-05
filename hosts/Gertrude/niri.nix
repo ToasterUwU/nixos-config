@@ -22,6 +22,11 @@
             };
           };
           noctalia-shell = {
+            settings = {
+              bar = {
+                density = "mini";
+              };
+            };
             pluginSettings = {
               linux-wallpaperengine-controller = {
                 screens = {

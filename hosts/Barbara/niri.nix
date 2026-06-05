@@ -29,6 +29,11 @@
             };
           };
           noctalia-shell = {
+            settings = {
+              bar = {
+                density = "comfortable";
+              };
+            };
             pluginSettings = {
               linux-wallpaperengine-controller = {
                 screens = {
