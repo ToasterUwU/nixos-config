@@ -59,6 +59,7 @@
   };
 
   programs.kdeconnect.enable = true;
+  programs.localsend.enable = true;
 
   xdg.portal = {
     enable = true;
