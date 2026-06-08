@@ -745,13 +745,13 @@
     "nixpkgs-patch-fix-unityhub-missing-deps": {
       "flake": false,
       "locked": {
-        "narHash": "sha256-2UCfV3oOXkFAyQMgdOW0bDtKVqmKVx3dtgBngZ/FMKI=",
+        "narHash": "sha256-eTWWhmGB7qi89l1Mv9UUYLsGndJ2UVLT5ZPT+uSUM1w=",
         "type": "file",
-        "url": "https://github.com/NixOS/nixpkgs/pull/500431.diff"
+        "url": "https://github.com/NixOS/nixpkgs/pull/524422.diff"
       },
       "original": {
         "type": "file",
-        "url": "https://github.com/NixOS/nixpkgs/pull/500431.diff"
+        "url": "https://github.com/NixOS/nixpkgs/pull/524422.diff"
       }
     },
     "nixpkgs-patcher": {

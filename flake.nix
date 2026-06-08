@@ -49,7 +49,7 @@
     direnv-instant.url = "github:Mic92/direnv-instant";
     nixcord.url = "github:FlameFlag/nixcord";
     nixpkgs-patch-fix-unityhub-missing-deps = {
-      url = "https://github.com/NixOS/nixpkgs/pull/500431.diff";
+      url = "https://github.com/NixOS/nixpkgs/pull/524422.diff";
       flake = false;
     };
     nixpkgs-patch-add-xr-chaperone = {
