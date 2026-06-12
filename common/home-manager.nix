@@ -277,10 +277,10 @@
               anonymiseFileNames.enable = true;
               betterActivities.enable = true;
               betterCommands.enable = true;
-              BlurNSFW.enable = true;
+              blurNsfw.enable = true;
               callTimer.enable = true;
               characterCounter.enable = true;
-              ClearURLs.enable = true;
+              clearUrls.enable = true;
               clickableRoles.enable = true;
               contentWarning = {
                 enable = true;
@@ -290,7 +290,7 @@
                 ];
               };
               copyFileContents.enable = true;
-              CopyUserURLs.enable = true;
+              copyUserUrls.enable = true;
               disableCallIdle.enable = true;
               dontRoundMyTimestamps.enable = true;
               exportMessages = {
@@ -322,7 +322,7 @@
               memberCount.enable = true;
               messageLinkEmbeds.enable = true;
               messageLoggerEnhanced.enable = true;
-              MutualGroupDMs.enable = true;
+              mutualGroupDms.enable = true;
               newPluginsManager.enable = true;
               noF1.enable = true;
               noNitroUpsell.enable = true;
@@ -338,7 +338,7 @@
               permissionsViewer.enable = true;
               petpet.enable = true;
               pictureInPicture.enable = true;
-              PinDMs = {
+              pinDms = {
                 enable = true;
                 userBasedCategoryList = {
                   "235416194293694466" = [
@@ -361,12 +361,12 @@
               replaceGoogleSearch = {
                 enable = true;
                 replacementEngine = "custom";
-                customEngineURL = "https://duckduckgo.com/?q=";
+                customEngineUrl = "https://duckduckgo.com/?q=";
                 customEngineName = "DuckDuckGo";
               };
               reverseImageSearch.enable = true;
               richMagnetLinks.enable = true;
-              SaveFavoriteGIFs.enable = true;
+              saveFavoriteGifs.enable = true;
               scheduledMessages.enable = true;
               searchFix.enable = true;
               sendTimestamps.enable = true;
