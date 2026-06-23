@@ -291,6 +291,21 @@
                 env.PRESSURE_VESSEL_IMPORT_OPENXR_1_RUNTIMES = 1;
               };
             };
+            meccha-chameleon = {
+              id = 4704690;
+              compatTool = "GE-Proton";
+              launchOptions = {
+                wrappers = [
+                  (lib.getExe pkgs.gamescope)
+                  "-W"
+                  "2560"
+                  "-H"
+                  "1440"
+                  "-f"
+                  "--"
+                ];
+              };
+            };
           };
         };
       };
