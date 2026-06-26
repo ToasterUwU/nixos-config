@@ -34,10 +34,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     millennium.url = "github:SteamClientHomebrew/Millennium?dir=packages/nix";
-    nixos-millennium = {
-      url = "github:re1n0/nixos-millennium";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
     niri = {
       url = "github:sodiboo/niri-flake";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -71,7 +67,6 @@
       arion,
       nixpkgs-xr,
       nix-gaming-edge,
-      nixos-millennium,
       niri,
       ...
     }@inputs:
@@ -86,7 +81,6 @@
           arion.nixosModules.arion
           nixpkgs-xr.nixosModules.nixpkgs-xr
           nix-gaming-edge.nixosModules.mesa-git
-          nixos-millennium.nixosModules.default
           niri.nixosModules.niri
           ./hosts/Barbara
         ];
@@ -101,7 +95,6 @@
           catppuccin.nixosModules.catppuccin
           agenix.nixosModules.default
           arion.nixosModules.arion
-          nixos-millennium.nixosModules.default
           niri.nixosModules.niri
           ./hosts/Gertrude
         ];

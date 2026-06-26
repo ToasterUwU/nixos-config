@@ -106,14 +106,6 @@
         }
       '';
       programs.steam = {
-        theme = null;
-        plugins = with pkgs.millenniumPlugins; [
-          extendium
-          gratitude
-          # hltb
-          non-steam-playtimes
-          # browser-history
-        ];
         config = {
           enable = true;
           closeSteam = true;
