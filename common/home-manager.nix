@@ -308,7 +308,7 @@
               fixYoutubeEmbeds.enable = true;
               followVoiceUser.enable = true;
               forceOwnerCrown.enable = true;
-              forwardAnywhere.enable = true;
+              betterForwards.enable = true;
               friendshipRanks.enable = true;
               gameActivityToggle.enable = true;
               gifCollections.enable = true;
