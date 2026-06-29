@@ -44,13 +44,21 @@ in
     enable = false;
   };
 
-  boot.kernelPackages = pkgs.cachyosKernels.linuxPackages-cachyos-latest-lto-zen4;
+  boot.kernelPackages = pkgs.linuxPackages_latest;
 
   # Bigscreen Beyond Kernel patches from the LVRA Wiki
   boot.kernelPatches = [
     {
       name = "0001-Change-device-uvc_version-check-on-dwMaxVideoFrameSize";
       patch = ../../assets/kernel/0001-Change-device-uvc_version-check-on-dwMaxVideoFrameSize.patch;
+    }
+    {
+      name = "amd-bsb-dsc-fix";
+      patch = ../../assets/kernel/amd-bsb-dsc-fix.patch;
+    }
+    {
+      name = "bigscreen-beyond-kernel-7.0.12";
+      patch = ../../assets/kernel/bigscreen-beyond-kernel-7.0.12.patch;
     }
   ];
 

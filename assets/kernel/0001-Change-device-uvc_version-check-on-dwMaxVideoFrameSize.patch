@@ -1,5 +1,5 @@
 From deb959c4a98ce6ca28715ffb4e8bd07a3b9f321b Mon Sep 17 00:00:00 2001
-From: 0x8081 <0x8081@gmail.com>
+From: 0x8081 <0x8087@gmail.com>
 Date: Fri, 28 Nov 2025 13:23:03 -0700
 Subject: [PATCH] Change device uvc_version check on dwMaxVideoFrameSize fixup
  to include UVC version 1.1 for the Bigscreen Bigeye cameras
