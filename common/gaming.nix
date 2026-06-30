@@ -109,7 +109,7 @@
         config = {
           enable = true;
           closeSteam = true;
-          defaultCompatTool = "Proton CachyOS x86_64-v3";
+          defaultCompatTool = "GE-Proton";
 
           apps = {
             elite-dangerous = {
@@ -129,7 +129,7 @@
             };
             resonite = {
               id = 2519830;
-              compatTool = "proton_10";
+              compatTool = "GE-Proton";
               launchOptions = {
                 args = [
                   "-Device"
