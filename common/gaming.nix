@@ -299,14 +299,13 @@
                 ];
               };
             };
-            eve-online = {
+            eve-online = { # Remember to set to DirectX 11 in the Launcher
               id = 8500;
-              compatTool = "Proton CachyOS x86_64-v3";
               launchOptions = {
-                args = [ "--in-process-gpu" ];
                 env = {
-                  PROTON_USE_NTSYNC = 1;
-                  PROTON_ENABLE_WAYLAND = 1;
+                  PROTON_NO_ESYNC = 1;
+                  PROTON_NO_FSYNC = 1;
+                  LD_PRELOAD = "";
                 };
               };
             };
