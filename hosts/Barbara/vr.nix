@@ -44,7 +44,7 @@ in
     enable = false;
   };
 
-  boot.kernelPackages = pkgs.linuxPackages_7_0;
+  boot.kernelPackages = pkgs.linuxPackages_latest;
 
   # Bigscreen Beyond Kernel patches from the LVRA Wiki
   boot.kernelPatches = [
