@@ -129,7 +129,7 @@
             };
             resonite = {
               id = 2519830;
-              compatTool = "GE-Proton";
+              compatTool = "proton_10";
               launchOptions = {
                 args = [
                   "-Device"
