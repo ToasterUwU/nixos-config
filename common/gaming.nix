@@ -310,6 +310,18 @@
                 };
               };
             };
+            titanfall-2 = {
+              id = 1237970;
+              # EA Launcher Fix
+              launchOptions = {
+                extraConfig = ''
+                  for var in $(printenv | awk -F= 'length($2) > 2000 {print $1}');
+                  do
+                    export $var=$(echo $\{!var} | rev | cut -c 1-2000 | rev);
+                  done
+                '';
+              };
+            };
           };
         };
       };
