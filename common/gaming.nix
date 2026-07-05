@@ -301,6 +301,7 @@
             };
             eve-online = { # Remember to set to DirectX 11 in the Launcher
               id = 8500;
+              compatTool = "proton_10";
               launchOptions = {
                 env = {
                   PROTON_NO_ESYNC = 1;
