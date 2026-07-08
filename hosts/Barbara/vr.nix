@@ -45,6 +45,10 @@
       name = "bigscreen-beyond-kernel-7.0.12";
       patch = ../../assets/kernel/bigscreen-beyond-kernel-7.0.12.patch;
     }
+    {
+      name = "0001-drm-amdgpu-fix-check-in-amdgpu_hmm_invalidate_gfx";
+      patch = ../../assets/kernel/0001-drm-amdgpu-fix-check-in-amdgpu_hmm_invalidate_gfx.patch;
+    }
   ];
 
   # Udev rules for Bigscreen devices
