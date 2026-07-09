@@ -43,7 +43,7 @@ in
     enable = false;
   };
 
-  boot.kernelPackages = pkgs.cachyosKernels.linuxPackages-cachyos-bore-lto-zen4;
+  boot.kernelPackages = pkgs.cachyosKernels.linuxPackages-cachyos-latest-lto-zen4;
 
   # Bigscreen Beyond Kernel patches from the LVRA Wiki
   boot.kernelPatches =
