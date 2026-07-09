@@ -322,6 +322,10 @@
                 '';
               };
             };
+            deltarune = {
+              id = 1671210;
+              compatTool = "proton_10";
+            };
           };
         };
       };
