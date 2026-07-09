@@ -55,6 +55,99 @@ in
       name = "0001-Change-device-uvc_version-check-on-dwMaxVideoFrameSize";
       patch = ../../assets/kernel/0001-Change-device-uvc_version-check-on-dwMaxVideoFrameSize.patch;
     }
+    {
+      name = "disable-unused-drivers";
+      patch = null;
+      structuredExtraConfig = with lib.kernel; {
+        # Disable Guest VM Virtualization Drivers (Host runs bare-metal, not as guest)
+        HYPERVISOR_GUEST = lib.mkForce no;
+
+        # Disable non-AMD GPU drivers
+        DRM_I915 = lib.mkForce no;
+        DRM_XE = lib.mkForce no;
+        DRM_NOUVEAU = lib.mkForce no;
+        DRM_RADEON = lib.mkForce no; # Legacy Radeon (non-amdgpu)
+        DRM_GMA500 = lib.mkForce no;
+        DRM_VMWGFX = lib.mkForce no;
+        DRM_VIRTIO_GPU = lib.mkForce no;
+        DRM_BOCHS = lib.mkForce no;
+        DRM_XEN_FRONTEND = lib.mkForce no;
+        DRM_VBOXVIDEO = lib.mkForce no;
+
+        # Disable mobile broadband / cellular modems (LTE/5G)
+        WWAN = lib.mkForce no;
+
+        # Disable InfiniBand (high-performance networking not used here)
+        INFINIBAND = lib.mkForce no;
+
+        # Disable Laptop ACPI/Platform Drivers (keeping Gigabyte)
+        ASUS_LAPTOP = lib.mkForce no;
+        ASUS_WMI = lib.mkForce no;
+        THINKPAD_ACPI = lib.mkForce no;
+        DELL_LAPTOP = lib.mkForce no;
+        DELL_WMI = lib.mkForce no;
+        HP_WMI = lib.mkForce no;
+        HP_ILO = lib.mkForce no;
+        MSI_LAPTOP = lib.mkForce no;
+        MSI_WMI = lib.mkForce no;
+        SAMSUNG_LAPTOP = lib.mkForce no;
+        SONY_LAPTOP = lib.mkForce no;
+        TOSHIBA_WMI = lib.mkForce no;
+        ACER_WMI = lib.mkForce no;
+        COMPAL_LAPTOP = lib.mkForce no;
+        FUJITSU_LAPTOP = lib.mkForce no;
+
+        # Disable touchscreens and drawing tablets (no tablets are used)
+        INPUT_TOUCHSCREEN = lib.mkForce no;
+        TABLET_USB_ACECAD = lib.mkForce no;
+        TABLET_USB_AIPTEK = lib.mkForce no;
+        TABLET_USB_HANWANG = lib.mkForce no;
+        TABLET_USB_KBTAB = lib.mkForce no;
+        TABLET_USB_PEGASUS = lib.mkForce no;
+        TABLET_SERIAL_WACOM4 = lib.mkForce no;
+        INPUT_TABLET = lib.mkForce no;
+        HID_WACOM = lib.mkForce no;
+
+        # Disable TV Tuners, Radio, and SDR (Software Defined Radio)
+        MEDIA_ANALOG_TV_SUPPORT = lib.mkForce no;
+        MEDIA_DIGITAL_TV_SUPPORT = lib.mkForce no;
+        MEDIA_RADIO_SUPPORT = lib.mkForce no;
+        MEDIA_SDR_SUPPORT = lib.mkForce no;
+        MEDIA_PCI_SUPPORT = lib.mkForce no;
+
+        # Disable obsolete hardware interfaces / buses
+        FIREWIRE = lib.mkForce no;
+        PCMCIA = lib.mkForce no;
+        PARPORT = lib.mkForce no;
+
+        # Disable enterprise/datacentre storage controllers
+        SCSI_LOWLEVEL = lib.mkForce no;
+        SCSI_AACRAID = lib.mkForce no;
+        SCSI_AIC7XXX = lib.mkForce no;
+        SCSI_AIC79XX = lib.mkForce no;
+        SCSI_AIC94XX = lib.mkForce no;
+        SCSI_MVSAS = lib.mkForce no;
+        SCSI_MPT2SAS = lib.mkForce no;
+        SCSI_MPT3SAS = lib.mkForce no;
+        SCSI_ISCI = lib.mkForce no;
+        SCSI_PM8001 = lib.mkForce no;
+        SCSI_UFSHCD = lib.mkForce no;
+        MEGARAID_NEWGEN = lib.mkForce no;
+        MEGARAID_MM = lib.mkForce no;
+        MEGARAID_MAILBOX = lib.mkForce no;
+        MEGARAID_LEGACY = lib.mkForce no;
+        MEGARAID_SAS = lib.mkForce no;
+        FUSION = lib.mkForce no;
+        SCSI_QLA_FC = lib.mkForce no;
+
+        # Disable enterprise Mellanox network drivers
+        MLX4_CORE = lib.mkForce no;
+        MLX5_CORE = lib.mkForce no;
+
+        # Disable Chromebook platforms
+        CHROME_PLATFORMS = lib.mkForce no;
+      };
+    }
   ] ++ lib.optionals (!isCachyOS) [
     {
       name = "amd-bsb-dsc-fix";
