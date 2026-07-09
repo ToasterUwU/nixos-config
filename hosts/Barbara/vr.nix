@@ -3,8 +3,21 @@
   lib,
   nix-gaming-edge,
   nixpkgs-xr,
+  options,
   ...
 }:
+let
+  isCachyOS = lib.any (pkg:
+    if lib.isDerivation pkg then
+      lib.hasInfix "cachyos" pkg.name
+    else if lib.isAttrs pkg && pkg ? kernel then
+      lib.hasInfix "cachyos" pkg.kernel.name
+    else if lib.isAttrs pkg && pkg ? name then
+      lib.hasInfix "cachyos" pkg.name
+    else
+      false
+  ) options.boot.kernelPackages.definitions;
+in
 {
   nixpkgs.overlays = [
     nix-gaming-edge.overlays.mesa-git
@@ -29,14 +42,20 @@
     enable = false;
   };
 
-  boot.kernelPackages = pkgs.linuxPackages_latest;
+  boot.kernelPackages = pkgs.cachyosKernels.linuxPackages-cachyos-bore-lto-zen4;
 
   # Bigscreen Beyond Kernel patches from the LVRA Wiki
   boot.kernelPatches = [
     {
+      # Fix for kernel bug
+      name = "0001-drm-amdgpu-fix-check-in-amdgpu_hmm_invalidate_gfx";
+      patch = ../../assets/kernel/0001-drm-amdgpu-fix-check-in-amdgpu_hmm_invalidate_gfx.patch;
+    }
+    {
       name = "0001-Change-device-uvc_version-check-on-dwMaxVideoFrameSize";
       patch = ../../assets/kernel/0001-Change-device-uvc_version-check-on-dwMaxVideoFrameSize.patch;
     }
+  ] ++ lib.optionals (!isCachyOS) [
     {
       name = "amd-bsb-dsc-fix";
       patch = ../../assets/kernel/amd-bsb-dsc-fix.patch;
@@ -44,10 +63,6 @@
     {
       name = "bigscreen-beyond-kernel-7.0.12";
       patch = ../../assets/kernel/bigscreen-beyond-kernel-7.0.12.patch;
-    }
-    {
-      name = "0001-drm-amdgpu-fix-check-in-amdgpu_hmm_invalidate_gfx";
-      patch = ../../assets/kernel/0001-drm-amdgpu-fix-check-in-amdgpu_hmm_invalidate_gfx.patch;
     }
   ];
 
