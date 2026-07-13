@@ -29,10 +29,14 @@ in
           (lib.cmakeBool "XRT_FEATURE_OPENXR_VISIBILITY_MASK" false)
         ];
 
-        patches = (nixpkgs-xr.packages.${pkgs.stdenv.hostPlatform.system}.monado.patches or [ ]) ++ [
+        patches = [
           (final.fetchpatch {
             url = "file://${../../assets/monado/solarxr-load-driver.diff}";
-            hash = "sha256-gq2mvTrs1FCpNMRFkgaegePEzGFRcQpR1Z6QkqxdnqA=";
+            hash = "sha256-Z3bsDQUWM0RUizKQzRZSKYPnggixEzrGxAMAVgsscaw=";
+          })
+          (final.fetchpatch {
+            url = "file://${../../assets/monado/solarxr-feeder-destroy-hooks.diff}";
+            hash = "sha256-djT5UMN/udueDHrS2x+wNw61OXo+svyAi0z+xpje+00=";
           })
         ];
       };

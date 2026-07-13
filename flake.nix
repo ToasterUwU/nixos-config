@@ -38,7 +38,6 @@
       url = "github:noctalia-dev/noctalia-shell/legacy-v4";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    direnv-instant.url = "github:Mic92/direnv-instant";
     nixcord.url = "github:FlameFlag/nixcord";
     nixpkgs-patch-fix-unityhub-missing-deps = {
       url = "https://github.com/NixOS/nixpkgs/pull/524422.diff";
@@ -50,6 +49,18 @@
     };
     nixpkgs-patch-add-cyberia-package = {
       url = "https://github.com/NixOS/nixpkgs/pull/515090.diff";
+      flake = false;
+    };
+    nixpkgs-patch-fix-catppuccin = {
+      url = "https://github.com/NixOS/nixpkgs/pull/540569.diff";
+      flake = false;
+    };
+    nixpkgs-patch-fix-gdalMinimal = {
+      url = "https://github.com/NixOS/nixpkgs/pull/540826.diff";
+      flake = false;
+    };
+    nixpkgs-patch-fix-ffmpeg = {
+      url = "https://github.com/NixOS/nixpkgs/pull/537844.diff";
       flake = false;
     };
   };
