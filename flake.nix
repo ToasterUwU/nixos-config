@@ -55,14 +55,6 @@
       url = "https://github.com/NixOS/nixpkgs/pull/540569.diff";
       flake = false;
     };
-    nixpkgs-patch-fix-gdalMinimal = {
-      url = "https://github.com/NixOS/nixpkgs/pull/540826.diff";
-      flake = false;
-    };
-    nixpkgs-patch-fix-ffmpeg = {
-      url = "https://github.com/NixOS/nixpkgs/pull/537844.diff";
-      flake = false;
-    };
   };
 
   outputs =
