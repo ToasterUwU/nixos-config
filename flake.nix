@@ -51,10 +51,6 @@
       url = "https://github.com/NixOS/nixpkgs/pull/515090.diff";
       flake = false;
     };
-    nixpkgs-patch-fix-catppuccin = {
-      url = "https://github.com/NixOS/nixpkgs/pull/540569.diff";
-      flake = false;
-    };
   };
 
   outputs =
