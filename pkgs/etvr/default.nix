@@ -128,10 +128,6 @@ stdenv.mkDerivation {
 
   pname = "etvr";
 
-  patches = [
-    ./fix_log_on_readonly_fs.patch
-  ];
-
   nativeBuildInputs = [
     pythonEnv
     makeWrapper
