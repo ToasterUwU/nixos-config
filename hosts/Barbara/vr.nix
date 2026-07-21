@@ -203,6 +203,7 @@ in
     buttplug-lite
     nrfconnect
     slimevr
+    etvr
   ];
 
   services.monado = {
