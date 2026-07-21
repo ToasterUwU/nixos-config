@@ -374,7 +374,7 @@
               splitLargeMessages.enable = true;
               timezones = {
                 enable = true;
-                _24hTime = true;
+                twentyFourHourFormat = true;
                 askedTimezone = true;
               };
               voiceChatDoubleClick.enable = true;
