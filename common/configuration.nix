@@ -236,7 +236,7 @@
       mpv
       simple-scan
       pdfarranger
-      makemkv
+      # makemkv
       handbrake
       mediainfo
       ffmpeg-full
