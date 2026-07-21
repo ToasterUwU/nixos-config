@@ -20,7 +20,7 @@ let
     owner = "EyeTrackVR";
     repo = "EyeTrackVR";
     rev = "EyeTrackApp-0.3.0-BETA-8";
-    hash = "";
+    hash = "sha256-yb/4Xhv9+qGs++5tuaxR4CyXes6U/8k7SFqX1M0I19M=";
   };
 
   version = "0.3.0";
