@@ -324,7 +324,18 @@
             };
             deltarune = {
               id = 1671210;
-              compatTool = "proton_10";
+              compatTool = "GE-Proton";
+              launchOptions = {
+                wrappers = [
+                  (lib.getExe pkgs.gamescope)
+                  "-W"
+                  "2560"
+                  "-H"
+                  "1440"
+                  "-f"
+                  "--"
+                ];
+              };
             };
           };
         };
