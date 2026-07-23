@@ -32,6 +32,7 @@
     extraCompatPackages = with pkgs; [
       proton-ge-bin
       proton-cachyos-x86_64_v3
+      dwproton-bin
     ];
     localNetworkGameTransfers.openFirewall = true;
     remotePlay.openFirewall = true;
@@ -39,6 +40,9 @@
     package = pkgs.millennium-steam.override {
       extraProfile = ''
         unset TZ
+        export PROTON_ENABLE_WAYLAND=1
+        export PROTON_DXVK_LLASYNC=1
+        export WINE_USE_TAKE_FOCUS=1
       '';
     };
   };
@@ -109,7 +113,7 @@
         config = {
           enable = true;
           onSteamRunning = "close";
-          defaultCompatTool = "GE-Proton";
+          defaultCompatTool = "dwproton-x86_64";
 
           apps = {
             elite-dangerous = {
@@ -129,7 +133,6 @@
             };
             resonite = {
               id = 2519830;
-              compatTool = "proton_10";
               launchOptions = {
                 args = [
                   "-Device"
@@ -197,7 +200,6 @@
             };
             overwatch = {
               id = 2357570;
-              compatTool = "GE-Proton";
             };
             stride = {
               id = 1292040;
@@ -285,7 +287,6 @@
             };
             meccha-chameleon = {
               id = 4704690;
-              compatTool = "GE-Proton";
               launchOptions = {
                 wrappers = [
                   (lib.getExe pkgs.gamescope)
@@ -297,11 +298,12 @@
                   "--force-grab-cursor"
                   "--"
                 ];
+                args = ["--in-process-gpu"];
               };
             };
-            eve-online = { # Remember to set to DirectX 11 in the Launcher
+            eve-online = {
+              # Remember to set to DirectX 11 in the Launcher
               id = 8500;
-              compatTool = "proton_10";
               launchOptions = {
                 env = {
                   PROTON_NO_ESYNC = 1;
@@ -324,7 +326,6 @@
             };
             deltarune = {
               id = 1671210;
-              compatTool = "GE-Proton";
               launchOptions = {
                 wrappers = [
                   (lib.getExe pkgs.gamescope)
