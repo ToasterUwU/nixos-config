@@ -43,6 +43,7 @@
         export PROTON_ENABLE_WAYLAND=1
         export PROTON_DXVK_LLASYNC=1
         export WINE_USE_TAKE_FOCUS=1
+        export RADV_PERFTEST=sam,nircache,ngcc
       '';
     };
   };
