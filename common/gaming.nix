@@ -27,6 +27,8 @@
     capSysNice = false;
   };
 
+  programs.gamemode.enable = true;
+
   programs.steam = {
     enable = true;
     extraCompatPackages = with pkgs; [
@@ -136,6 +138,7 @@
             resonite = {
               id = 2519830;
               launchOptions = {
+                wrappers = [ "gamemoderun" ];
                 args = [
                   "-Device"
                   "SteamVR"
@@ -143,7 +146,10 @@
                   "-LoadAssembly"
                   "Libraries/ResoniteModLoader.dll"
                 ];
-                env.PRESSURE_VESSEL_IMPORT_OPENXR_1_RUNTIMES = 1;
+                env = {
+                  PRESSURE_VESSEL_IMPORT_OPENXR_1_RUNTIMES = 1;
+                  PROTON_USE_NTSYNC = 1;
+                };
               };
             };
             unravel-two = {
@@ -300,7 +306,7 @@
                   "--force-grab-cursor"
                   "--"
                 ];
-                args = ["--in-process-gpu"];
+                args = [ "--in-process-gpu" ];
               };
             };
             eve-online = {
