@@ -51,8 +51,8 @@
       url = "https://github.com/NixOS/nixpkgs/pull/515090.diff";
       flake = false;
     };
-    nixpkgs-patch-fix-vtk = {
-      url = "https://github.com/NixOS/nixpkgs/pull/537721.diff";
+    nixpkgs-patch-update-gale = {
+      url = "https://github.com/NixOS/nixpkgs/pull/545382.diff";
       flake = false;
     };
   };
