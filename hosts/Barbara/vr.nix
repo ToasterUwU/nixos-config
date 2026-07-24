@@ -29,7 +29,7 @@ in
           (lib.cmakeBool "XRT_FEATURE_OPENXR_VISIBILITY_MASK" false)
         ];
 
-        patches = [
+        patches = nixpkgs-xr.packages.${pkgs.stdenv.hostPlatform.system}.monado.patches ++ [
           (final.fetchpatch {
             url = "file://${../../assets/monado/solarxr-load-driver.diff}";
             hash = "sha256-Z3bsDQUWM0RUizKQzRZSKYPnggixEzrGxAMAVgsscaw=";
@@ -221,6 +221,7 @@ in
       STEAMVR_LH_ENABLE = "true";
       XRT_COMPOSITOR_COMPUTE = "1";
       LH_OVERRIDE_IPD_MM = "64";
+      LH_DISCOVER_WAIT_MS = "10000";
       XRT_COMPOSITOR_SCALE_PERCENTAGE = "100";
       XRT_COMPOSITOR_DESIRED_MODE = "1";
       # XRT_COMPOSITOR_DESIRED_MODE=0 is the 75hz mode
