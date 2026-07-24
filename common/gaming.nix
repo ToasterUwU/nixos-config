@@ -306,7 +306,6 @@
                   "--force-grab-cursor"
                   "--"
                 ];
-                args = [ "--in-process-gpu" ];
               };
             };
             eve-online = {
@@ -318,6 +317,7 @@
                   PROTON_NO_FSYNC = 1;
                   LD_PRELOAD = "";
                 };
+                args = [ "--in-process-gpu" ];
               };
             };
             titanfall-2 = {
