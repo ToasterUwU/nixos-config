@@ -53,11 +53,6 @@ in
   boot.kernelPatches =
     [
       {
-        # Fix for kernel bug
-        name = "0001-drm-amdgpu-fix-check-in-amdgpu_hmm_invalidate_gfx";
-        patch = ../../assets/kernel/0001-drm-amdgpu-fix-check-in-amdgpu_hmm_invalidate_gfx.patch;
-      }
-      {
         name = "0001-Change-device-uvc_version-check-on-dwMaxVideoFrameSize";
         patch = ../../assets/kernel/0001-Change-device-uvc_version-check-on-dwMaxVideoFrameSize.patch;
       }
