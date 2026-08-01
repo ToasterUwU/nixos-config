@@ -51,10 +51,6 @@
       url = "https://github.com/NixOS/nixpkgs/pull/515090.diff";
       flake = false;
     };
-    nixpkgs-patch-update-gale = {
-      url = "https://github.com/NixOS/nixpkgs/pull/545382.diff";
-      flake = false;
-    };
   };
 
   outputs =
