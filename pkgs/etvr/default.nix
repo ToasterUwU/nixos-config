@@ -49,9 +49,7 @@ let
       setuptools-scm
     ];
 
-    buildInputs = [
-      eigen
-    ];
+    buildInputs = [ eigen ];
 
     configurePhase = "
       # Skipped!
@@ -64,25 +62,27 @@ let
     ];
   };
 
-  pythonEnv = python3.withPackages (ps: with ps; [
-    python-osc
-    requests
-    opencv-python
-    numpy
-    pye3d
-    sv-ttk
-    pydantic
-    scikit-image
-    scikit-learn
-    pyserial
-    colorama
-    # taskipy
-    pytest
-    pytest-cov
-    matplotlib
-    numba
-    onnxruntime
-  ]);
+  pythonEnv = python3.withPackages (
+    ps: with ps; [
+      python-osc
+      requests
+      opencv-python
+      numpy
+      pye3d
+      sv-ttk
+      pydantic
+      scikit-image
+      scikit-learn
+      pyserial
+      colorama
+      # taskipy
+      pytest
+      pytest-cov
+      matplotlib
+      numba
+      onnxruntime
+    ]
+  );
 
   calibration-overlay = stdenv.mkDerivation {
     name = "EyeTrackVR-OpenVR-Calibration-Overlay";
@@ -94,9 +94,7 @@ let
       hash = "sha256-eRku0/rTAJNSxToY8lR3e+2VbuPn1KAUlDxWW23Vfr0=";
     };
 
-    nativeBuildInputs = [
-      cmake
-    ];
+    nativeBuildInputs = [ cmake ];
 
     buildInputs = [
       openxr-loader
@@ -110,7 +108,7 @@ let
       "-DSTB_INCLUDE_DIR=${stb}/include/stb"
     ];
 
-    installPhase =''
+    installPhase = ''
       runHook preInstall
       mkdir -p $out/lib
       cp EyeTrackVR-Overlay $out/lib/EyeTrackVR-Overlay
@@ -133,9 +131,7 @@ stdenv.mkDerivation {
     makeWrapper
   ];
 
-  buildInputs = [
-    calibration-overlay
-  ];
+  buildInputs = [ calibration-overlay ];
 
   buildPhase = ''
     ls -la

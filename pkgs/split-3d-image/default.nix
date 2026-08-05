@@ -1,7 +1,7 @@
 {
   stdenv,
   imagemagick,
-  writeShellApplication
+  writeShellApplication,
 }:
 stdenv.mkDerivation {
   pname = "split-3d-image";
@@ -10,9 +10,7 @@ stdenv.mkDerivation {
   src = writeShellApplication {
     name = "split-3d-image";
 
-    runtimeInputs = [
-      imagemagick
-    ];
+    runtimeInputs = [ imagemagick ];
 
     checkPhase = ''
       echo "I dont care" # Fix shellcheck being upset about no direct call of "off"

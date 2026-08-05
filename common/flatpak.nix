@@ -10,9 +10,7 @@
         remotes = {
           "flathub" = "https://dl.flathub.org/repo/flathub.flatpakrepo";
         };
-        packages = [
-          "flathub:app/camp.nook.nookdesktop/x86_64/stable"
-        ];
+        packages = [ "flathub:app/camp.nook.nookdesktop/x86_64/stable" ];
       };
     };
   };
