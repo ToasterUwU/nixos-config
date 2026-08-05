@@ -47,6 +47,10 @@
         export WINE_USE_TAKE_FOCUS=1
         export RADV_PERFTEST=sam,nircache,ngcc
         export ENABLE_LAYER_MESA_ANTI_LAG=1
+        export __GL_SHADER_DISK_CACHE_SKIP_CLEANUP=1
+        export __GL_SHADER_DISK_CACHE_SIZE=10737418240
+        export PROTON_LOCAL_SHADER_CACHE=1
+        export DXVK_ASYNC=1
       '';
     };
   };
@@ -211,11 +215,7 @@
               launchOptions = {
                 wrappers = [ "gamemoderun" ];
                 env = {
-                  DXVK_CONFIG = "dxvk.trackPipelineLifetime = True;";
-                  __GL_SHADER_DISK_CACHE_SKIP_CLEANUP = 1;
-                  __GL_SHADER_DISK_CACHE_SIZE = 10737418240;
-                  PROTON_LOCAL_SHADER_CACHE = 1;
-                  DXVK_ASYNC = 1;
+                  DXVK_CONFIG = "dxvk.trackPipelineLifetime = True;"; # Fixes a memeory leak issue
                 };
               };
             };
