@@ -300,7 +300,6 @@
               expressionCloner.enable = true;
               fakeNitro.enable = true;
               favoriteEmojiFirst.enable = true;
-              favoriteGifSearch.enable = true;
               findReply.enable = true;
               fixFileExtensions.enable = true;
               fixImagesQuality.enable = true;
