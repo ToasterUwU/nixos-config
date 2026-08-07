@@ -228,10 +228,11 @@
       kdePackages.kdenlive
       bitwarden-desktop
       cyberia
-      mprisence
       signal-desktop
+      sable-desktop
       tor-browser
       ungoogled-chromium
+      mprisence
       supersonic
       mpv
       simple-scan

@@ -51,6 +51,14 @@
       url = "https://github.com/NixOS/nixpkgs/pull/515090.diff";
       flake = false;
     };
+    nixpkgs-patch-add-sable-dekstop-package = {
+      url = "https://github.com/NixOS/nixpkgs/pull/548099.diff";
+      flake = false;
+    };
+    nixpkgs-patch-fix-lighthouse-steamvr = {
+      url = "https://github.com/NixOS/nixpkgs/pull/549474.diff";
+      flake = false;
+    };
   };
 
   outputs =
