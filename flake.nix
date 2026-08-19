@@ -31,7 +31,7 @@
     };
     millennium.url = "github:SteamClientHomebrew/Millennium?dir=packages/nix";
     niri = {
-      url = "github:sodiboo/niri-flake";
+      url = "github:epireyn/niri-flake";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     noctalia = {
@@ -39,10 +39,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     nixcord.url = "github:FlameFlag/nixcord";
-    nixpkgs-patch-fix-unityhub-missing-deps = {
-      url = "https://github.com/NixOS/nixpkgs/pull/524422.diff";
-      flake = false;
-    };
     nixpkgs-patch-add-xr-chaperone = {
       url = "https://github.com/NixOS/nixpkgs/pull/513111.diff";
       flake = false;
@@ -55,8 +51,8 @@
       url = "https://github.com/NixOS/nixpkgs/pull/548099.diff";
       flake = false;
     };
-    nixpkgs-patch-fix-lighthouse-steamvr = {
-      url = "https://github.com/NixOS/nixpkgs/pull/549474.diff";
+    nixpkgs-patch-fix-gearlever = {
+      url = "https://github.com/NixOS/nixpkgs/pull/549694.diff";
       flake = false;
     };
   };

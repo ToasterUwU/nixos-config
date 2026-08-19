@@ -6,6 +6,17 @@
   ...
 }:
 {
+  age.secrets = {
+    "aki-password".file = ../secrets/common/aki-password.age;
+
+    "nix-github-fetch-token" = {
+      file = ../secrets/common/nix-github-fetch-token.age;
+      owner = "aki";
+      group = "users";
+      mode = "400";
+    };
+  };
+
   nixpkgs.overlays = [ (self: super: import ../pkgs { pkgs = super; }) ];
 
   nix.settings.experimental-features = [
@@ -13,6 +24,10 @@
     "flakes"
   ];
   nix.settings.trusted-users = [ "aki" ];
+
+  nix.extraOptions = ''
+    !include ${config.age.secrets."nix-github-fetch-token".path}
+  '';
 
   # boot.kernelPackages = pkgs.linuxPackages_zen;
 
@@ -86,7 +101,7 @@
   hardware.ledger.enable = true;
 
   hardware.logitech.wireless.enable = true;
-  hardware.logitech.wireless.enableGraphical = true;
+  programs.solaar.enable = true;
 
   hardware.sane.enable = true;
   services.printing.enable = true;
@@ -132,10 +147,6 @@
   environment.sessionVariables = {
     ELECTRON_OZONE_PLATFORM_HINT = "auto"; # Electron Apps in Wayland
     NIXOS_OZONE_WL = "1"; # Electron Apps in Wayland NixOS specific
-  };
-
-  age.secrets = {
-    "aki-password".file = ../secrets/common/aki-password.age;
   };
 
   users = {

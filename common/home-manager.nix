@@ -464,64 +464,62 @@
         ssh = {
           enable = true;
           enableDefaultConfig = false;
-          matchBlocks = {
+          settings = {
             "*" = {
-              user = "aki";
-              extraOptions = {
-                StrictHostKeyChecking = "accept-new";
-              };
+              User = "aki";
+              StrictHostKeyChecking = "accept-new";
             };
 
             hiltrud = {
-              hostname = "192.168.178.34";
-              user = "mks";
+              HostName = "192.168.178.34";
+              User = "mks";
             };
 
             discord-bots = {
-              hostname = "192.168.178.10";
+              HostName = "192.168.178.10";
             };
 
             discord-bots-root = {
-              hostname = "192.168.178.10";
-              user = "root";
+              HostName = "192.168.178.10";
+              User = "root";
             };
 
             mongo-db = {
-              hostname = "192.168.178.9";
+              HostName = "192.168.178.9";
             };
 
             smart-home = {
-              hostname = "192.168.178.6";
+              HostName = "192.168.178.6";
             };
 
             tor-node = {
-              hostname = "192.168.178.18";
+              HostName = "192.168.178.18";
             };
 
             xen-orchestra = {
-              hostname = "192.168.178.5";
+              HostName = "192.168.178.5";
             };
 
             gutruhn = {
-              hostname = "192.168.178.3";
+              HostName = "192.168.178.3";
             };
 
             hedwig = {
-              hostname = "192.168.178.4";
-              user = "root";
+              HostName = "192.168.178.4";
+              User = "root";
             };
 
             nixos-homeserver = {
-              hostname = "192.168.178.11";
-              user = "root";
+              HostName = "192.168.178.11";
+              User = "root";
             };
 
             barbara = {
-              hostname = "192.168.178.100";
+              HostName = "192.168.178.100";
             };
 
             rouge = {
-              hostname = "192.168.178.178";
+              HostName = "192.168.178.178";
             };
           };
         };
