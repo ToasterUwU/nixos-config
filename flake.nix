@@ -39,6 +39,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     nixcord.url = "github:FlameFlag/nixcord";
+    nix-vrft.url = "github:naraenda/nix-vrft";
     nixpkgs-patch-add-xr-chaperone = {
       url = "https://github.com/NixOS/nixpkgs/pull/513111.diff";
       flake = false;

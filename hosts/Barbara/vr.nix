@@ -1,6 +1,7 @@
 {
   pkgs,
   lib,
+  nix-vrft,
   nix-gaming-edge,
   nixpkgs-xr,
   options,
@@ -21,6 +22,7 @@ let
 in
 {
   nixpkgs.overlays = [
+    nix-vrft.overlays.pinned
     nix-gaming-edge.overlays.mesa-git
     (final: prev: {
       monado = nixpkgs-xr.packages.${pkgs.stdenv.hostPlatform.system}.monado.overrideAttrs {
