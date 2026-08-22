@@ -517,7 +517,7 @@
     "nixpkgs-patch-add-sable-dekstop-package": {
       "flake": false,
       "locked": {
-        "narHash": "sha256-0UQbsprY4Y1mpq9ZaWBYs/4j34uuCnojV7ipE6INKJ0=",
+        "narHash": "sha256-UysXvuYIo5FthE1D7qrw/cPZxtsVlRs6aHwes5iHB1c=",
         "type": "file",
         "url": "https://github.com/NixOS/nixpkgs/pull/548099.diff"
       },
