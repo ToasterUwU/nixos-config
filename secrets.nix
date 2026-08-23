@@ -23,8 +23,6 @@ in
   "secrets/common/aki-nixpkgs-review-github-token.age".publicKeys = [ aki ] ++ systems;
   "secrets/common/aki-nixpkgs-update-github-token.age".publicKeys = [ aki ] ++ systems;
 
-  "secrets/common/nix-github-fetch-token.age".publicKeys = [ aki ] ++ systems;
-
   "secrets/common/tdarr-apiKey.age".publicKeys = [ aki ] ++ systems;
 
   "secrets/common/noctalia-github-feed-settings.json.age".publicKeys = [ aki ] ++ systems;

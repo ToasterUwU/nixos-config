@@ -8,13 +8,6 @@
 {
   age.secrets = {
     "aki-password".file = ../secrets/common/aki-password.age;
-
-    "nix-github-fetch-token" = {
-      file = ../secrets/common/nix-github-fetch-token.age;
-      owner = "aki";
-      group = "users";
-      mode = "400";
-    };
   };
 
   nixpkgs.overlays = [ (self: super: import ../pkgs { pkgs = super; }) ];
@@ -24,10 +17,6 @@
     "flakes"
   ];
   nix.settings.trusted-users = [ "aki" ];
-
-  nix.extraOptions = ''
-    !include ${config.age.secrets."nix-github-fetch-token".path}
-  '';
 
   # boot.kernelPackages = pkgs.linuxPackages_zen;
 
