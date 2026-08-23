@@ -502,18 +502,6 @@
         "type": "github"
       }
     },
-    "nixpkgs-patch-add-cyberia-package": {
-      "flake": false,
-      "locked": {
-        "narHash": "sha256-sHnA3k0BR1uI4tlHgAG7Mg5aFDhGDFnOoDrugCHIuEk=",
-        "type": "file",
-        "url": "https://github.com/NixOS/nixpkgs/pull/515090.diff"
-      },
-      "original": {
-        "type": "file",
-        "url": "https://github.com/NixOS/nixpkgs/pull/515090.diff"
-      }
-    },
     "nixpkgs-patch-add-sable-dekstop-package": {
       "flake": false,
       "locked": {
@@ -524,18 +512,6 @@
       "original": {
         "type": "file",
         "url": "https://github.com/NixOS/nixpkgs/pull/548099.diff"
-      }
-    },
-    "nixpkgs-patch-add-xr-chaperone": {
-      "flake": false,
-      "locked": {
-        "narHash": "sha256-roZXgNiZdIYT9PHMEEz70s39qUYrgSZrwmDrTVzjxdM=",
-        "type": "file",
-        "url": "https://github.com/NixOS/nixpkgs/pull/513111.diff"
-      },
-      "original": {
-        "type": "file",
-        "url": "https://github.com/NixOS/nixpkgs/pull/513111.diff"
       }
     },
     "nixpkgs-patch-fix-gearlever": {
@@ -824,9 +800,7 @@
         "nix-vrft": "nix-vrft",
         "nixcord": "nixcord",
         "nixpkgs": "nixpkgs_6",
-        "nixpkgs-patch-add-cyberia-package": "nixpkgs-patch-add-cyberia-package",
         "nixpkgs-patch-add-sable-dekstop-package": "nixpkgs-patch-add-sable-dekstop-package",
-        "nixpkgs-patch-add-xr-chaperone": "nixpkgs-patch-add-xr-chaperone",
         "nixpkgs-patch-fix-gearlever": "nixpkgs-patch-fix-gearlever",
         "nixpkgs-patcher": "nixpkgs-patcher",
         "nixpkgs-update": "nixpkgs-update",
