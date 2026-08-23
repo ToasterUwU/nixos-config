@@ -131,8 +131,8 @@
           defaultCompatTool = "dwproton-x86_64";
 
           apps = {
-            elite-dangerous = {
-              id = 359320;
+            "359320" = {
+              name = "Elite Dangerous";
               wrappers = [ "${lib.getExe pkgs.min-ed-launcher}" ];
               args = [
                 "/autorun"
@@ -144,8 +144,8 @@
               ];
               env.PRESSURE_VESSEL_IMPORT_OPENXR_1_RUNTIMES = 1;
             };
-            resonite = {
-              id = 2519830;
+            "2519830" = {
+              name = "Resonite";
               wrappers = [ "gamemoderun" ];
               args = [
                 "-Device"
@@ -159,8 +159,8 @@
                 PROTON_USE_NTSYNC = 1;
               };
             };
-            unravel-two = {
-              id = 1225570;
+            "1225570" = {
+              name = "Unravel Two";
               # EA Launcher Fix
               preHook = ''
                 for var in $(printenv | awk -F= 'length($2) > 2000 {print $1}');
@@ -169,8 +169,8 @@
                 done
               '';
             };
-            mirrors-edge-catalyst = {
-              id = 1233570;
+            "1233570" = {
+              name = "Mirror's Edge Catalyst";
               # EA Launcher Fix
               preHook = ''
                 for var in $(printenv | awk -F= 'length($2) > 2000 {print $1}');
@@ -179,8 +179,8 @@
                 done
               '';
             };
-            burnout-paradise-remastered = {
-              id = 1238080;
+            "1238080" = {
+              name = "Burnout Paradise Remastered";
               # EA Launcher Fix
               preHook = ''
                 for var in $(printenv | awk -F= 'length($2) > 2000 {print $1}');
@@ -189,8 +189,8 @@
                 done
               '';
             };
-            h3vr = {
-              id = 450540;
+            "450540" = {
+              name = "H3VR";
               preHook = ''
                 for var in $(printenv | awk -F= 'length($2) > 2000 {print $1}');
                 do
@@ -199,75 +199,75 @@
               '';
               env.PRESSURE_VESSEL_IMPORT_OPENXR_1_RUNTIMES = 1;
             };
-            space-engineers = {
-              id = 244850;
+            "244850" = {
+              name = "Space Engineers";
               args = [ "-useallavailablecores" ];
             };
-            overwatch = {
-              id = 2357570;
+            "2357570" = {
+              name = "Overwatch 2";
               wrappers = [ "gamemoderun" ];
               env = {
                 DXVK_CONFIG = "dxvk.trackPipelineLifetime = True;"; # Fixes a memeory leak issue
               };
             };
-            stride = {
-              id = 1292040;
+            "1292040" = {
+              name = "STRIDE";
               env.PRESSURE_VESSEL_IMPORT_OPENXR_1_RUNTIMES = 1;
             };
-            baballonia = {
-              id = 4091970;
+            "4091970" = {
+              name = "Baballonia";
               env.PRESSURE_VESSEL_IMPORT_OPENXR_1_RUNTIMES = 1;
             };
-            beat-saber = {
-              id = 620980;
+            "620980" = {
+              name = "Beat Saber";
               env.PRESSURE_VESSEL_IMPORT_OPENXR_1_RUNTIMES = 1;
             };
-            ghost-signal = {
-              id = 2156770;
+            "2156770" = {
+              name = "Ghost Signal";
               env.PRESSURE_VESSEL_IMPORT_OPENXR_1_RUNTIMES = 1;
             };
-            the-last-clockwinder = {
-              id = 1755100;
+            "1755100" = {
+              name = "The Last Clockwinder";
               env.PRESSURE_VESSEL_IMPORT_OPENXR_1_RUNTIMES = 1;
             };
-            underdogs = {
-              id = 2441700;
+            "2441700" = {
+              name = "UNDERDOGS";
               env.PRESSURE_VESSEL_IMPORT_OPENXR_1_RUNTIMES = 1;
             };
-            half-life-alyx = {
-              id = 546560;
+            "546560" = {
+              name = "Half-Life: Alyx";
               env.PRESSURE_VESSEL_IMPORT_OPENXR_1_RUNTIMES = 1;
             };
-            space-pirate-trainer = {
-              id = 418650;
+            "418650" = {
+              name = "Space Pirate Trainer";
               env.PRESSURE_VESSEL_IMPORT_OPENXR_1_RUNTIMES = 1;
             };
-            superhot-vr = {
-              id = 617830;
+            "617830" = {
+              name = "SUPERHOT VR";
               env.PRESSURE_VESSEL_IMPORT_OPENXR_1_RUNTIMES = 1;
             };
-            panoptic = {
-              id = 541930;
+            "541930" = {
+              name = "Panoptic";
               env.PRESSURE_VESSEL_IMPORT_OPENXR_1_RUNTIMES = 1;
             };
-            the-curious-tale-of-the-stolen-pets = {
-              id = 1099500;
+            "1099500" = {
+              name = "The Curious Tale of the Stolen Pets";
               env.PRESSURE_VESSEL_IMPORT_OPENXR_1_RUNTIMES = 1;
             };
-            myst = {
-              id = 1255560;
+            "1255560" = {
+              name = "Myst";
               env.PRESSURE_VESSEL_IMPORT_OPENXR_1_RUNTIMES = 1;
             };
-            portal-stories-vr = {
-              id = 446750;
+            "446750" = {
+              name = "Portal Stories: VR";
               env.PRESSURE_VESSEL_IMPORT_OPENXR_1_RUNTIMES = 1;
             };
-            rumble = {
-              id = 890550;
+            "890550" = {
+              name = "RUMBLE";
               env.PRESSURE_VESSEL_IMPORT_OPENXR_1_RUNTIMES = 1;
             };
-            meccha-chameleon = {
-              id = 4704690;
+            "4704690" = {
+              name = "Meccha Chameleon";
               wrappers = [
                 (lib.getExe pkgs.gamescope)
                 "-W"
@@ -279,9 +279,8 @@
                 "--"
               ];
             };
-            eve-online = {
-              # Remember to set to DirectX 11 in the Launcher
-              id = 8500;
+            "8500" = {
+              name = "EVE Online";
               compatTool = "proton_10";
               env = {
                 PROTON_NO_ESYNC = 1;
@@ -290,8 +289,8 @@
               };
               args = [ "--in-process-gpu" ];
             };
-            titanfall-2 = {
-              id = 1237970;
+            "1237970" = {
+              name = "Titanfall 2";
               # EA Launcher Fix
               preHook = ''
                 for var in $(printenv | awk -F= 'length($2) > 2000 {print $1}');
@@ -300,8 +299,8 @@
                 done
               '';
             };
-            deltarune = {
-              id = 1671210;
+            "1671210" = {
+              name = "DELTARUNE";
               wrappers = [
                 (lib.getExe pkgs.gamescope)
                 "-W"
