@@ -1,8 +1,8 @@
 [Application]
 WindowWidth = 1268
 WindowHeight = 1394
-LastCheckedVersion = 'v0.20.1'
-LastLaunchedVersion = 'v0.20.1'
+LastCheckedVersion = '@version@'
+LastLaunchedVersion = '@version@'
 EnableSystemTray = true
 CloseToSystemTray = true
 StartupPage = 'Favorites'
@@ -21,7 +21,7 @@ SkipSSLVerify = false
 EnqueueBatchSize = 100
 Language = 'auto'
 DisableDPIDetection = false
-EnableAutoUpdateChecker = true
+EnableAutoUpdateChecker = false
 RequestTimeoutSeconds = 15
 EnableOSMediaPlayerAPIs = true
 ShowSidebar = false
