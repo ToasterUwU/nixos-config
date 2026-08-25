@@ -27,6 +27,23 @@
                 };
               };
             };
+
+            workspaces = {
+              "social" = {
+                open-on-output = "HDMI-A-1";
+              };
+            };
+
+            window-rules = [
+              {
+                matches = [
+                  { app-id = "^discord$"; }
+                  { app-id = "^sable$"; }
+                ];
+                open-on-workspace = "social";
+                open-focused = false;
+              }
+            ];
           };
           noctalia-shell = {
             settings = {

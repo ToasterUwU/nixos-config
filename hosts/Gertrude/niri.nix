@@ -20,6 +20,28 @@
                 };
               };
             };
+
+            workspaces = {
+              "01-main" = {
+                name = "main";
+                open-on-output = "eDP-1";
+              };
+              "02-social" = {
+                name = "social";
+                open-on-output = "eDP-1";
+              };
+            };
+
+            window-rules = [
+              {
+                matches = [
+                  { app-id = "^discord$"; }
+                  { app-id = "^sable$"; }
+                ];
+                open-on-workspace = "social";
+                open-focused = false;
+              }
+            ];
           };
           noctalia-shell = {
             settings = {

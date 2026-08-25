@@ -172,11 +172,45 @@
 
             prefer-no-csd = true;
 
-            spawn-at-startup = [
-              { sh = "noctalia-shell"; }
-              { sh = "sleep 5 && discord"; }
-              { sh = "sleep 5 && openrgb --startminimized --profile Pink"; }
-            ];
+            spawn-at-startup =
+              let
+                # Block until Noctalias tray host owns the bus name that StatusNotifierItem clients look for
+                wait-for-tray = pkgs.writeShellApplication {
+                  name = "wait-for-tray";
+                  runtimeInputs = [ pkgs.glib ];
+                  text = ''
+                    gdbus wait --session --timeout 30 org.kde.StatusNotifierWatcher
+                  '';
+                };
+
+                # Block until a tiled window with the given app-id exists in niri
+                wait-for-window = pkgs.writeShellApplication {
+                  name = "wait-for-window";
+                  runtimeInputs = [
+                    pkgs.niri-unstable
+                    pkgs.jq
+                  ];
+                  text = ''
+                    deadline=$((SECONDS + 30))
+                    until niri msg --json windows |
+                      jq -e --arg id "$1" \
+                        'any(.[]; .app_id == $id and .is_floating == false)' >/dev/null; do
+                      [ "$SECONDS" -lt "$deadline" ] || exit 1
+                      sleep 0.2
+                    done
+                  '';
+                };
+
+                afterTray = lib.getExe wait-for-tray;
+                afterWindow = lib.getExe wait-for-window;
+              in
+              [
+                { sh = "noctalia-shell"; }
+                { sh = "${afterTray}; discord"; }
+                { sh = "${afterTray}; ${afterWindow} discord; sable"; }
+                { sh = "${afterTray}; openrgb --startminimized --profile Pink"; }
+                { sh = "${afterTray}; easyeffects --hide-window"; }
+              ];
 
             hotkey-overlay.skip-at-startup = true;
             gestures.hot-corners.enable = false;
