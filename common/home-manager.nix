@@ -276,7 +276,10 @@
               altKrispSwitch.enable = true;
               anonymiseFileNames.enable = true;
               betterActivities.enable = true;
-              betterCommands.enable = true;
+              betterCommands = {
+                enable = true;
+                autoFillArguments = false;
+              };
               blurNsfw.enable = true;
               callTimer.enable = true;
               characterCounter.enable = true;
