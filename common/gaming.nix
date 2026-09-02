@@ -91,7 +91,7 @@
       xdg.configFile."min-ed-launcher/settings.json".text = ''
           {
             "apiUri": "https://api.zaonce.net",
-            "watchForCrashes": false,
+            "watchForCrashes": true,
             "language": null,
             "autoUpdate": true,
             "checkForLauncherUpdates": true,
