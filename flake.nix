@@ -44,10 +44,6 @@
       url = "https://github.com/NixOS/nixpkgs/pull/548099.diff";
       flake = false;
     };
-    nixpkgs-patch-fix-gearlever = {
-      url = "https://github.com/NixOS/nixpkgs/pull/549694.diff";
-      flake = false;
-    };
   };
 
   outputs =
