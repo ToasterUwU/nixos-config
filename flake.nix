@@ -14,10 +14,6 @@
       inputs.home-manager.follows = "home-manager";
     };
     catppuccin.url = "github:catppuccin/nix";
-    arion = {
-      url = "github:hercules-ci/arion";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
     nixpkgs-xr.url = "github:nix-community/nixpkgs-xr";
     nixpkgs-update.url = "github:ryantm/nixpkgs-update";
     nix-cachyos-kernel.url = "github:xddxdd/nix-cachyos-kernel/release";
@@ -52,7 +48,6 @@
       home-manager,
       catppuccin,
       agenix,
-      arion,
       nixpkgs-xr,
       nix-gaming-edge,
       niri,
@@ -66,7 +61,6 @@
           home-manager.nixosModules.home-manager
           catppuccin.nixosModules.catppuccin
           agenix.nixosModules.default
-          arion.nixosModules.arion
           nixpkgs-xr.nixosModules.nixpkgs-xr
           nix-gaming-edge.nixosModules.mesa-git
           niri.nixosModules.niri
@@ -82,7 +76,6 @@
           home-manager.nixosModules.home-manager
           catppuccin.nixosModules.catppuccin
           agenix.nixosModules.default
-          arion.nixosModules.arion
           niri.nixosModules.niri
           ./hosts/Gertrude
         ];
