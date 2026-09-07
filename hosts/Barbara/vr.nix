@@ -42,6 +42,10 @@ in
           })
         ];
       };
+
+      # Use the nixpkgs package instead of the nixpkgs-xr one, which does not
+      # install the .desktop file or icons.
+      xr-chaperone = final.callPackage "${final.path}/pkgs/by-name/xr/xr-chaperone/package.nix" { };
     })
   ];
 

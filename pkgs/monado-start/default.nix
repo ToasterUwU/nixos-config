@@ -6,7 +6,6 @@
   wayvr,
   lighthouse-steamvr,
   kdePackages,
-  xr-chaperone,
   ...
 }:
 let
@@ -29,7 +28,6 @@ stdenv.mkDerivation {
       wayvr
       lighthouse-steamvr
       kdePackages.kde-cli-tools
-      xr-chaperone
     ];
 
     checkPhase = ''
@@ -95,7 +93,6 @@ stdenv.mkDerivation {
         systemctl --user restart monado.service
 
         setsid sh -c '
-          ${lib.getExe xr-chaperone} -s &
           ${lib.getExe wayvr} --replace &
           kde-inhibit --power --screenSaver sleep infinity &
           wait
