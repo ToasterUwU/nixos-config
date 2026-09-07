@@ -20,68 +20,54 @@
       enable = true;
       liveRestore = false;
     };
-    arion = {
+    oci-containers = {
       backend = "docker";
     };
   };
   users.users.aki.extraGroups = [ "docker" ];
 
-  virtualisation.arion.projects = {
+  virtualisation.oci-containers.containers = {
     watchtower = {
-      settings.services = {
-        watchtower.service = {
-          stop_grace_period = "5m";
-          container_name = "watchtower";
-          image = "nickfedor/watchtower:latest";
-          volumes = [
-            "/var/run/docker.sock:/var/run/docker.sock"
-            "/etc/localtime:/etc/localtime:ro"
-          ];
-          environment = {
-            WATCHTOWER_CLEANUP = "true";
-            WATCHTOWER_REMOVE_VOLUMES = "true";
-            WATCHTOWER_SCHEDULE = "0 0 8 * * 3"; # every Wednesday at 8am
-          };
-          restart = "unless-stopped";
-        };
+      image = "nickfedor/watchtower:latest";
+      volumes = [
+        "/var/run/docker.sock:/var/run/docker.sock"
+        "/etc/localtime:/etc/localtime:ro"
+      ];
+      environment = {
+        WATCHTOWER_CLEANUP = "true";
+        WATCHTOWER_REMOVE_VOLUMES = "true";
+        WATCHTOWER_SCHEDULE = "0 0 8 * * 3"; # every Wednesday at 8am
       };
+      # equivalent of composes stop_grace_period = 5m
+      extraOptions = [ "--stop-timeout=300" ];
     };
     tdarr-node = {
-      settings.services = {
-        tdarr-node.service = {
-          stop_grace_period = "5m";
-          container_name = "tdarr-node";
-          image = "ghcr.io/haveagitgat/tdarr_node:latest";
-          volumes = [
-            "/home/aki/Tdarr/configs:/app/configs"
-            "/home/aki/Tdarr/logs:/app/logs"
-            "/home/aki/NAS/data/Video Station:/media"
-            "/home/aki/Tdarr/transcode_cache:/temp"
-          ];
-          ports = [ "8268:8268" ];
-          environment = {
-            nodeName = config.networking.hostName;
-            serverIP = "192.168.178.11";
-            serverPort = "8266";
-            inContainer = "true";
-            TZ = "Europe/Berlin";
-            PUID = lib.toString config.users.users.aki.uid;
-            PGID = lib.toString config.users.groups.${lib.toString config.users.users.aki.group}.gid;
-          };
-          env_file = [ config.age.secrets."tdarr-apiKey".path ];
-          restart = "unless-stopped";
-        };
+      image = "ghcr.io/haveagitgat/tdarr_node:latest";
+      volumes = [
+        "/home/aki/Tdarr/configs:/app/configs"
+        "/home/aki/Tdarr/logs:/app/logs"
+        "/home/aki/NAS/data/Video Station:/media"
+        "/home/aki/Tdarr/transcode_cache:/temp"
+      ];
+      ports = [ "8268:8268" ];
+      environment = {
+        nodeName = config.networking.hostName;
+        serverIP = "192.168.178.11";
+        serverPort = "8266";
+        inContainer = "true";
+        TZ = "Europe/Berlin";
+        PUID = lib.toString config.users.users.aki.uid;
+        PGID = lib.toString config.users.groups.${lib.toString config.users.users.aki.group}.gid;
       };
+      environmentFiles = [ config.age.secrets."tdarr-apiKey".path ];
+      # equivalent of composes stop_grace_period = 5m
+      extraOptions = [ "--stop-timeout=300" ];
     };
   };
-  systemd.services.arion-tdarr-node = {
-    after = [ "network-online.target" ];
-    wants = [ "network-online.target" ];
-    serviceConfig = {
-      User = "aki";
-      Group = "users";
-    };
-  };
+
+  # give the containers enough time to shut down gracefully (see --stop-timeout above)
+  systemd.services.docker-watchtower.serviceConfig.TimeoutStopSec = lib.mkForce 330;
+  systemd.services.docker-tdarr-node.serviceConfig.TimeoutStopSec = lib.mkForce 330;
 
   virtualisation.libvirtd.enable = true;
   programs.virt-manager.enable = true;
