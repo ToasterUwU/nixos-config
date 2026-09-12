@@ -467,6 +467,18 @@
         "url": "https://github.com/NixOS/nixpkgs/pull/548099.diff"
       }
     },
+    "nixpkgs-patch-fix-tirith": {
+      "flake": false,
+      "locked": {
+        "narHash": "sha256-YyCKR3lS9XJOaeklvgShuYz+B0Jw+4+vV58/PioNo+4=",
+        "type": "file",
+        "url": "https://github.com/NixOS/nixpkgs/pull/562326.diff"
+      },
+      "original": {
+        "type": "file",
+        "url": "https://github.com/NixOS/nixpkgs/pull/562326.diff"
+      }
+    },
     "nixpkgs-patcher": {
       "locked": {
         "lastModified": 1789143781,
@@ -741,6 +753,7 @@
         "nixcord": "nixcord",
         "nixpkgs": "nixpkgs_6",
         "nixpkgs-patch-add-sable-dekstop-package": "nixpkgs-patch-add-sable-dekstop-package",
+        "nixpkgs-patch-fix-tirith": "nixpkgs-patch-fix-tirith",
         "nixpkgs-patcher": "nixpkgs-patcher",
         "nixpkgs-update": "nixpkgs-update",
         "nixpkgs-xr": "nixpkgs-xr",
