@@ -33,18 +33,13 @@ in
 
         patches = nixpkgs-xr.packages.${pkgs.stdenv.hostPlatform.system}.monado.patches ++ [
           (final.fetchpatch {
-            url = "file://${../../assets/monado/solarxr-load-driver.diff}";
-            hash = "sha256-Z3bsDQUWM0RUizKQzRZSKYPnggixEzrGxAMAVgsscaw=";
-          })
-          (final.fetchpatch {
-            url = "file://${../../assets/monado/solarxr-feeder-destroy-hooks.diff}";
-            hash = "sha256-djT5UMN/udueDHrS2x+wNw61OXo+svyAi0z+xpje+00=";
+            url = "file://${../../assets/monado/solarxr-load-driver.patch}";
+            hash = "";
           })
         ];
       };
 
-      # Use the nixpkgs package instead of the nixpkgs-xr one, which does not
-      # install the .desktop file or icons.
+      # Use the nixpkgs package instead of the nixpkgs-xr one, which does not install the .desktop file or icons.
       xr-chaperone = final.callPackage "${final.path}/pkgs/by-name/xr/xr-chaperone/package.nix" { };
     })
   ];

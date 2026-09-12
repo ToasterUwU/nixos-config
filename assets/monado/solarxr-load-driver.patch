@@ -1,0 +1,321 @@
+From 7490bf30f3eb857542e80ab6b49747ab6a63f930 Mon Sep 17 00:00:00 2001
+From: rcelyte <rcelyte@battletrains.org>
+Date: Fri, 23 Aug 2024 20:54:53 +0000
+Subject: [PATCH] t/common: Load SolarXR driver
+
+Signed-off-by: rcelyte <rcelyte@battletrains.org>
+---
+ src/xrt/base/CMakeLists.txt                   |  5 +++++
+ src/xrt/base/b_system_devices.c               |  9 +++++++++
+ src/xrt/drivers/solarxr/feeder.c              | 18 ++++++++++++++++++
+ src/xrt/drivers/steamvr_lh/steamvr_lh.cpp     |  9 +++++++++
+ .../targets/common/target_builder_legacy.c    | 18 ++++++++++++++++++
+ .../common/target_builder_lighthouse.c        | 18 ++++++++++++++++++
+ .../targets/common/target_builder_rift_s.c    | 19 +++++++++++++++++++
+ .../targets/common/target_builder_steamvr.c   | 18 ++++++++++++++++++
+ src/xrt/targets/common/target_builder_wmr.c   | 18 ++++++++++++++++++
+ 9 files changed, 132 insertions(+)
+
+diff --git a/src/xrt/base/CMakeLists.txt b/src/xrt/base/CMakeLists.txt
+index e6dce4f44e..4692db7f18 100644
+--- a/src/xrt/base/CMakeLists.txt
++++ b/src/xrt/base/CMakeLists.txt
+@@ -10,6 +10,11 @@ target_link_libraries(
+ 	PUBLIC xrt-interfaces
+ 	)
+ 
++if(XRT_BUILD_DRIVER_SOLARXR)
++	target_include_directories(base PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/../drivers)
++	target_link_libraries(base PRIVATE drv_solarxr)
++endif()
++
+ target_sources(
+ 	base
+ 	PRIVATE
+diff --git a/src/xrt/base/b_system_devices.c b/src/xrt/base/b_system_devices.c
+index c5957cb868..ec48e56e6b 100644
+--- a/src/xrt/base/b_system_devices.c
++++ b/src/xrt/base/b_system_devices.c
+@@ -17,12 +17,17 @@
+ #include "util/u_misc.h"
+ #include "util/u_system_devices.h"
+ 
++#include "xrt/xrt_config_drivers.h"
+ #include "xrt/xrt_device.h"
+ 
+ #include <assert.h>
+ #include <limits.h>
+ #include <stdlib.h>
+ 
++#ifdef XRT_BUILD_DRIVER_SOLARXR
++#include "solarxr/solarxr_interface.h"
++#endif
++
+ /*
+  *
+  * Helper functions.
+@@ -293,6 +298,10 @@ b_system_devices_close(struct xrt_system_devices *xsysd)
+ {
+ 	struct b_system_devices *bsysd = b_system_devices(xsysd);
+ 
++#ifdef XRT_BUILD_DRIVER_SOLARXR
++	solarxr_device_clear_feeder_devices(xsysd->static_roles.body);
++#endif
++
+ 	for (uint32_t i = 0; i < ARRAY_SIZE(bsysd->base.static_xdevs); i++) {
+ 		xrt_device_destroy(&bsysd->base.static_xdevs[i]);
+ 	}
+diff --git a/src/xrt/drivers/solarxr/feeder.c b/src/xrt/drivers/solarxr/feeder.c
+index 3c79eef8b4..469ed0efb3 100644
+--- a/src/xrt/drivers/solarxr/feeder.c
++++ b/src/xrt/drivers/solarxr/feeder.c
+@@ -317,6 +317,22 @@ feeder_init(struct feeder *const feeder, const enum u_logging_level log_level)
+ 	return true;
+ }
+ 
++static void
++feeder_device_assert_destroyed_cb(const uint64_t key, const void *const value, void *const userptr)
++{
++	(void)key;
++	(void)userptr;
++	struct feeder_device *const device = (struct feeder_device *)value;
++
++	/*
++	 * If this is hit then there is a high chance the caller neglected to call
++	 * `solarxr_device_clear_feeder_devices()` before `xrt_system_devices::destroy()` and
++	 * we're already in undefined behavior territory
++	 */
++	assert(device->destroyed);
++	(void)device;
++}
++
+ static void
+ feeder_device_free_cb(const uint64_t key, const void *const value, void *const userptr)
+ {
+@@ -329,6 +345,8 @@ void
+ feeder_fini(struct feeder *const feeder)
+ {
+ 	if (feeder->devices != NULL) {
++		u_hashmap_int_for_each(feeder->devices, feeder_device_assert_destroyed_cb, NULL);
++
+ 		feeder_clear_devices(feeder);
+ 		feeder_send_feedback(feeder);
+ 		u_hashmap_int_for_each(feeder->devices, feeder_device_free_cb, NULL);
+diff --git a/src/xrt/drivers/steamvr_lh/steamvr_lh.cpp b/src/xrt/drivers/steamvr_lh/steamvr_lh.cpp
+index 84961eb874..9071af5fb5 100644
+--- a/src/xrt/drivers/steamvr_lh/steamvr_lh.cpp
++++ b/src/xrt/drivers/steamvr_lh/steamvr_lh.cpp
+@@ -9,6 +9,7 @@
+  */
+ 
+ #include "xrt/xrt_config_arch.h"
++#include "xrt/xrt_config_drivers.h"
+ #include "xrt/xrt_system.h"
+ 
+ #include "interfaces/context.hpp"
+@@ -34,6 +35,10 @@
+ #include "steamvr_lh_interface.h"
+ #include "device.hpp"
+ 
++#ifdef XRT_BUILD_DRIVER_SOLARXR
++#include "solarxr/solarxr_interface.h"
++#endif
++
+ #include <cstring>
+ #include <dlfcn.h>
+ #include <memory>
+@@ -974,6 +979,10 @@ get_roles(struct xrt_system_devices *xsysd, struct xrt_system_roles *out_roles)
+ void
+ destroy(struct xrt_system_devices *xsysd)
+ {
++#ifdef XRT_BUILD_DRIVER_SOLARXR
++	solarxr_device_clear_feeder_devices(xsysd->static_roles.body);
++#endif
++
+ 	for (uint32_t i = 0; i < ARRAY_SIZE(xsysd->static_xdevs); i++) {
+ 		xrt_device_destroy(&xsysd->static_xdevs[i]);
+ 	}
+diff --git a/src/xrt/targets/common/target_builder_legacy.c b/src/xrt/targets/common/target_builder_legacy.c
+index d257fd742c..38c2f7c269 100644
+--- a/src/xrt/targets/common/target_builder_legacy.c
++++ b/src/xrt/targets/common/target_builder_legacy.c
+@@ -20,6 +20,10 @@
+ 
+ #include <assert.h>
+ 
++#ifdef XRT_BUILD_DRIVER_SOLARXR
++#include "solarxr/solarxr_interface.h"
++#endif
++
+ static const char *driver_list[] = {
+ #ifdef XRT_BUILD_DRIVER_CONTACTGLOVE
+     "contactglove",
+@@ -192,6 +196,20 @@ legacy_open_system_impl(struct xrt_builder *xb,
+ 	conforming_left_ht = u_system_devices_get_ht_device_conforming_left(xsysd);
+ 	conforming_right_ht = u_system_devices_get_ht_device_conforming_right(xsysd);
+ 
++#ifdef XRT_BUILD_DRIVER_SOLARXR
++	if (xsysd->static_roles.body == NULL) {
++		const uint32_t count =
++		    solarxr_device_create_xdevs(head->tracking_origin, &xsysd->static_xdevs[xsysd->static_xdev_count],
++		                                ARRAY_SIZE(xsysd->static_xdevs) - xsysd->static_xdev_count);
++		if (count != 0) {
++			xsysd->static_roles.body = xsysd->static_xdevs[xsysd->static_xdev_count];
++			solarxr_device_set_feeder_devices(xsysd->static_roles.body, xsysd->static_xdevs,
++			                                  xsysd->static_xdev_count);
++		}
++		xsysd->static_xdev_count += count;
++	}
++#endif
++
+ 	// Assign to role(s).
+ 	tbo->head = head;
+ 	tbo->eyes = eyes;
+diff --git a/src/xrt/targets/common/target_builder_lighthouse.c b/src/xrt/targets/common/target_builder_lighthouse.c
+index 49f78b5a5e..4e75815b1c 100644
+--- a/src/xrt/targets/common/target_builder_lighthouse.c
++++ b/src/xrt/targets/common/target_builder_lighthouse.c
+@@ -59,6 +59,10 @@
+ #include "opengloves/opengloves_interface.h"
+ #endif
+ 
++#ifdef XRT_BUILD_DRIVER_SOLARXR
++#include "solarxr/solarxr_interface.h"
++#endif
++
+ #if defined(XRT_BUILD_DRIVER_SURVIVE)
+ #define DEFAULT_DRIVER "survive"
+ #else
+@@ -748,6 +752,20 @@ end_valve_index:
+ 		try_add_opengloves(left, right, &unobstructed_left_ht, &unobstructed_right_ht);
+ 	}
+ 
++#ifdef XRT_BUILD_DRIVER_SOLARXR
++	if (xsysd->static_roles.body == NULL) {
++		const uint32_t count =
++		    solarxr_device_create_xdevs(head->tracking_origin, &xsysd->static_xdevs[xsysd->static_xdev_count],
++		                                ARRAY_SIZE(xsysd->static_xdevs) - xsysd->static_xdev_count);
++		if (count != 0) {
++			xsysd->static_roles.body = xsysd->static_xdevs[xsysd->static_xdev_count];
++			solarxr_device_set_feeder_devices(xsysd->static_roles.body, xsysd->static_xdevs,
++			                                  xsysd->static_xdev_count);
++		}
++		xsysd->static_xdev_count += count;
++	}
++#endif
++
+ 	// Assign to role(s).
+ 	tbo->head = head;
+ 	tbo->face = face;
+diff --git a/src/xrt/targets/common/target_builder_rift_s.c b/src/xrt/targets/common/target_builder_rift_s.c
+index 58616d20b4..2d8deed01b 100644
+--- a/src/xrt/targets/common/target_builder_rift_s.c
++++ b/src/xrt/targets/common/target_builder_rift_s.c
+@@ -31,6 +31,10 @@
+ #include "ht_ctrl_emu/ht_ctrl_emu_interface.h"
+ #endif
+ 
++#ifdef XRT_BUILD_DRIVER_SOLARXR
++#include "solarxr/solarxr_interface.h"
++#endif
++
+ #include "rift_s/rift_s_interface.h"
+ #include "rift_s/rift_s.h"
+ 
+@@ -203,6 +207,21 @@ rift_s_open_system_impl(struct xrt_builder *xb,
+ 	}
+ #endif
+ 
++#ifdef XRT_BUILD_DRIVER_SOLARXR
++	if (xsysd->static_roles.body == NULL) {
++		const uint32_t count =
++		    solarxr_device_create_xdevs((hmd_xdev != NULL) ? hmd_xdev->tracking_origin : NULL,
++		                                &xsysd->static_xdevs[xsysd->static_xdev_count],
++		                                ARRAY_SIZE(xsysd->static_xdevs) - xsysd->static_xdev_count);
++		if (count != 0) {
++			xsysd->static_roles.body = xsysd->static_xdevs[xsysd->static_xdev_count];
++			solarxr_device_set_feeder_devices(xsysd->static_roles.body, xsysd->static_xdevs,
++			                                  xsysd->static_xdev_count);
++		}
++		xsysd->static_xdev_count += count;
++	}
++#endif
++
+ 	// Assign to role(s).
+ 	tbo->head = hmd_xdev;
+ 	tbo->left = left_xdev;
+diff --git a/src/xrt/targets/common/target_builder_steamvr.c b/src/xrt/targets/common/target_builder_steamvr.c
+index 9d535686b4..bb6cec217f 100644
+--- a/src/xrt/targets/common/target_builder_steamvr.c
++++ b/src/xrt/targets/common/target_builder_steamvr.c
+@@ -33,6 +33,10 @@
+ #include "xrt/xrt_space.h"
+ #include "b_space_overseer.h"
+ 
++#ifdef XRT_BUILD_DRIVER_SOLARXR
++#include "solarxr/solarxr_interface.h"
++#endif
++
+ #ifndef XRT_BUILD_DRIVER_STEAMVR_LIGHTHOUSE
+ #error "This builder requires the SteamVR Lighthouse driver"
+ #endif
+@@ -165,6 +169,20 @@ steamvr_open_system(struct xrt_builder *xb,
+ 	SET_HT_ROLES(conforming)
+ #undef SET_HT_ROLES
+ 
++#ifdef XRT_BUILD_DRIVER_SOLARXR
++	if (xsysd->static_roles.body == NULL) {
++		const uint32_t count = solarxr_device_create_xdevs(
++		    xsysd->static_roles.head->tracking_origin, &xsysd->static_xdevs[xsysd->static_xdev_count],
++		    ARRAY_SIZE(xsysd->static_xdevs) - xsysd->static_xdev_count);
++		if (count != 0) {
++			xsysd->static_roles.body = xsysd->static_xdevs[xsysd->static_xdev_count];
++			solarxr_device_set_feeder_devices(xsysd->static_roles.body, xsysd->static_xdevs,
++			                                  xsysd->static_xdev_count);
++		}
++		xsysd->static_xdev_count += count;
++	}
++#endif
++
+ 	/*
+ 	 * Space overseer.
+ 	 */
+diff --git a/src/xrt/targets/common/target_builder_wmr.c b/src/xrt/targets/common/target_builder_wmr.c
+index a5fb4291e0..ab9f45fdcb 100644
+--- a/src/xrt/targets/common/target_builder_wmr.c
++++ b/src/xrt/targets/common/target_builder_wmr.c
+@@ -26,6 +26,10 @@
+ 
+ #include <assert.h>
+ 
++#ifdef XRT_BUILD_DRIVER_SOLARXR
++#include "solarxr/solarxr_interface.h"
++#endif
++
+ #ifndef XRT_BUILD_DRIVER_WMR
+ #error "Must only be built with XRT_BUILD_DRIVER_WMR set"
+ #endif
+@@ -298,6 +302,20 @@ wmr_open_system_impl(struct xrt_builder *xb,
+ 		right = ht_right;
+ 	}
+ 
++#ifdef XRT_BUILD_DRIVER_SOLARXR
++	if (xsysd->static_roles.body == NULL) {
++		const uint32_t count =
++		    solarxr_device_create_xdevs(head->tracking_origin, &xsysd->static_xdevs[xsysd->static_xdev_count],
++		                                ARRAY_SIZE(xsysd->static_xdevs) - xsysd->static_xdev_count);
++		if (count != 0) {
++			xsysd->static_roles.body = xsysd->static_xdevs[xsysd->static_xdev_count];
++			solarxr_device_set_feeder_devices(xsysd->static_roles.body, xsysd->static_xdevs,
++			                                  xsysd->static_xdev_count);
++		}
++		xsysd->static_xdev_count += count;
++	}
++#endif
++
+ 
+ 	// Assign to role(s).
+ 	tbo->head = head;
+-- 
+GitLab
+
