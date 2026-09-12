@@ -34,7 +34,7 @@ in
         patches = nixpkgs-xr.packages.${pkgs.stdenv.hostPlatform.system}.monado.patches ++ [
           (final.fetchpatch {
             url = "file://${../../assets/monado/solarxr-load-driver.patch}";
-            hash = "";
+            hash = "sha256-wOo/AqM09Yi9PkkxvtU4gJRdlVpzQbE6I5/Cv5f1/R4=";
           })
         ];
       };
