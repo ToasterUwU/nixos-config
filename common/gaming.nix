@@ -14,10 +14,6 @@
     millennium.overlays.default
   ];
 
-  # CachyOS Kernel Substituter
-  nix.settings.substituters = [ "https://attic.xuyh0120.win/lantian" ];
-  nix.settings.trusted-public-keys = [ "lantian:EeAUQ+W+6r7EtwnmYjeVwx5kOGEBpjlBfPlzGlTNvHc=" ];
-
   services.hardware.openrgb.enable = true;
   services.ratbagd.enable = true;
   services.libinput.mouse.accelProfile = "flat";
