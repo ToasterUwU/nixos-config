@@ -10,6 +10,7 @@
 {
   nixpkgs.overlays = [
     nix-cachyos-kernel.overlays.pinned
+    nix-gaming-edge.overlays.default
     nix-gaming-edge.overlays.proton-cachyos
     millennium.overlays.default
   ];
@@ -75,6 +76,7 @@
     edmarketconnector
     min-ed-launcher
     pyfa
+    opengoal-launcher
   ];
 
   networking.hosts = {
