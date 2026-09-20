@@ -236,6 +236,7 @@
       ungoogled-chromium
       mprisence
       supersonic
+      deezy
       mpv
       simple-scan
       pdfarranger
