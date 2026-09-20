@@ -40,10 +40,6 @@
       url = "https://github.com/NixOS/nixpkgs/pull/548099.diff";
       flake = false;
     };
-    nixpkgs-patch-fix-tirith = {
-      url = "https://github.com/NixOS/nixpkgs/pull/562326.diff";
-      flake = false;
-    };
   };
 
   outputs =
