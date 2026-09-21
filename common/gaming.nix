@@ -30,6 +30,7 @@
     enable = true;
     capSysAdmin = true; # only needed for Wayland -- omit this when using with Xorg
     openFirewall = true;
+    autoStart = false;
   };
 
   programs.steam = {
