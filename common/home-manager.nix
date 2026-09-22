@@ -340,25 +340,6 @@
               permissionsViewer.enable = true;
               petpet.enable = true;
               pictureInPicture.enable = true;
-              pinDms = {
-                enable = true;
-                userBasedCategoryList = {
-                  "235416194293694466" = [
-                    {
-                      id = "xzt0czhin2";
-                      name = "Special";
-                      color = 13601515;
-                      collapsed = false;
-                      channels = [
-                        "1361859492563779604"
-                        "1363341770112372886"
-                        "1534398875929149500"
-                        "1354257168563703810"
-                      ];
-                    }
-                  ];
-                };
-              };
               quoter.enable = true;
               relationshipNotifier.enable = true;
               replaceGoogleSearch = {
