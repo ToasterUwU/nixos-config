@@ -58,6 +58,14 @@ in
         patch = ../../assets/kernel/0001-Change-device-uvc_version-check-on-dwMaxVideoFrameSize.patch;
       }
       {
+        name = "amdgpu-ignore-ctx-privileges";
+        patch = pkgs.fetchpatch {
+          name = "cap_sys_nice_begone.patch";
+          url = "https://github.com/Frogging-Family/community-patches/raw/master/linux61-tkg/cap_sys_nice_begone.mypatch";
+          hash = "sha256-0ya6b43m0ncjbyi6vyq3ipwwx6yj24cw8m167bd6ikwvdz5yi887";
+        };
+      }
+      {
         name = "disable-unused-drivers";
         patch = null;
         # Trimmed to this machines hardware to cut kernel compile time. Failures here are silent. A "no" is ignored if something still selects the symbol
