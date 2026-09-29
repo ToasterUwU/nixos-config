@@ -1460,7 +1460,7 @@
                   "wipe"
                   "honeycomb"
                 ];
-                useOriginalImages = true;
+                useOriginalImages = false;
                 useSolidColor = false;
                 useWallhaven = false;
                 viewMode = "browse";
