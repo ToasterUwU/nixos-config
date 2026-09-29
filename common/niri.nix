@@ -88,6 +88,7 @@
 
     nemo-with-extensions
     file-roller
+    p7zip # For file roller multi part 7zip support
     xviewer
     pwvucontrol
 
