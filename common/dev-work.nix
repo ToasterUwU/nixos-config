@@ -99,7 +99,7 @@
     };
   };
 
-  nix.nixPath = [ "nixpkgs=${nixpkgs}" ];
+  nix.settings.nix-path = [ "nixpkgs=${nixpkgs}" ];
 
   users.users.aki = {
     packages = with pkgs; [
