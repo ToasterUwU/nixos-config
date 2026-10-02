@@ -248,6 +248,7 @@
       gimp3
       blender
       unityhub
+      assetripper
       # Workaround for OpenSCAD 2024.03.01+ failing to link with LLD.
       # See https://github.com/NixOS/nixpkgs/issues/543373#issuecomment-5038917801
       (openscad-unstable.overrideAttrs (oldAttrs: {
