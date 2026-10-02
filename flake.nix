@@ -34,8 +34,16 @@
     };
     nixcord.url = "github:FlameFlag/nixcord";
     nix-vrft.url = "github:naraenda/nix-vrft";
+    lmstudio = {
+      url = "github:Daaboulex/lmstudio-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     nixpkgs-patch-add-sable-dekstop-package = {
       url = "https://github.com/NixOS/nixpkgs/pull/548099.diff";
+      flake = false;
+    };
+    nixpkgs-patch-add-plugin-deps-for-edmarketconnector = {
+      url = "https://github.com/NixOS/nixpkgs/pull/506770.diff";
       flake = false;
     };
   };

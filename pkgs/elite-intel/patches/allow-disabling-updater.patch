@@ -1,0 +1,39 @@
+diff --git a/app/src/main/java/elite/intel/util/Updater.java b/app/src/main/java/elite/intel/util/Updater.java
+index 6b10915..bb0db7c 100644
+--- a/app/src/main/java/elite/intel/util/Updater.java
++++ b/app/src/main/java/elite/intel/util/Updater.java
+@@ -38,6 +38,13 @@ public class Updater {
+      */
+     private static final String UPDATER_JAR_NAME = "elite_intel_updater.jar";
+ 
++    /**
++     * Set with {@code -Delite.intel.updates.disabled=true} by distribution packages whose package manager
++     * owns the install tree: there the updater cannot write to it, and a newer release arrives through the
++     * package manager instead.
++     */
++    private static final boolean UPDATES_DISABLED = Boolean.getBoolean("elite.intel.updates.disabled");
++
+     private static final Path JAR_DIR = resolveJarDirectory();
+ 
+     private Updater() {
+@@ -72,6 +79,10 @@ public class Updater {
+      * @return a {@code CompletableFuture<Boolean>} - {@code true} means "exit now".
+      */
+     public static CompletableFuture<Boolean> performUpdateAsync() {
++        if (UPDATES_DISABLED) {
++            UiBus.publish(new AppLogEvent("Updates are managed by your package manager"));
++            return CompletableFuture.completedFuture(false);
++        }
+         return CompletableFuture.supplyAsync(() -> {
+             Path updaterJar = JAR_DIR.resolve(UPDATER_JAR_NAME);
+ 
+@@ -104,6 +115,9 @@ public class Updater {
+      *         or the check could not be completed.
+      */
+     public static CompletableFuture<Boolean> isUpdateAvailableAsync() {
++        if (UPDATES_DISABLED) {
++            return CompletableFuture.completedFuture(false);
++        }
+         return CompletableFuture.supplyAsync(() -> {
+             String local = normalizeVersion(getInstance().readVersionFromResources());
+             if (local.isBlank()) return false;

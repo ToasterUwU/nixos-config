@@ -1,0 +1,52 @@
+diff --git a/app/src/main/java/elite/intel/util/SherpaOnnxNatives.java b/app/src/main/java/elite/intel/util/SherpaOnnxNatives.java
+index e373d31..796c2ea 100644
+--- a/app/src/main/java/elite/intel/util/SherpaOnnxNatives.java
++++ b/app/src/main/java/elite/intel/util/SherpaOnnxNatives.java
+@@ -26,7 +26,11 @@ public final class SherpaOnnxNatives {
+         Files.createDirectories(nativeDir);
+ 
+         for (String lib : nativeLibsInOrder(platform)) {
+-            extractAndLoad(platform, nativeDir, lib);
++            if (SherpaOnnxNatives.class.getResource(resourcePath(platform, lib)) == null) {
++                loadPreinstalled(nativeDir, lib);
++            } else {
++                extractAndLoad(platform, nativeDir, lib);
++            }
+         }
+ 
+         System.setProperty("sherpa_onnx.native.path", nativeDir.toAbsolutePath().toString());
+@@ -57,9 +61,33 @@ public final class SherpaOnnxNatives {
+      * would otherwise keep loading the previous release's library next to the new classes - an
+      * {@code UnsatisfiedLinkError} at the first native call, with nothing in the log to say why.
+      */
++    private static String resourcePath(String platform, String lib) {
++        return "/native/" + platform + "/" + lib;
++    }
++
++    /**
++     * Loads a library installed beside the jar by a package manager, for a jar built without the bundled
++     * copies (a Linux distribution builds sherpa-onnx from source and links it against its own ONNX
++     * Runtime). Such an install tree is read-only and the jar carries nothing to compare against, so the
++     * file is used as it is. A missing ONNX Runtime is not an error there: the JNI library finds its own
++     * through its runpath.
++     */
++    private static void loadPreinstalled(Path dir, String lib) throws IOException {
++        Path target = dir.resolve(lib);
++        if (!Files.exists(target)) {
++            if (lib.contains("sherpa-onnx-jni")) {
++                throw new IOException("Not in JAR and not installed: " + target);
++            }
++            log.info("{} not installed beside the jar; relying on the JNI library to resolve it", lib);
++            return;
++        }
++        System.load(target.toAbsolutePath().toString());
++        log.info("Loaded preinstalled {}", lib);
++    }
++
+     private static void extractAndLoad(String platform, Path dir, String lib) throws IOException {
+         Path target = dir.resolve(lib);
+-        String resource = "/native/" + platform + "/" + lib;
++        String resource = resourcePath(platform, lib);
+         URL shipped = SherpaOnnxNatives.class.getResource(resource);
+         if (shipped == null) throw new IOException("Resource not in JAR: " + resource);
+         // The size comes from the jar entry, not from reading the library: these are tens of megabytes,

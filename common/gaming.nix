@@ -75,6 +75,7 @@
     pcsx2
     ed-odyssey-materials-helper
     edmarketconnector
+    elite-intel
     min-ed-launcher
     pyfa
     opengoal-launcher
@@ -103,6 +104,10 @@
               },
               {
                 "fileName": "${lib.getExe pkgs.edmarketconnector}",
+                "keepOpen": true
+              },
+              {
+                "fileName": "${lib.getExe pkgs.elite-intel}",
                 "keepOpen": true
               },
               {
@@ -137,7 +142,11 @@
                 "/restart"
                 "15"
               ];
-              env.PRESSURE_VESSEL_IMPORT_OPENXR_1_RUNTIMES = 1;
+              env = {
+                PRESSURE_VESSEL_IMPORT_OPENXR_1_RUNTIMES = 1;
+                # EliteIntel sends keypresses through XTest, which only reaches the game on XWayland
+                PROTON_ENABLE_WAYLAND = 0;
+              };
             };
             "2519830" = {
               name = "Resonite";

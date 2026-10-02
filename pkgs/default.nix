@@ -4,4 +4,5 @@
   split-3d-image = pkgs.callPackage ./split-3d-image { };
   monado-start = pkgs.callPackage ./monado-start { };
   deezy = pkgs.callPackage ./deezy { };
+  elite-intel = pkgs.callPackage ./elite-intel { };
 }
