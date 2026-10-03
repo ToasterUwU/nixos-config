@@ -128,7 +128,7 @@
         config = {
           enable = true;
           onSteamRunning = "close";
-          defaultCompatTool = "dwproton";
+          defaultCompatTool = "GE-Proton";
 
           apps = {
             "359320" = {
