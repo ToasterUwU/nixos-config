@@ -59,13 +59,13 @@ let
 in
 stdenv.mkDerivation (finalAttrs: {
   pname = "elite-intel";
-  version = "1.1.0021";
+  version = "1.1.0025";
 
   src = fetchFromGitHub {
     owner = "SudoKrondor";
     repo = "EliteIntel";
     tag = "v-${finalAttrs.version}";
-    hash = "sha256-rfyLlx/+F7gcXziJhn9ktu3JbW02r040An8zfh5EXQw=";
+    hash = "sha256-mMK3Bi/TY43bCviU16Qrehhi3IKVwa9k+vX0MF2m6Go=";
   };
 
   patches = [
