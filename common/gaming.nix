@@ -103,6 +103,10 @@
                 "keepOpen": true
               },
               {
+                "fileName": "${lib.getExe pkgs.lmstudio}",
+                "keepOpen": true
+              },
+              {
                 "fileName": "${lib.getExe pkgs.edmarketconnector}",
                 "keepOpen": true
               },
