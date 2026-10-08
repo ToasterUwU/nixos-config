@@ -538,6 +538,16 @@ in
       xdg.configFile."wayvr/conf.d/skybox.yaml".text = ''
         skybox_texture: ${../../assets/battlefront-2.dds}
       '';
+
+      xdg.desktopEntries.resonite-modded = {
+        name = "Resonite (Modded)";
+        icon = "steam_icon_2519830";
+        categories = [ "Game" ];
+        exec = "${pkgs.writeShellScript "resonite-modded" ''
+          ${pkgs.etvr}/bin/etvr &
+          exec ${pkgs.gale}/bin/gale --game resonite --profile Default --launch
+        ''}";
+      };
     };
   };
 }
