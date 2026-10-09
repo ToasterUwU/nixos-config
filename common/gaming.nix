@@ -79,6 +79,7 @@
     min-ed-launcher
     pyfa
     opengoal-launcher
+    vintagestory
   ];
 
   networking.hosts = {
