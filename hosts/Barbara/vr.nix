@@ -535,10 +535,6 @@ in
         }
       '';
 
-      xdg.configFile."wayvr/conf.d/skybox.yaml".text = ''
-        skybox_texture: ${../../assets/battlefront-2.dds}
-      '';
-
       xdg.desktopEntries.resonite-modded = {
         name = "Resonite (Modded)";
         icon = "steam_icon_2519830";
