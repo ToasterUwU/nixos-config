@@ -47,7 +47,7 @@
               }
               {
                 matches = [
-                  { app-id = "^super-productivity$"; }
+                  { app-id = "^superproductivity$"; }
                 ];
                 open-on-workspace = "TODO";
                 open-focused = false;
