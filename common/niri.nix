@@ -532,7 +532,7 @@
                   sourceUrl = "https://github.com/noctalia-dev/noctalia-plugins";
                 };
                 linux-wallpaperengine-controller = {
-                  enabled = true;
+                  enabled = false;
                   sourceUrl = "https://github.com/noctalia-dev/noctalia-plugins";
                 };
                 network-manager-vpn = {
