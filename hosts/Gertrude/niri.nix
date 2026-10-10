@@ -51,6 +51,7 @@
                 ];
                 open-on-workspace = "TODO";
                 open-focused = false;
+                open-maximized = true;
               }
             ];
           };
