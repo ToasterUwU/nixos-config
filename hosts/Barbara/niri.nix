@@ -32,6 +32,9 @@
               "social" = {
                 open-on-output = "HDMI-A-1";
               };
+              "TODO" = {
+                open-on-output = "DP-2";
+              };
             };
 
             window-rules = [
@@ -41,6 +44,13 @@
                   { app-id = "^sable$"; }
                 ];
                 open-on-workspace = "social";
+                open-focused = false;
+              }
+              {
+                matches = [
+                  { app-id = "^super-productivity$"; }
+                ];
+                open-on-workspace = "TODO";
                 open-focused = false;
               }
             ];

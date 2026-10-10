@@ -30,6 +30,10 @@
                 name = "social";
                 open-on-output = "eDP-1";
               };
+              "03-TODO" = {
+                name = "TODO";
+                open-on-output = "eDP-1";
+              };
             };
 
             window-rules = [
@@ -39,6 +43,13 @@
                   { app-id = "^sable$"; }
                 ];
                 open-on-workspace = "social";
+                open-focused = false;
+              }
+              {
+                matches = [
+                  { app-id = "^super-productivity$"; }
+                ];
+                open-on-workspace = "TODO";
                 open-focused = false;
               }
             ];

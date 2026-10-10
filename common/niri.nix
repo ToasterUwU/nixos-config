@@ -211,6 +211,7 @@
                 { sh = "${afterTray}; ${afterWindow} discord; sable"; }
                 { sh = "${afterTray}; openrgb --startminimized --profile Pink"; }
                 { sh = "${afterTray}; easyeffects --hide-window"; }
+                { sh = "${afterTray}; super-productivity"; }
               ];
 
             hotkey-overlay.skip-at-startup = true;
