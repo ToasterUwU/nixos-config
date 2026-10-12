@@ -39,7 +39,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     nixpkgs-patch-add-sable-dekstop-package = {
-      url = "https://github.com/NixOS/nixpkgs/pull/548099.diff";
+      url = "https://github.com/NixOS/nixpkgs/pull/573087.diff";
       flake = false;
     };
     nixpkgs-patch-add-plugin-deps-for-edmarketconnector = {

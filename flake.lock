@@ -643,13 +643,13 @@
     "nixpkgs-patch-add-sable-dekstop-package": {
       "flake": false,
       "locked": {
-        "narHash": "sha256-Z7TjLgErGJyyiRI9XGKUC2e61GSx0uCnQo9j47sgWyU=",
+        "narHash": "sha256-ZZ3BG2kg54dovkxKv+7D3T4oqRK8DlwTUK2JLdqSjsc=",
         "type": "file",
-        "url": "https://github.com/NixOS/nixpkgs/pull/548099.diff"
+        "url": "https://github.com/NixOS/nixpkgs/pull/573087.diff"
       },
       "original": {
         "type": "file",
-        "url": "https://github.com/NixOS/nixpkgs/pull/548099.diff"
+        "url": "https://github.com/NixOS/nixpkgs/pull/573087.diff"
       }
     },
     "nixpkgs-patcher": {
