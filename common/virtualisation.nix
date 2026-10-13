@@ -14,8 +14,8 @@
     };
   };
 
-  virtualisation.containers.enable = true;
   virtualisation = {
+    containers.enable = true;
     docker = {
       enable = true;
       liveRestore = false;
@@ -23,6 +23,8 @@
     oci-containers = {
       backend = "docker";
     };
+
+    waydroid.enable = true;
   };
   users.users.aki.extraGroups = [ "docker" ];
 
