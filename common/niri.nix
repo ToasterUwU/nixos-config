@@ -43,6 +43,8 @@
     }
   ];
 
+  systemd.user.services.niri-flake-polkit.serviceConfig.UnsetEnvironment = "QT_STYLE_OVERRIDE";
+
   services.greetd = {
     enable = true;
     restart = true;
