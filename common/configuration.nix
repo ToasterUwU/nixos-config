@@ -269,6 +269,8 @@
       firefoxpwa
       freecad
       super-productivity
+      jellyfin-desktop
+      fahclient
     ]
     ++ [
       (pkgs.wrapOBS {
