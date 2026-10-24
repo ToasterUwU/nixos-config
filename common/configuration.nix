@@ -106,12 +106,10 @@
     enable = true;
     nssmdns4 = true;
     nssmdns6 = true;
-    publish = {
-      enable = true;
-      addresses = true;
-      hinfo = true;
-      workstation = true;
-      userServices = true;
+    settings.publish = {
+      publish-addresses = true;
+      publish-hinfo = true;
+      publish-workstation = true;
     };
     openFirewall = true;
   };
