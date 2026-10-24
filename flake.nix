@@ -46,6 +46,14 @@
       url = "https://github.com/NixOS/nixpkgs/pull/506770.diff";
       flake = false;
     };
+    nixpkgs-patch-fix-handbrake-build = {
+      url = "https://github.com/NixOS/nixpkgs/pull/576407.diff";
+      flake = false;
+    };
+    nixpkgs-patch-fix-gearlever-build = {
+      url = "https://github.com/NixOS/nixpkgs/pull/575801.diff";
+      flake = false;
+    };
   };
 
   outputs =
