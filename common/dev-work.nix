@@ -138,6 +138,8 @@
       python3
 
       renderdoc
+
+      claude-code
     ];
   };
 }
