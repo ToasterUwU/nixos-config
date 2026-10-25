@@ -42,6 +42,10 @@
       url = "https://github.com/NixOS/nixpkgs/pull/573087.diff";
       flake = false;
     };
+    nixpkgs-patch-fix-cef-for-sable = {
+      url = "https://github.com/NixOS/nixpkgs/pull/571896.diff";
+      flake = false;
+    };
     nixpkgs-patch-add-plugin-deps-for-edmarketconnector = {
       url = "https://github.com/NixOS/nixpkgs/pull/506770.diff";
       flake = false;
