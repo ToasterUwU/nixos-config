@@ -46,37 +46,21 @@
                 open-focused = false;
               }
               {
-                matches = [
-                  { app-id = "^superproductivity$"; }
-                ];
+                matches = [ { app-id = "^superproductivity$"; } ];
                 open-on-workspace = "TODO";
                 open-focused = false;
                 open-maximized = true;
               }
             ];
           };
-          noctalia-shell = {
-            settings = {
-              bar = {
-                density = "mini";
-              };
+          noctalia.settings = {
+            bar.main = {
+              thickness = 26;
+              scale = 0.85;
             };
-            pluginSettings = {
-              linux-wallpaperengine-controller = {
-                screens = {
-                  eDP-1 = {
-                    path = "/home/aki/.local/share/Steam/steamapps/workshop/content/431960/3551537747";
-                    scaling = "fill";
-                  };
-                };
-                lastKnownGoodScreens = {
-                  eDP-1 = {
-                    path = "/home/aki/.local/share/Steam/steamapps/workshop/content/431960/3551537747";
-                    scaling = "fill";
-                  };
-                };
-              };
-            };
+          };
+          noctalia-w-engine.screens = {
+            eDP-1 = "3551537747";
           };
         };
       };

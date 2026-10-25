@@ -26,5 +26,5 @@ in
   "secrets/common/tdarr-apiKey.age".publicKeys = [ aki ] ++ systems;
 
   "secrets/common/noctalia-github-feed-settings.json.age".publicKeys = [ aki ] ++ systems;
-  "secrets/common/noctalia-hassio-settings.json.age".publicKeys = [ aki ] ++ systems;
+  "secrets/common/noctalia-hassio-settings.toml.age".publicKeys = [ aki ] ++ systems;
 }

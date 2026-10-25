@@ -47,53 +47,21 @@
                 open-focused = false;
               }
               {
-                matches = [
-                  { app-id = "^superproductivity$"; }
-                ];
+                matches = [ { app-id = "^superproductivity$"; } ];
                 open-on-workspace = "TODO";
                 open-focused = false;
                 open-maximized = true;
               }
             ];
           };
-          noctalia-shell = {
-            settings = {
-              bar = {
-                density = "comfortable";
-              };
-            };
-            pluginSettings = {
-              linux-wallpaperengine-controller = {
-                screens = {
-                  DP-2 = {
-                    path = "/home/aki/.local/share/Steam/steamapps/workshop/content/431960/1463724965";
-                    scaling = "fill";
-                  };
-                  DP-3 = {
-                    path = "/home/aki/.local/share/Steam/steamapps/workshop/content/431960/3551537747";
-                    scaling = "fill";
-                  };
-                  HDMI-A-1 = {
-                    path = "/home/aki/.local/share/Steam/steamapps/workshop/content/431960/2565816521";
-                    scaling = "fill";
-                  };
-                };
-                lastKnownGoodScreens = {
-                  DP-2 = {
-                    path = "/home/aki/.local/share/Steam/steamapps/workshop/content/431960/1463724965";
-                    scaling = "fill";
-                  };
-                  DP-3 = {
-                    path = "/home/aki/.local/share/Steam/steamapps/workshop/content/431960/3551537747";
-                    scaling = "fill";
-                  };
-                  HDMI-A-1 = {
-                    path = "/home/aki/.local/share/Steam/steamapps/workshop/content/431960/2565816521";
-                    scaling = "fill";
-                  };
-                };
-              };
-            };
+          noctalia.settings = {
+            bar.main.thickness = 38;
+            notification.monitors = [ "DP-3" ];
+          };
+          noctalia-w-engine.screens = {
+            DP-2 = "1463724965";
+            DP-3 = "3551537747";
+            HDMI-A-1 = "2565816521";
           };
         };
       };
