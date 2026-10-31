@@ -515,11 +515,11 @@
         "treefmt-nix": "treefmt-nix"
       },
       "locked": {
-        "lastModified": 1793408362,
-        "narHash": "sha256-Q6sYPOF9NKrdKfmfRrDpSmHW+NiaFVX/Tz01Khe0+yA=",
+        "lastModified": 1793430822,
+        "narHash": "sha256-bRc0NNFpdKCZOxSi8dNl34aqJKuqgZgdjTGZdPEJV6M=",
         "owner": "FlameFlag",
         "repo": "nixcord",
-        "rev": "760cfa0ef95d61d326d725ff5cf2f301963cdbcc",
+        "rev": "0313c241a9c7a64fff55a39a5c99d615c3241695",
         "type": "github"
       },
       "original": {
@@ -854,11 +854,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1793421634,
-        "narHash": "sha256-tN1jCM+qRJWcoWVlaRtOQgVd4xZ+dWbHIQ881ImtgOo=",
+        "lastModified": 1793423963,
+        "narHash": "sha256-uFBOC6cKGUJhSdseWU8Y9GA8WakQYHgVubk6UEdl+/0=",
         "owner": "noctalia-dev",
         "repo": "noctalia",
-        "rev": "9255475f440782e95109d5865527c64fb8788321",
+        "rev": "f2cebd97e01657ea2581af099eb5c8c2e194fb80",
         "type": "github"
       },
       "original": {
