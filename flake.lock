@@ -643,25 +643,13 @@
     "nixpkgs-patch-add-sable-dekstop-package": {
       "flake": false,
       "locked": {
-        "narHash": "sha256-0K/2qVjAnozANf+BELpFRy6tLw6E95vdZeNaDAaj0JU=",
+        "narHash": "sha256-K5NWWbGHwUUWQL10sq8UCQJi5Wao+gOfmEjFeb9vga8=",
         "type": "file",
         "url": "https://github.com/NixOS/nixpkgs/pull/573087.diff"
       },
       "original": {
         "type": "file",
         "url": "https://github.com/NixOS/nixpkgs/pull/573087.diff"
-      }
-    },
-    "nixpkgs-patch-fix-cef-for-sable": {
-      "flake": false,
-      "locked": {
-        "narHash": "sha256-BJ9gjohA6A1OWrk6roXjzWajiyArcmAga9EW3mVfg7M=",
-        "type": "file",
-        "url": "https://github.com/NixOS/nixpkgs/pull/571896.diff"
-      },
-      "original": {
-        "type": "file",
-        "url": "https://github.com/NixOS/nixpkgs/pull/571896.diff"
       }
     },
     "nixpkgs-patcher": {
@@ -925,7 +913,6 @@
         "nixpkgs": "nixpkgs_6",
         "nixpkgs-patch-add-plugin-deps-for-edmarketconnector": "nixpkgs-patch-add-plugin-deps-for-edmarketconnector",
         "nixpkgs-patch-add-sable-dekstop-package": "nixpkgs-patch-add-sable-dekstop-package",
-        "nixpkgs-patch-fix-cef-for-sable": "nixpkgs-patch-fix-cef-for-sable",
         "nixpkgs-patcher": "nixpkgs-patcher",
         "nixpkgs-update": "nixpkgs-update",
         "nixpkgs-xr": "nixpkgs-xr",
