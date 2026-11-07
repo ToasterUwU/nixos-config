@@ -248,7 +248,12 @@
               ];
 
             hotkey-overlay.skip-at-startup = true;
-            gestures.hot-corners = null;
+            gestures.hot-corners = {
+              top-left = false;
+              bottom-left = false;
+              top-right = false;
+              bottom-right = false;
+            };
 
             cursor = {
               theme = "catppuccin-mocha-pink-cursors";
