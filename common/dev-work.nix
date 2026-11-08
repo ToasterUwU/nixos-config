@@ -85,6 +85,16 @@
               "[json]" = {
                 "editor.defaultFormatter" = "vscode.json-language-features";
               };
+              "todo-tree.general.tags" = [
+                "BUG"
+                "HACK"
+                "FIXME"
+                "TODO:"
+                "TODO"
+                "XXX"
+                "[ ]"
+                "[x]"
+              ];
             };
           };
           package = pkgs.vscode.fhsWithPackages (
