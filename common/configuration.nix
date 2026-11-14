@@ -259,7 +259,6 @@
       ledger-live-desktop
       monero-gui
       chromedriver
-      intiface-central
       scrcpy
       qpwgraph
       easyeffects
