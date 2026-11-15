@@ -540,7 +540,9 @@ in
         icon = "steam_icon_2519830";
         categories = [ "Game" ];
         exec = "${pkgs.writeShellScript "resonite-modded" ''
-          ${pkgs.etvr}/bin/etvr &
+          steam &
+          sleep 10
+          steam steam://rungameid/4091970
           exec ${pkgs.gale}/bin/gale --game resonite --profile Default --launch
         ''}";
       };
