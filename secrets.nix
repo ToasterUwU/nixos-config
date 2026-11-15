@@ -27,4 +27,6 @@ in
 
   "secrets/common/noctalia-github-feed-settings.json.age".publicKeys = [ aki ] ++ systems;
   "secrets/common/noctalia-hassio-settings.toml.age".publicKeys = [ aki ] ++ systems;
+
+  "secrets/common/hermes-env.age".publicKeys = [ aki ] ++ systems;
 }

@@ -38,12 +38,17 @@
       url = "github:Daaboulex/lmstudio-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    hermes-agent.url = "github:NousResearch/hermes-agent";
     nixpkgs-patch-add-sable-dekstop-package = {
       url = "https://github.com/NixOS/nixpkgs/pull/573087.diff";
       flake = false;
     };
     nixpkgs-patch-add-plugin-deps-for-edmarketconnector = {
       url = "https://github.com/NixOS/nixpkgs/pull/506770.diff";
+      flake = false;
+    };
+    nixpkgs-patch-fix-dwarfs-build-with-libarchive-3-8-10 = {
+      url = "https://github.com/NixOS/nixpkgs/pull/586760.diff";
       flake = false;
     };
   };
