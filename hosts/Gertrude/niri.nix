@@ -40,7 +40,7 @@
               {
                 matches = [
                   { app-id = "^discord$"; }
-                  { app-id = "^sable$"; }
+                  { app-id = "^moe.sable.client$"; }
                 ];
                 open-on-workspace = "social";
                 open-focused = false;
