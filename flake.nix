@@ -47,10 +47,6 @@
       url = "https://github.com/NixOS/nixpkgs/pull/506770.diff";
       flake = false;
     };
-    nixpkgs-patch-fix-dwarfs-build-with-libarchive-3-8-10 = {
-      url = "https://github.com/NixOS/nixpkgs/pull/586760.diff";
-      flake = false;
-    };
   };
 
   outputs =
