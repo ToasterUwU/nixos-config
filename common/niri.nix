@@ -9,7 +9,14 @@
 {
   imports = [ noctalia.nixosModules.default ];
 
-  nixpkgs.overlays = [ niri.overlays.niri ];
+  nixpkgs.overlays = [
+    niri.overlays.niri
+    (final: prev: {
+      geeqie = prev.geeqie.overrideAttrs (old: {
+        patches = (old.patches or [ ]) ++ [ ../assets/geeqie-3.3-sbs-stereo-detect.patch ];
+      });
+    })
+  ];
 
   nix.settings = {
     extra-substituters = [ "https://noctalia.cachix.org" ];
@@ -94,7 +101,7 @@
     nemo-with-extensions
     file-roller
     p7zip # For file roller multi part 7zip support
-    xviewer
+    geeqie
     pwvucontrol
 
     catppuccin-cursors.mochaPink
@@ -161,8 +168,8 @@
           defaultApplications = {
             "inode/directory" = [ "nemo.desktop" ];
             "application/x-gnome-saved-search" = [ "nemo.desktop" ];
-            "image/jpeg" = [ "xviewer.desktop" ];
-            "image/png" = [ "xviewer.desktop" ];
+            "image/jpeg" = [ "org.geeqie.Geeqie.desktop" ];
+            "image/png" = [ "org.geeqie.Geeqie.desktop" ];
           };
         };
         dconf = {

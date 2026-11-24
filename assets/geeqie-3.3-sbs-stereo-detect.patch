@@ -1,0 +1,732 @@
+Detect side-by-side stereo images by content; copy one view
+
+Geeqie detects side-by-side stereo images only from the file format
+(.jps extension and MPO files). Stereo screenshots from VR applications
+are ordinary PNG or JPEG files, so they are shown as one wide image and
+"Copy image" copies both views.
+
+This patch:
+
+- adds pixbuf_detect_side_by_side_stereo() (pixbuf-util.cc). It examines
+  only wide images (aspect ratio 1.8 to 5.0). Both halves are reduced to
+  a 48-row luminance grid. Parallax is horizontal only, so all
+  comparisons search a horizontal shift of up to +-15 %. An image is a
+  stereo pair if:
+  1. the halves have a normalized cross-correlation >= 0.85;
+  2. the fine detail of the halves (each cell minus its 3x3 mean),
+     compared with a separate horizontal shift for each 8x8 block
+     (near and far objects have different parallax), has a pooled
+     correlation >= 0.50. This rejects images whose halves are similar
+     only in smooth areas (gradients, sky);
+  3. the detail correlates better at a vertical offset of zero than at
+     vertical offsets of 2 to 4 grid rows (stereo views are vertically
+     aligned).
+  Images without texture are never detected. The cost does not depend
+  on the image size (1 ms on average, 2.4 ms at most in tests), and the
+  result is kept on the pixbuf.
+- runs the detection when an image or a read-ahead image is completely
+  loaded, and uses the result in "Auto" stereo mode when the file format
+  gives no stereo information. A selection in View > Stereo still has
+  priority.
+- adds the option "Detect side-by-side stereo images by their content"
+  (Preferences > Stereo, rc key stereo.detect_sbs, default on).
+- changes all "Copy image" commands (main menu, image context menu,
+  file list context menu, image window) so that for a side-by-side
+  stereo image they copy the view that is shown in single image mode
+  (the left view, or the right view if the views are swapped).
+
+Tested with 101 images: 6 VR stereo screenshots in several variants
+(PNG, JPEG quality 60, swapped views, reduced to 1/3 and 1/6 size) and
+difficult 2D images (ultrawide and 2:1 crops, stretched and mirrored
+photos, two different photos side by side, a photo next to a vertically
+shifted copy of itself, gradients, a flat image). No wrong results.
+
+Based on Geeqie v3.3.
+
+---
+diff --git a/src/image.cc b/src/image.cc
+index 5e4f241..478b5d5 100644
+--- a/src/image.cc
++++ b/src/image.cc
+@@ -741,6 +741,48 @@ void image_set_ignore_alpha(ImageWindow *imd, gboolean ignore_alpha)
+    pixbuf_renderer_set_ignore_alpha(PIXBUF_RENDERER(imd->pr), ignore_alpha);
+ }
+ 
++/*
++ *-------------------------------------------------------------------
++ * stereo detection
++ *-------------------------------------------------------------------
++ */
++
++/**
++ * @brief Run the side-by-side stereo detection once for a completely loaded pixbuf
++ *
++ * The result is kept on the pixbuf, so cached and read-ahead pixbufs are not examined again.
++ * The detection always runs (it takes much less than a millisecond), so that cached pixbufs
++ * are correct when options->stereo.detect_sbs is switched on; the option controls only the use of the result.
++ * Partially loaded pixbufs must not be passed here.
++ */
++static void image_stereo_detect(GdkPixbuf *pixbuf)
++{
++	if (!pixbuf) return;
++	if (g_object_get_data(G_OBJECT(pixbuf), "stereo_detect")) return;
++	if (g_object_get_data(G_OBJECT(pixbuf), "stereo_data")) return; /* known from the file format */
++
++	const gboolean sbs = pixbuf_detect_side_by_side_stereo(pixbuf);
++	g_object_set_data(G_OBJECT(pixbuf), "stereo_detect", GINT_TO_POINTER(sbs ? STEREO_PIXBUF_SBS : STEREO_PIXBUF_NONE));
++}
++
++/**
++ * @brief Stereo layout of a pixbuf: user selection, then file format, then content detection
++ */
++static StereoPixbufData image_stereo_data_get(const ImageWindow *imd, GdkPixbuf *pixbuf)
++{
++	if (!pixbuf) return STEREO_PIXBUF_DEFAULT;
++	if (imd->user_stereo != STEREO_PIXBUF_DEFAULT) return imd->user_stereo;
++
++	auto stereo_data = static_cast<StereoPixbufData>(GPOINTER_TO_INT(g_object_get_data(G_OBJECT(pixbuf), "stereo_data")));
++	if (stereo_data == STEREO_PIXBUF_DEFAULT && options->stereo.detect_sbs &&
++	    GPOINTER_TO_INT(g_object_get_data(G_OBJECT(pixbuf), "stereo_detect")) == STEREO_PIXBUF_SBS)
++		{
++		stereo_data = STEREO_PIXBUF_SBS;
++		}
++
++	return stereo_data;
++}
++
+ /*
+  *-------------------------------------------------------------------
+  * read ahead (prebuffer)
+@@ -772,6 +814,7 @@ static void image_read_ahead_done_cb(ImageLoader *, gpointer data)
+ 		if (imd->read_ahead_fd->pixbuf)
+ 			{
+ 			g_object_ref(imd->read_ahead_fd->pixbuf);
++			image_stereo_detect(imd->read_ahead_fd->pixbuf);
+ 			image_cache_set(imd, imd->read_ahead_fd);
+ 			}
+ 		}
+@@ -900,6 +943,8 @@ static void image_load_done_cb(ImageLoader *, gpointer data)
+ 
+ 	DEBUG_1("%s image done", get_exec_time());
+ 
++	image_stereo_detect(image_loader_get_pixbuf(imd->il));
++
+ 	if (options->image.enable_read_ahead && imd->image_fd && !imd->image_fd->pixbuf && image_loader_get_pixbuf(imd->il))
+ 		{
+ 		imd->image_fd->pixbuf = g_object_ref(image_loader_get_pixbuf(imd->il));
+@@ -924,6 +969,11 @@ static void image_load_done_cb(ImageLoader *, gpointer data)
+ 		g_object_set(imd->pr, "complete", FALSE, NULL);
+ 		image_change_pixbuf(imd, image_loader_get_pixbuf(imd->il), image_zoom_get(imd), FALSE);
+ 		}
++	else if (image_get_pixbuf(imd) == image_loader_get_pixbuf(imd->il))
++		{
++		/* The pixbuf was shown while it was loading; the stereo layout is known only now */
++		pixbuf_renderer_set_stereo_data(PIXBUF_RENDERER(imd->pr), image_stereo_data_get(imd, image_get_pixbuf(imd)));
++		}
+ 
+ 	image_loader_free(imd->il);
+ 	imd->il = nullptr;
+@@ -1431,6 +1481,15 @@ GdkPixbuf *image_get_pixbuf(ImageWindow *imd)
+ 	return pixbuf_renderer_get_pixbuf(PIXBUF_RENDERER(imd->pr));
+ }
+ 
++/**
++ * @brief The image as it is seen in single image stereo mode: one view of a stereo pair
++ * @returns A new reference, or NULL
++ */
++GdkPixbuf *image_get_view_pixbuf(ImageWindow *imd)
++{
++	return pixbuf_renderer_get_view_pixbuf(PIXBUF_RENDERER(imd->pr));
++}
++
+ void image_change_pixbuf(ImageWindow *imd, GdkPixbuf *pixbuf, gdouble zoom, gboolean lazy)
+ {
+ 	LayoutWindow *lw;
+@@ -1462,14 +1521,7 @@ void image_change_pixbuf(ImageWindow *imd, GdkPixbuf *pixbuf, gdouble zoom, gboo
+ 			}
+ 		}
+ 
+-	if (pixbuf)
+-		{
+-		stereo_data = imd->user_stereo;
+-		if (stereo_data == STEREO_PIXBUF_DEFAULT)
+-			{
+-			stereo_data = static_cast<StereoPixbufData>(GPOINTER_TO_INT(g_object_get_data(G_OBJECT(pixbuf), "stereo_data")));
+-			}
+-		}
++	stereo_data = image_stereo_data_get(imd, pixbuf);
+ 
+ 	pixbuf_renderer_set_post_process_func(PIXBUF_RENDERER(imd->pr), nullptr, FALSE);
+ 	if (imd->cm)
+diff --git a/src/image.h b/src/image.h
+index 76f598d..ad0adb1 100644
+--- a/src/image.h
++++ b/src/image.h
+@@ -208,6 +208,7 @@ void image_move_from_image(ImageWindow *imd, ImageWindow *source);
+ 
+ gboolean image_get_image_size(ImageWindow *imd, gint &width, gint &height);
+ GdkPixbuf *image_get_pixbuf(ImageWindow *imd);
++GdkPixbuf *image_get_view_pixbuf(ImageWindow *imd);
+ 
+ /* manipulation */
+ void image_area_changed(ImageWindow *imd, gint x, gint y, gint width, gint height);
+diff --git a/src/img-view.cc b/src/img-view.cc
+index cfc2c37..56ace42 100644
+--- a/src/img-view.cc
++++ b/src/img-view.cc
+@@ -806,7 +806,8 @@ static void view_copy_image_cb(GSimpleAction *, GVariant *, gpointer data)
+ {
+ 	auto vw = static_cast<ViewWindow *>(data);
+ 	ImageWindow *imd = view_window_active_image(vw);
+-	GdkPixbuf *pixbuf = image_get_pixbuf(imd);
++	/* One view of a stereo pair, as seen in single image mode */
++	g_autoptr(GdkPixbuf) pixbuf = image_get_view_pixbuf(imd);
+ 	if (!pixbuf) return;
+ 
+ 	GdkClipboard *clipboard = gdk_display_get_clipboard(gtk_widget_get_display(imd->widget));
+diff --git a/src/layout-image.cc b/src/layout-image.cc
+index 567a913..71c8d46 100644
+--- a/src/layout-image.cc
++++ b/src/layout-image.cc
+@@ -672,7 +672,8 @@ static void layout_image_pop_menu_cut_path_cb(GSimpleAction *, GVariant *, gpoin
+ static void layout_image_pop_menu_copy_image_cb(GSimpleAction *, GVariant *, gpointer data)
+ {
+ 	auto lw = static_cast<LayoutWindow *>(data);
+-	GdkPixbuf *pixbuf = image_get_pixbuf(lw->image);
++	/* One view of a stereo pair, as seen in single image mode */
++	g_autoptr(GdkPixbuf) pixbuf = image_get_view_pixbuf(lw->image);
+ 	if (!pixbuf)
+ 		{
+ 		return;
+diff --git a/src/layout-util.cc b/src/layout-util.cc
+index 5cddc21..a16c593 100644
+--- a/src/layout-util.cc
++++ b/src/layout-util.cc
+@@ -455,8 +455,8 @@ static void layout_menu_copy_image_cb(GSimpleAction *, GVariant *, gpointer)
+ 	auto lw = get_current_layout();
+ 	ImageWindow *imd = lw->image;
+ 
+-	GdkPixbuf *pixbuf;
+-	pixbuf = image_get_pixbuf(imd);
++	/* One view of a stereo pair, as seen in single image mode */
++	g_autoptr(GdkPixbuf) pixbuf = image_get_view_pixbuf(imd);
+ 	if (!pixbuf) return;
+ 
+ 	GdkDisplay *display = gdk_display_get_default();
+diff --git a/src/options.cc b/src/options.cc
+index f1b6acc..0d895f3 100644
+--- a/src/options.cc
++++ b/src/options.cc
+@@ -213,6 +213,7 @@ ConfOptions *conf_options_new()
+ 	options->update_on_time_change = TRUE;
+ 	options->clipboard_selection = CLIPBOARD_BOTH;
+ 
++	options->stereo.detect_sbs = TRUE;
+ 	options->stereo.fixed_size = { 1920, 1080 };
+ 	options->stereo.fixed_left = { 0, 0 };
+ 	options->stereo.fixed_right = { 0, 1125 };
+diff --git a/src/options.h b/src/options.h
+index 95b1c84..5b5e4d7 100644
+--- a/src/options.h
++++ b/src/options.h
+@@ -345,6 +345,7 @@ struct ConfOptions
+ 		gint mode;
+ 		gint fsmode;
+ 		gboolean enable_fsmode;
++		gboolean detect_sbs; /**< detect side-by-side stereo pairs by image content in "Auto" stereo mode */
+ 		GqSize fixed_size;
+ 		GqPoint fixed_left;
+ 		GqPoint fixed_right;
+diff --git a/src/pixbuf-renderer.cc b/src/pixbuf-renderer.cc
+index 22138d2..76aea51 100644
+--- a/src/pixbuf-renderer.cc
++++ b/src/pixbuf-renderer.cc
+@@ -2693,6 +2693,46 @@ GdkPixbuf *pixbuf_renderer_get_pixbuf(PixbufRenderer *pr)
+ 	return pr->pixbuf;
+ }
+ 
++/**
++ * @brief Get the view of a stereo pair that is shown in single image stereo mode
++ * @param pixbuf The source image
++ * @param stereo_data The layout of the source image
++ * @param swap TRUE to get the right view instead of the left view
++ * @returns A new reference: for a side-by-side source, a copy of one view;
++ * otherwise the complete pixbuf. NULL if pixbuf is NULL.
++ */
++GdkPixbuf *pixbuf_renderer_stereo_view_new(GdkPixbuf *pixbuf, StereoPixbufData stereo_data, gboolean swap)
++{
++	if (!pixbuf) return nullptr;
++
++	if (stereo_data != STEREO_PIXBUF_SBS && stereo_data != STEREO_PIXBUF_CROSS)
++		{
++		return g_object_ref(pixbuf);
++		}
++
++	const gint half_w = gdk_pixbuf_get_width(pixbuf) / 2;
++	const gint left_x = (stereo_data == STEREO_PIXBUF_SBS) ? 0 : half_w;
++	const gint right_x = half_w - left_x;
++
++	g_autoptr(GdkPixbuf) view = gdk_pixbuf_new_subpixbuf(pixbuf, swap ? right_x : left_x, 0,
++	                                                     half_w, gdk_pixbuf_get_height(pixbuf));
++
++	return gdk_pixbuf_copy(view);
++}
++
++/**
++ * @brief Get the image as it is seen in single image stereo mode
++ * @returns A new reference: for a side-by-side stereo source, a copy of the view
++ * that is shown in single image mode (the left view, or the right view if the views are swapped);
++ * otherwise the complete pixbuf. NULL if there is no pixbuf.
++ */
++GdkPixbuf *pixbuf_renderer_get_view_pixbuf(PixbufRenderer *pr)
++{
++	g_return_val_if_fail(IS_PIXBUF_RENDERER(pr), NULL);
++
++	return pixbuf_renderer_stereo_view_new(pr->pixbuf, pr->stereo_data, (pr->stereo_mode & PR_STEREO_SWAP) != 0);
++}
++
+ void pixbuf_renderer_set_orientation(PixbufRenderer *pr, gint orientation)
+ {
+ 	g_return_if_fail(IS_PIXBUF_RENDERER(pr));
+diff --git a/src/pixbuf-renderer.h b/src/pixbuf-renderer.h
+index fd78dd4..8462f53 100644
+--- a/src/pixbuf-renderer.h
++++ b/src/pixbuf-renderer.h
+@@ -327,6 +327,8 @@ void pixbuf_renderer_set_pixbuf_lazy(PixbufRenderer *pr, GdkPixbuf *pixbuf, gdou
+ 
+ 
+ GdkPixbuf *pixbuf_renderer_get_pixbuf(PixbufRenderer *pr);
++GdkPixbuf *pixbuf_renderer_get_view_pixbuf(PixbufRenderer *pr);
++GdkPixbuf *pixbuf_renderer_stereo_view_new(GdkPixbuf *pixbuf, StereoPixbufData stereo_data, gboolean swap);
+ 
+ void pixbuf_renderer_set_orientation(PixbufRenderer *pr, gint orientation);
+ 
+diff --git a/src/pixbuf-util.cc b/src/pixbuf-util.cc
+index 270f260..af589a9 100644
+--- a/src/pixbuf-util.cc
++++ b/src/pixbuf-util.cc
+@@ -22,6 +22,7 @@
+ #include "pixbuf-util.h"
+ 
+ #include <algorithm>
++#include <array>
+ #include <cmath>
+ #include <cstdlib>
+ #include <cstring>
+@@ -1338,4 +1339,326 @@ void pixbuf_ignore_alpha_rect(GdkPixbuf *pb,
+            }
+        }
+ }
++
++/*
++ *-----------------------------------------------------------------------------
++ * stereo utils
++ *-----------------------------------------------------------------------------
++ */
++
++namespace
++{
++
++/**
++ * @brief Downscaled luminance grid of one half of a side-by-side image
++ *
++ * Each cell is the mean of SUB x SUB sample points, so only a small
++ * fraction of the pixels is read, independent of the image size.
++ */
++std::vector<gdouble> stereo_luma_grid(const guchar *pixels, gint rowstride, gint channels,
++                                      gint x0, gint half_w, gint h, gint grid_w, gint grid_h)
++{
++	constexpr gint SUB = 4;
++	std::vector<gdouble> grid(static_cast<size_t>(grid_w) * grid_h);
++
++	for (gint gy = 0; gy < grid_h; gy++)
++		{
++		for (gint gx = 0; gx < grid_w; gx++)
++			{
++			guint sum = 0;
++			for (gint sy = 0; sy < SUB; sy++)
++				{
++				const gint y = std::min(h - 1, static_cast<gint>((gy + ((sy + 0.5) / SUB)) * h / grid_h));
++				const guchar *row = pixels + (static_cast<gsize>(y) * rowstride);
++				for (gint sx = 0; sx < SUB; sx++)
++					{
++					const gint x = x0 + std::min(half_w - 1, static_cast<gint>((gx + ((sx + 0.5) / SUB)) * half_w / grid_w));
++					const guchar *p = row + (static_cast<gsize>(x) * channels);
++					/* Rec. 601 luma, integer weights */
++					sum += (299 * p[0]) + (587 * p[1]) + (114 * p[2]);
++					}
++				}
++			grid[(static_cast<size_t>(gy) * grid_w) + gx] = sum / (1000.0 * SUB * SUB);
++			}
++		}
++
++	return grid;
++}
++
++gdouble stereo_grid_stddev(const std::vector<gdouble> &grid)
++{
++	gdouble sum = 0.0;
++	gdouble sum_sq = 0.0;
++	for (const gdouble v : grid)
++		{
++		sum += v;
++		sum_sq += v * v;
++		}
++	const auto n = static_cast<gdouble>(grid.size());
++	return std::sqrt(std::max(0.0, (sum_sq / n) - ((sum / n) * (sum / n))));
++}
++
++/**
++ * @brief Normalized cross-correlation of left[y][x] and right[y + dy][x + dx] over their overlap
++ */
++gdouble stereo_grid_ncc(const std::vector<gdouble> &left, const std::vector<gdouble> &right,
++                        gint grid_w, gint grid_h, gint dx, gint dy)
++{
++	const gint y_start = std::max(0, -dy);
++	const gint y_end = grid_h - std::max(0, dy);
++	const gint x_start = std::max(0, -dx);
++	const gint x_end = grid_w - std::max(0, dx);
++
++	gdouble n = 0.0;
++	gdouble sa = 0.0;
++	gdouble sb = 0.0;
++	gdouble saa = 0.0;
++	gdouble sbb = 0.0;
++	gdouble sab = 0.0;
++
++	for (gint y = y_start; y < y_end; y++)
++		{
++		for (gint x = x_start; x < x_end; x++)
++			{
++			const gdouble a = left[(static_cast<size_t>(y) * grid_w) + x];
++			const gdouble b = right[(static_cast<size_t>(y + dy) * grid_w) + x + dx];
++			n += 1.0;
++			sa += a;
++			sb += b;
++			saa += a * a;
++			sbb += b * b;
++			sab += a * b;
++			}
++		}
++
++	if (n < 1.0) return 0.0;
++
++	const gdouble cov = sab - (sa * sb / n);
++	const gdouble var_a = saa - (sa * sa / n);
++	const gdouble var_b = sbb - (sb * sb / n);
++	const gdouble denom = std::sqrt(std::max(0.0, var_a * var_b));
++
++	return denom > 1e-9 ? cov / denom : 0.0;
++}
++
++gdouble stereo_grid_best_ncc(const std::vector<gdouble> &left, const std::vector<gdouble> &right,
++                             gint grid_w, gint grid_h, gint max_dx, gint dy)
++{
++	gdouble best = -1.0;
++	for (gint dx = -max_dx; dx <= max_dx; dx++)
++		{
++		best = std::max(best, stereo_grid_ncc(left, right, grid_w, grid_h, dx, dy));
++		}
++	return best;
++}
++
++/**
++ * @brief Fine detail of a grid: each cell minus the mean of its 3 x 3 neighbourhood
++ */
++std::vector<gdouble> stereo_grid_detail(const std::vector<gdouble> &grid, gint grid_w, gint grid_h)
++{
++	std::vector<gdouble> detail(grid.size());
++
++	for (gint y = 0; y < grid_h; y++)
++		{
++		for (gint x = 0; x < grid_w; x++)
++			{
++			gdouble sum = 0.0;
++			for (gint ny = y - 1; ny <= y + 1; ny++)
++				{
++				const gint cy = std::clamp(ny, 0, grid_h - 1);
++				for (gint nx = x - 1; nx <= x + 1; nx++)
++					{
++					sum += grid[(static_cast<size_t>(cy) * grid_w) + std::clamp(nx, 0, grid_w - 1)];
++					}
++				}
++			const size_t i = (static_cast<size_t>(y) * grid_w) + x;
++			detail[i] = grid[i] - (sum / 9.0);
++			}
++		}
++
++	return detail;
++}
++
++/**
++ * @brief Correlation of left[y][x] and right[y + dy][x + dx] with a separate horizontal shift for each block
++ *
++ * Objects at different distances have different parallax, so each BLOCK x BLOCK block
++ * gets the horizontal shift (within +-max_dx) that matches best. The covariances and variances
++ * at these shifts are then pooled over all blocks, so blocks with more detail count more.
++ */
++gdouble stereo_grid_local_ncc(const std::vector<gdouble> &left, const std::vector<gdouble> &right,
++                              gint grid_w, gint grid_h, gint max_dx, gint dy)
++{
++	constexpr gint BLOCK = 8;
++	constexpr gdouble N = BLOCK * BLOCK;
++
++	gdouble cov_sum = 0.0;
++	gdouble var_l_sum = 0.0;
++	gdouble var_r_sum = 0.0;
++
++	for (gint by = 0; by + BLOCK <= grid_h; by += BLOCK)
++		{
++		if (by + dy < 0 || by + dy + BLOCK > grid_h) continue;
++
++		for (gint bx = 0; bx + BLOCK <= grid_w; bx += BLOCK)
++			{
++			gboolean found = FALSE;
++			gdouble best_ncc = 0.0;
++			gdouble best_cov = 0.0;
++			gdouble best_var_l = 0.0;
++			gdouble best_var_r = 0.0;
++
++			for (gint dx = -max_dx; dx <= max_dx; dx++)
++				{
++				if (bx + dx < 0 || bx + dx + BLOCK > grid_w) continue;
++
++				gdouble sa = 0.0;
++				gdouble sb = 0.0;
++				gdouble saa = 0.0;
++				gdouble sbb = 0.0;
++				gdouble sab = 0.0;
++				for (gint y = by; y < by + BLOCK; y++)
++					{
++					const gdouble *a_row = left.data() + (static_cast<size_t>(y) * grid_w);
++					const gdouble *b_row = right.data() + (static_cast<size_t>(y + dy) * grid_w) + dx;
++					for (gint x = bx; x < bx + BLOCK; x++)
++						{
++						const gdouble a = a_row[x];
++						const gdouble b = b_row[x];
++						sa += a;
++						sb += b;
++						saa += a * a;
++						sbb += b * b;
++						sab += a * b;
++						}
++					}
++
++				const gdouble cov = sab - (sa * sb / N);
++				const gdouble var_l = saa - (sa * sa / N);
++				const gdouble var_r = sbb - (sb * sb / N);
++				const gdouble denom = std::sqrt(std::max(0.0, var_l * var_r));
++				const gdouble ncc = denom > 1e-12 ? cov / denom : -1.0;
++
++				if (!found || ncc > best_ncc)
++					{
++					found = TRUE;
++					best_ncc = ncc;
++					best_cov = cov;
++					best_var_l = var_l;
++					best_var_r = var_r;
++					}
++				}
++
++			if (found)
++				{
++				cov_sum += best_cov;
++				var_l_sum += best_var_l;
++				var_r_sum += best_var_r;
++				}
++			}
++		}
++
++	const gdouble denom = std::sqrt(std::max(0.0, var_l_sum * var_r_sum));
++	return denom > 1e-12 ? cov_sum / denom : 0.0;
++}
++
++} // namespace
++
++/**
++ * @brief Detect a full-width side-by-side stereo pair by image content
++ * @param pixbuf A completely loaded image
++ * @returns TRUE if the left and right halves show the same scene from two horizontally offset viewpoints
++ *
++ * Only wide images are examined (aspect ratio 1.8 to 5.0, that is 0.9:1 to 2.5:1 per eye).
++ * Both halves are reduced to a small luminance grid. Parallax moves objects horizontally only,
++ * so all comparisons search a horizontal shift of up to +-15 % of the width. Three tests must pass:
++ * 1. Global similarity: the normalized cross-correlation of the halves is high.
++ * 2. Similar fine detail: the halves still correlate when only the fine detail is compared
++ *    (each cell minus its neighbourhood mean), with a separate shift for each block because
++ *    near and far objects have different parallax. This rejects images whose halves are similar
++ *    only in smooth areas, such as gradients and sky.
++ * 3. Vertical alignment: the detail correlates better at a vertical offset of zero than at small
++ *    vertical offsets, because the views of a stereo pair are vertically aligned.
++ * Images without texture are never detected.
++ *
++ * The cost does not depend on the image size: for a 16:9 pair, approximately 130 000 pixel reads,
++ * and a few milliseconds at most.
++ */
++gboolean pixbuf_detect_side_by_side_stereo(GdkPixbuf *pixbuf)
++{
++	constexpr gdouble MIN_ASPECT = 1.8;
++	constexpr gdouble MAX_ASPECT = 5.0;
++	constexpr gint GRID_H = 48;
++	constexpr gint GRID_W_MIN = 24;
++	constexpr gint GRID_W_MAX = 128;
++	constexpr gdouble MAX_SHIFT = 0.15;
++	constexpr std::array<gint, 6> CONTROL_DY{-4, -3, -2, 2, 3, 4};
++	constexpr gdouble MIN_TEXTURE = 3.0;
++	constexpr gdouble MIN_DETAIL_TEXTURE = 1.5;
++	constexpr gdouble MIN_CORRELATION = 0.85;
++	constexpr gdouble MIN_DETAIL_CORRELATION = 0.50;
++
++	if (!pixbuf) return FALSE;
++	if (gdk_pixbuf_get_colorspace(pixbuf) != GDK_COLORSPACE_RGB) return FALSE;
++	if (gdk_pixbuf_get_bits_per_sample(pixbuf) != 8) return FALSE;
++
++	const gint channels = gdk_pixbuf_get_n_channels(pixbuf);
++	if (channels < 3) return FALSE;
++
++	const gint w = gdk_pixbuf_get_width(pixbuf);
++	const gint h = gdk_pixbuf_get_height(pixbuf);
++	if (w < 2 * GRID_W_MIN || h < GRID_H) return FALSE;
++
++	const gdouble aspect = static_cast<gdouble>(w) / h;
++	if (aspect < MIN_ASPECT || aspect > MAX_ASPECT) return FALSE;
++
++	const gint half_w = w / 2;
++	const gint grid_w = std::clamp(static_cast<gint>(std::lround(GRID_H * static_cast<gdouble>(half_w) / h)),
++	                               GRID_W_MIN, GRID_W_MAX);
++
++	const guchar *pixels = gdk_pixbuf_read_pixels(pixbuf);
++	const gint rowstride = gdk_pixbuf_get_rowstride(pixbuf);
++
++	const std::vector<gdouble> left = stereo_luma_grid(pixels, rowstride, channels, 0, half_w, h, grid_w, GRID_H);
++	const std::vector<gdouble> right = stereo_luma_grid(pixels, rowstride, channels, half_w, half_w, h, grid_w, GRID_H);
++
++	if (std::min(stereo_grid_stddev(left), stereo_grid_stddev(right)) < MIN_TEXTURE) return FALSE;
++
++	const gint max_dx = std::max(1, static_cast<gint>(grid_w * MAX_SHIFT));
++
++	/* 1. global similarity */
++	const gdouble global = stereo_grid_best_ncc(left, right, grid_w, GRID_H, max_dx, 0);
++	if (global < MIN_CORRELATION)
++		{
++		DEBUG_1("side-by-side stereo detection: %dx%d global %.3f -> mono", w, h, global);
++		return FALSE;
++		}
++
++	/* 2. similar fine detail */
++	const std::vector<gdouble> left_detail = stereo_grid_detail(left, grid_w, GRID_H);
++	const std::vector<gdouble> right_detail = stereo_grid_detail(right, grid_w, GRID_H);
++	if (std::min(stereo_grid_stddev(left_detail), stereo_grid_stddev(right_detail)) < MIN_DETAIL_TEXTURE)
++		{
++		DEBUG_1("side-by-side stereo detection: %dx%d global %.3f, no detail -> mono", w, h, global);
++		return FALSE;
++		}
++
++	const gdouble detail = stereo_grid_local_ncc(left_detail, right_detail, grid_w, GRID_H, max_dx, 0);
++
++	/* 3. vertical alignment */
++	gdouble control = -1.0;
++	for (const gint dy : CONTROL_DY)
++		{
++		control = std::max(control, stereo_grid_local_ncc(left_detail, right_detail, grid_w, GRID_H, max_dx, dy));
++		}
++
++	const gboolean detected = detail >= MIN_DETAIL_CORRELATION && detail > control;
++
++	DEBUG_1("side-by-side stereo detection: %dx%d global %.3f detail %.3f control %.3f -> %s",
++	        w, h, global, detail, control, detected ? "stereo" : "mono");
++
++	return detected;
++}
++
+ /* vim: set shiftwidth=8 softtabstop=0 cindent cinoptions={1s: */
+diff --git a/src/pixbuf-util.h b/src/pixbuf-util.h
+index 467dd13..46aa74e 100644
+--- a/src/pixbuf-util.h
++++ b/src/pixbuf-util.h
+@@ -127,6 +127,10 @@ void pixbuf_highlight_overunderexposed(GdkPixbuf *pb,
+ void pixbuf_ignore_alpha_rect(GdkPixbuf *pb,
+ 			      gint x, gint y, gint w, gint h);
+ 
++/* stereo utils */
++
++gboolean pixbuf_detect_side_by_side_stereo(GdkPixbuf *pixbuf);
++
+ /* clipping utils */
+ 
+ GdkRectangle util_triangle_bounding_box(GqPoint c1, GqPoint c2, GqPoint c3);
+diff --git a/src/preferences.cc b/src/preferences.cc
+index 00a9381..85694e8 100644
+--- a/src/preferences.cc
++++ b/src/preferences.cc
+@@ -570,6 +570,7 @@ static void config_window_apply(const ConfOptions *c_options)
+ 	options->stereo.mode = get_stereo_mode(c_options->stereo.mode, c_options->stereo.tmp);
+ 	options->stereo.fsmode = get_stereo_mode(c_options->stereo.fsmode, c_options->stereo.fstmp);
+ 	options->stereo.enable_fsmode = c_options->stereo.enable_fsmode;
++	options->stereo.detect_sbs = c_options->stereo.detect_sbs;
+ 	options->stereo.fixed_size = c_options->stereo.fixed_size;
+ 	options->stereo.fixed_left = c_options->stereo.fixed_left;
+ 	options->stereo.fixed_right = c_options->stereo.fixed_right;
+@@ -3814,6 +3815,11 @@ static void config_tab_stereo(GtkWidget *notebook, ConfOptions *c_options)
+ 
+ 	GtkWidget *vbox = scrolled_notebook_page(notebook, _("Stereo"));
+ 
++	group = pref_group_new(vbox, FALSE, _("Stereo image detection"), GTK_ORIENTATION_VERTICAL);
++	GtkWidget *detect_button = pref_checkbox_new_int(group, _("Detect side-by-side stereo images by their content"),
++	                                                 options->stereo.detect_sbs, &c_options->stereo.detect_sbs);
++	gtk_widget_set_tooltip_text(detect_button, _("In \"Auto\" stereo mode, wide images whose left and right halves show the same scene are treated as side-by-side stereo pairs, for example photos from VR applications"));
++
+ 	group = pref_group_new(vbox, FALSE, _("Windowed stereo mode"), GTK_ORIENTATION_VERTICAL);
+ 
+ 	add_stereo_mode_menu(group, _("Windowed stereo mode"), options->stereo.mode, &c_options->stereo.mode, false);
+diff --git a/src/rcfile.cc b/src/rcfile.cc
+index a84df26..2d8d982 100644
+--- a/src/rcfile.cc
++++ b/src/rcfile.cc
+@@ -587,6 +587,7 @@ static void write_global_attributes(const ConfOptions *options, RcString &rc)
+ 	WRITE_NL(); WRITE_INT(*options, stereo.mode);
+ 	WRITE_NL(); WRITE_INT(*options, stereo.fsmode);
+ 	WRITE_NL(); WRITE_BOOL(*options, stereo.enable_fsmode);
++	WRITE_NL(); WRITE_BOOL(*options, stereo.detect_sbs);
+ 	WRITE_NL(); WRITE_INT_FULL("stereo.fixed_w", options->stereo.fixed_size.width);
+ 	WRITE_NL(); WRITE_INT_FULL("stereo.fixed_h", options->stereo.fixed_size.height);
+ 	WRITE_NL(); WRITE_INT_FULL("stereo.fixed_x1", options->stereo.fixed_left.x);
+@@ -1051,6 +1052,7 @@ static gboolean load_global_params(const gchar **attribute_names, const gchar **
+ 		if (READ_INT(*options, stereo.mode)) continue;
+ 		if (READ_INT(*options, stereo.fsmode)) continue;
+ 		if (READ_BOOL(*options, stereo.enable_fsmode)) continue;
++		if (READ_BOOL(*options, stereo.detect_sbs)) continue;
+ 		if (READ_INT_FULL("stereo.fixed_w", options->stereo.fixed_size.width)) continue;
+ 		if (READ_INT_FULL("stereo.fixed_h", options->stereo.fixed_size.height)) continue;
+ 		if (READ_INT_FULL("stereo.fixed_x1", options->stereo.fixed_left.x)) continue;
+diff --git a/src/view-file/view-file.cc b/src/view-file/view-file.cc
+index e0fd411..1377a9b 100644
+--- a/src/view-file/view-file.cc
++++ b/src/view-file/view-file.cc
+@@ -46,6 +46,7 @@
+ #include "metadata.h"
+ #include "misc.h"
+ #include "options.h"
++#include "pixbuf-renderer.h"
+ #include "pixbuf-util.h"
+ #include "sort-type.h"
+ #include "thumb.h"
+@@ -936,7 +937,17 @@ static void vf_pop_menu_copy_image_done_cb(ImageLoader *loader, gpointer data)
+ 
+ 	if (pixbuf)
+ 		{
+-		g_autoptr(GdkTexture) texture = pixbuf_to_texture(pixbuf);
++		/* One view of a stereo pair, as seen in single image mode */
++		auto stereo_data = static_cast<StereoPixbufData>(GPOINTER_TO_INT(g_object_get_data(G_OBJECT(pixbuf), "stereo_data")));
++		if (stereo_data == STEREO_PIXBUF_DEFAULT && options->stereo.detect_sbs &&
++		    pixbuf_detect_side_by_side_stereo(pixbuf))
++			{
++			stereo_data = STEREO_PIXBUF_SBS;
++			}
++
++		g_autoptr(GdkPixbuf) view = pixbuf_renderer_stereo_view_new(pixbuf, stereo_data,
++		                                                            (options->stereo.mode & PR_STEREO_SWAP) != 0);
++		g_autoptr(GdkTexture) texture = pixbuf_to_texture(view);
+ 		gdk_clipboard_set_texture(copy_data->clipboard, texture);
+ 		}
+ 
