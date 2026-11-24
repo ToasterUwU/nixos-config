@@ -73,7 +73,6 @@
     gale
     prismlauncher
     pcsx2
-    ed-odyssey-materials-helper
     edmarketconnector
     elite-intel
     min-ed-launcher
