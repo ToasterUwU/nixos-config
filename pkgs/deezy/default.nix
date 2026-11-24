@@ -24,7 +24,7 @@ rustPlatform.buildRustPackage (finalAttrs: {
     owner = "PierrunoYT";
     repo = "Deezy";
     tag = "v${finalAttrs.version}";
-    hash = "sha256-2KA9wwORNltbkM2bVaHmQR/JFSOro//MLUCAMEorhQg=";
+    hash = "sha256-yWd4hH3zGS1jB+k0JK71hHlkNqAyZwKGRh/80IETmpM=";
   };
 
   # Upstream does not commit a Cargo.lock, so we keep one next to this file.
